@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import MenuOverlay from '../components/MenuOverlay'
+import ToolBar from '../components/ToolBar'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
