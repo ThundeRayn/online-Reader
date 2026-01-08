@@ -2,4 +2,16 @@
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #F3E5AB;
+  color: #4F4432; 
+
+  /*color scheme for default mode*/
+  --color-default-bg:#F3E5AB;
+  --color-default-text:#4F4432;
+}
+
+h1{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: semibold;
+  font-size: 2.5rem;
 }

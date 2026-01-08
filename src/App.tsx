@@ -1,13 +1,24 @@
-
-import './App.css'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+// import './App.css'
+import Layout from './layout/Layout'
+import ReadingPage from './pages/ReadingPage'
 
 function App() {
 
   return (
     <>
-      <h1 className="text-4xl font-bold underline">
-        Hello world!
-      </h1>
+      <BrowserRouter>
+        <Routes>
+
+          <Route path='/' element={<Layout />}>
+            <Route index element={<ReadingPage />} />
+            <Route path='*' element={<div>404 Not Found</div>} />
+            
+            
+          </Route>
+          
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
