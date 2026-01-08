@@ -1,4 +1,5 @@
 import Anchor from "../components/Anchor"
+import Elaboration from "../components/Elaboration"
 
 const Para101 = () => {
   return (
@@ -6,8 +7,7 @@ const Para101 = () => {
         <div>
         <Anchor series="§ 1.01"/>
         
-        我的心灵被皮埃里亚的火焰所点燃
-        （Pierian fire：皮埃里亚是缪斯的故乡，指诗歌灵感之火。），
+        我的心灵被皮埃里亚的火焰所点燃<Elaboration text="Pierian fire：皮埃里亚是缪斯的故乡，指诗歌灵感之火。" />，
         我将讲述兄弟之间的纷争，讲述那场因争夺轮流掌控的王权而产生
         亵渎之恨所引发的战争，以及忒拜城所有充满罪责的故事。
         哦，女神们啊，你们要我从何处开始讲述？
