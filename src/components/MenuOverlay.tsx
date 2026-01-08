@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 
 interface MenuOverlayProps {
   isOpen: boolean
@@ -6,23 +5,13 @@ interface MenuOverlayProps {
 }
 
 const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    }
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen])
-
   if (!isOpen) return null
 
   return (
-    <>
+    <div className="fixed inset-0 pointer-events-none">
       {/* Backdrop */}
       <div
-        style={{ backgroundColor: '#F3E5AB' }}
-        className="absolute inset-0 z-[9998] overflow-hidden min-h-screen"
+        className="absolute inset-0 z-[9998] min-h-screen pointer-events-auto"
         onClick={onClose}
       />
       
@@ -31,7 +20,7 @@ const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
         style={{ 
           backgroundColor: '#F3E5AB'
         }}
-        className="sticky top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[9999] rounded-lg shadow-2xl p-12 border border-default-text mx-auto w-fit"
+        className="sticky top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[9999] rounded-lg shadow-2xl p-12 border border-default-text mx-auto w-fit pointer-events-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <nav className="flex flex-col gap-6 text-2xl text-default-text">
@@ -41,7 +30,7 @@ const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
           <a href="#" className="hover:opacity-70 transition-opacity">Settings</a>
         </nav>
       </div>
-    </>
+    </div>
   )
 }
 
