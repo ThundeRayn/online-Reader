@@ -2,12 +2,25 @@ import { useState, useRef, useEffect } from 'react'
 import { IoInformationCircleOutline } from 'react-icons/io5'
 
 interface ElaborationProps {
+  note?:string;
   text: string;
+  more?:string;
 }
 
-const Elaboration = ({ text }: ElaborationProps) => {
+interface PositionStyle {
+  width?: string;
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+  transform?: string;
+  marginTop?: string;
+  marginBottom?: string;
+}
+
+const Elaboration = ({ note,text }: ElaborationProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [position, setPosition] = useState({ top: '100%', left: '50%', transform: 'translateX(-50%)' })
+  const [position, setPosition] = useState<PositionStyle>({ top: '100%', left: '50%', transform: 'translateX(-50%)' })
   const popupRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
@@ -20,33 +33,29 @@ const Elaboration = ({ text }: ElaborationProps) => {
       const viewportHeight = window.innerHeight
       const padding = 16
       
-      // Calculate max available width
-      const maxWidth = Math.min(320, viewportWidth - padding * 2)
-      
-      let adjustedStyle: any = {
-        width: `${maxWidth}px`,
+      const adjustedStyle: PositionStyle = {
         top: '100%',
         bottom: 'auto',
         marginTop: '8px',
         marginBottom: '0'
       }
       
-      // Determine horizontal position
+      // Determine horizontal position based on button location
       const buttonCenter = button.left + button.width / 2
-      const halfWidth = maxWidth / 2
+      //const halfMaxWidth = 160 // Half of 320px max width
       
-      if (buttonCenter - halfWidth < padding) {
-        // Too close to left edge
+      if (buttonCenter < viewportWidth / 3) {
+        // Button on left side - align left
         adjustedStyle.left = '0'
         adjustedStyle.right = 'auto'
         adjustedStyle.transform = 'none'
-      } else if (buttonCenter + halfWidth > viewportWidth - padding) {
-        // Too close to right edge
+      } else if (buttonCenter > (viewportWidth * 2) / 3) {
+        // Button on right side - align right
         adjustedStyle.left = 'auto'
         adjustedStyle.right = '0'
         adjustedStyle.transform = 'none'
       } else {
-        // Center it
+        // Button in center - center the popup
         adjustedStyle.left = '50%'
         adjustedStyle.right = 'auto'
         adjustedStyle.transform = 'translateX(-50%)'
@@ -97,21 +106,25 @@ const Elaboration = ({ text }: ElaborationProps) => {
           {/* Info Box - smart positioning */}
           <div
             ref={popupRef}
-            className="absolute z-50 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded shadow-lg w-80 max-h-96 overflow-y-auto"
+            className="absolute z-50 bg-neutral-800 border-default-text text-default-bg p-4 rounded-lg shadow-lg max-h-96 overflow-y-auto"
             style={{
               top: '100%',
               left: '50%',
               transform: 'translateX(-50%)',
               marginTop: '8px',
-              maxWidth: 'calc(100vw - 16px)',
+              width: 'auto',
+              minWidth: '200px',
+              maxWidth: 'min(320px, calc(100vw - 32px))',
               ...position
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="italic text-sm font-semibold mb-2">
-              注释：
-            </div>
-            <p className="font-normal">{text}</p>
+            {note && (
+              <div className="italic text-sm font-bold mb-2">
+                {note}
+              </div>
+            )}
+            <p className="text-normal leading-5">{text}</p>
           </div>
         </>
       )}

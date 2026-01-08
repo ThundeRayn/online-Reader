@@ -1,13 +1,18 @@
 @import "tailwindcss";
 
+@theme {
+  --color-default-bg: #F3E5AB;
+  --color-default-text: #4F4432;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: #F3E5AB;
   color: #4F4432; 
 
   /*color scheme for default mode*/
-  --color-default-bg:#F3E5AB;
-  --color-default-text:#4F4432;
+  --color-defaultBg:#F3E5AB;
+  --color-defaultText:#4F4432;
 }
 
 h1{
