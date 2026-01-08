@@ -6,5 +6,5 @@
 
 
 ##### error
-- info elaboration component on the top of menuoverlay
-- elaboration info box on the top of tool bar
+- info elaboration component on the top of circle info icon
+- cannot open two info elaborations at the same time

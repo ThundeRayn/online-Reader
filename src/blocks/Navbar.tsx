@@ -1,15 +1,23 @@
 import { useState } from 'react'
 import MenuOverlay from '../components/MenuOverlay'
-import ToolBar from '../components/ToolBar'
+//import ToolBar from '../components/ToolBar'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const handleMenuToggle = () => {
+    const newState = !isOpen
+    setIsOpen(newState)
+    if (newState) {
+      window.dispatchEvent(new Event('menuOverlayOpen'))
+    }
+  }
 
   return (
     <>
       {/* Floating Menu Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleMenuToggle}
         style={{ backgroundColor: '#F3E5AB' }}
         className="sticky top-4 float-right mr-4 z-[10000] w-12 h-12 text-default-text border border-default-text rounded-full hover:opacity-80 transition-opacity flex items-center justify-center"
       >

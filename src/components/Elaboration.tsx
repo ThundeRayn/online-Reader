@@ -18,11 +18,48 @@ interface PositionStyle {
   marginBottom?: string;
 }
 
+// Global state to track the currently open elaboration
+let currentOpenElaboration: (() => void) | null = null
+
 const Elaboration = ({ note,text }: ElaborationProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [position, setPosition] = useState<PositionStyle>({ top: '100%', left: '50%', transform: 'translateX(-50%)' })
   const popupRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
+
+  const handleOpen = () => {
+    // Close any currently open elaboration (if it's a different one)
+    if (currentOpenElaboration && currentOpenElaboration !== handleClose) {
+      currentOpenElaboration()
+    }
+    
+    // Toggle this elaboration
+    if (isOpen) {
+      handleClose()
+    } else {
+      setIsOpen(true)
+      currentOpenElaboration = handleClose
+    }
+  }
+
+  const handleClose = () => {
+    setIsOpen(false)
+    if (currentOpenElaboration === handleClose) {
+      currentOpenElaboration = null
+    }
+  }
+
+  // Close when menu overlay opens
+  useEffect(() => {
+    const handleMenuOpen = () => {
+      if (isOpen) {
+        handleClose()
+      }
+    }
+    
+    window.addEventListener('menuOverlayOpen', handleMenuOpen)
+    return () => window.removeEventListener('menuOverlayOpen', handleMenuOpen)
+  }, [isOpen])
 
   useEffect(() => {
     if (isOpen && popupRef.current && buttonRef.current) {
@@ -83,12 +120,12 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
   }, [isOpen])
 
   return (
-    <span className="inline-block relative group z-10">
+    <span className="inline-block relative group">
       {/* Info Circle Button */}
       <button
         ref={buttonRef}
-        onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center justify-center hover:opacity-70 transition-opacity relative z-10"
+        onClick={handleOpen}
+        className="inline-flex items-center justify-center hover:opacity-70 transition-opacity"
         aria-label="Show elaboration"
       >
         <IoInformationCircleOutline size={20} color="#4F4432" />
@@ -99,14 +136,14 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
         <>
           {/* Backdrop to close when clicking outside */}
           <div
-            className="fixed inset-0 z-[100]"
-            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 z-[35]"
+            onClick={handleClose}
           />
           
           {/* Info Box - smart positioning */}
           <div
             ref={popupRef}
-            className="absolute z-[100] bg-neutral-800 border-default-text text-default-bg p-4 rounded-lg shadow-lg max-h-96 overflow-y-auto"
+            className="absolute z-[35] bg-neutral-800 border-default-text text-default-bg p-4 rounded-lg shadow-lg max-h-96 overflow-y-auto"
             style={{
               top: '100%',
               left: '50%',
