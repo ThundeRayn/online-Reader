@@ -83,12 +83,12 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
   }, [isOpen])
 
   return (
-    <span className="inline-block relative group">
+    <span className="inline-block relative group z-10">
       {/* Info Circle Button */}
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center justify-center hover:opacity-70 transition-opacity"
+        className="inline-flex items-center justify-center hover:opacity-70 transition-opacity relative z-10"
         aria-label="Show elaboration"
       >
         <IoInformationCircleOutline size={20} color="#4F4432" />
@@ -99,14 +99,14 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
         <>
           {/* Backdrop to close when clicking outside */}
           <div
-            className="fixed inset-0 z-40"
+            className="fixed inset-0 z-[100]"
             onClick={() => setIsOpen(false)}
           />
           
           {/* Info Box - smart positioning */}
           <div
             ref={popupRef}
-            className="absolute z-50 bg-neutral-800 border-default-text text-default-bg p-4 rounded-lg shadow-lg max-h-96 overflow-y-auto"
+            className="absolute z-[100] bg-neutral-800 border-default-text text-default-bg p-4 rounded-lg shadow-lg max-h-96 overflow-y-auto"
             style={{
               top: '100%',
               left: '50%',

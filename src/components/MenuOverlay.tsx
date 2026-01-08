@@ -8,10 +8,10 @@ const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 pointer-events-none">
+    <div className="fixed inset-0 pointer-events-none z-[9998]">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 z-[9998] min-h-screen pointer-events-auto"
+        className="absolute inset-0 min-h-screen pointer-events-auto"
         onClick={onClose}
       />
       
