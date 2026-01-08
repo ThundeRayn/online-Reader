@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import MenuOverlay from '../components/MenuOverlay'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -9,7 +10,7 @@ const Navbar = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         style={{ backgroundColor: '#F3E5AB' }}
-        className="sticky top-4 float-right mr-4 z-50 w-12 h-12 text-default-text border border-default-text rounded-full hover:opacity-80 transition-opacity flex items-center justify-center"
+        className="sticky top-4 float-right mr-4 z-[10000] w-12 h-12 text-default-text border border-default-text rounded-full hover:opacity-80 transition-opacity flex items-center justify-center"
       >
         <svg
           width="24"
@@ -27,25 +28,7 @@ const Navbar = () => {
         </svg>
       </button>
 
-      {/* Menu Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-default-bg z-[9999]"
-          onClick={() => setIsOpen(false)}
-        >
-          <div 
-            className="w-full h-full flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <nav className="flex flex-col gap-6 text-2xl">
-              <a href="#" className="hover:opacity-70 transition-opacity">Home</a>
-              <a href="#" className="hover:opacity-70 transition-opacity">Chapters</a>
-              <a href="#" className="hover:opacity-70 transition-opacity">About</a>
-              <a href="#" className="hover:opacity-70 transition-opacity">Settings</a>
-            </nav>
-          </div>
-        </div>
-      )}
+      <MenuOverlay isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   )
 }
