@@ -10,6 +10,7 @@ interface ToolBarProps {
 const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,10 +62,75 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
         width: '100%',
         boxSizing: 'border-box'
       }}
-      className={`z-40 border-t border-default-text transition-transform duration-300 ${
+      className={`z-40 border-t border-default-text transition-all duration-300 ease-in-out ${
         isVisible ? 'translate-y-0' : 'translate-y-full'
       }`}
     >
+      {/* Settings Panel - integrated into toolbar */}
+      <div 
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          isSettingsOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-6 py-6 border-b border-default-text">
+          <h3 className="text-lg font-bold mb-4 text-default-text">Settings</h3>
+          
+          <div className="space-y-4 max-w-md mx-auto">
+            {/* Theme */}
+            <div>
+              <label className="block text-sm font-semibold mb-2 text-default-text">Theme</label>
+              <div className="flex gap-2">
+                <button className="px-3 py-1 border border-default-text rounded hover:bg-default-text hover:text-default-bg transition-colors">
+                  Light
+                </button>
+                <button className="px-3 py-1 border border-default-text rounded hover:bg-default-text hover:text-default-bg transition-colors">
+                  Dark
+                </button>
+              </div>
+            </div>
+
+            {/* Text Size */}
+            <div>
+              <label className="block text-sm font-semibold mb-2 text-default-text">Text Size</label>
+              <input 
+                type="range" 
+                min="12" 
+                max="24" 
+                defaultValue="16"
+                className="w-full"
+              />
+            </div>
+
+            {/* Line Height */}
+            <div>
+              <label className="block text-sm font-semibold mb-2 text-default-text">Line Spacing</label>
+              <input 
+                type="range" 
+                min="1" 
+                max="3" 
+                step="0.1"
+                defaultValue="1.5"
+                className="w-full"
+              />
+            </div>
+
+            {/* Letter Spacing */}
+            <div>
+              <label className="block text-sm font-semibold mb-2 text-default-text">Character Spacing</label>
+              <input 
+                type="range" 
+                min="0" 
+                max="5" 
+                step="0.5"
+                defaultValue="0"
+                className="w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Toolbar buttons */}
       <div className="flex items-center justify-around p-4 text-default-text">
         <button className="hover:opacity-70 transition-opacity flex items-center gap-2">
           <IoBookOutline size={24} color="#4F4432" />
@@ -72,7 +138,10 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
         <button className="hover:opacity-70 transition-opacity flex items-center gap-2">
           <BsBookmark size={22} color="#4F4432" />
         </button>
-        <button className="hover:opacity-70 transition-opacity flex items-center gap-2">
+        <button 
+          onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+          className="hover:opacity-70 transition-opacity flex items-center gap-2"
+        >
           <IoSettingsOutline size={24} color="#4F4432" />
         </button>
       </div>
