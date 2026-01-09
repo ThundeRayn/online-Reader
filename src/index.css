@@ -7,18 +7,83 @@
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-color: #F3E5AB;
-  color: #4F4432; 
 
-  /*color scheme for default mode*/
-  --color-defaultBg:#F3E5AB;
-  --color-defaultText:#4F4432;
+  /* Theme variables - Light theme (default) */
+  --theme-bg: #F3E5AB;
+  --theme-text: #4F4432;
+  --theme-border: #4F4432;
+  --theme-hover-bg: #4F4432;
+  --theme-hover-text: #F3E5AB;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Dark theme */
+:root[data-theme="dark"] {
+  --theme-bg: #1a1a1a;
+  --theme-text: #e0e0e0;
+  --theme-border: #e0e0e0;
+  --theme-hover-bg: #e0e0e0;
+  --theme-hover-text: #1a1a1a;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Blue theme */
+:root[data-theme="blue"] {
+  --theme-bg: #E3F2FD;
+  --theme-text: #1565C0;
+  --theme-border: #1565C0;
+  --theme-hover-bg: #1565C0;
+  --theme-hover-text: #E3F2FD;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Paper theme */
+:root[data-theme="paper"] {
+  --theme-bg: #FFFEF7;
+  --theme-text: #2C2C2C;
+  --theme-border: #CCCCCC;
+  --theme-hover-bg: #2C2C2C;
+  --theme-hover-text: #FFFEF7;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Sepia theme */
+:root[data-theme="sepia"] {
+  --theme-bg: #F4ECD8;
+  --theme-text: #5C4A3A;
+  --theme-border: #8B7355;
+  --theme-hover-bg: #5C4A3A;
+  --theme-hover-text: #F4ECD8;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Mint theme */
+:root[data-theme="mint"] {
+  --theme-bg: #E8F5E9;
+  --theme-text: #2E7D32;
+  --theme-border: #2E7D32;
+  --theme-hover-bg: #2E7D32;
+  --theme-hover-text: #E8F5E9;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
 }
 
 h1{
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-weight: semibold;
   font-size: 2.5rem;
+  color: var(--theme-text);
 }
 
 /* Custom slider styles */
@@ -27,7 +92,7 @@ h1{
   appearance: none;
   height: 6px;
   border-radius: 3px;
-  background: #4F4432;
+  background: var(--theme-text);
   outline: none;
 }
 
@@ -37,16 +102,16 @@ h1{
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #4F4432;
+  background: var(--theme-bg);
   cursor: pointer;
-  border: 2px solid #F3E5AB;
+  border: 3px solid var(--theme-border);
 }
 
 .slider-large::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #4F4432;
+  background: var(--theme-bg);
   cursor: pointer;
-  border: 2px solid #F3E5AB;
+  border: 3px solid var(--theme-border);
 }

@@ -11,9 +11,9 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-  const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark'>('light')
-  const [textSize, setTextSize] = useState(17)
-  const [lineSpacing, setLineSpacing] = useState(1.5)
+  const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark' | 'blue' | 'paper' | 'sepia' | 'mint'>('light')
+  const [textSize, setTextSize] = useState(19)
+  const [lineSpacing, setLineSpacing] = useState(1.7)
   const [marginSpacing, setMarginSpacing] = useState(32)
   const settingsPanelRef = useRef<HTMLDivElement>(null)
   const settingsButtonRef = useRef<HTMLButtonElement>(null)
@@ -32,6 +32,11 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
   useEffect(() => {
     document.documentElement.style.setProperty('--reading-margin', `${marginSpacing}px`)
   }, [marginSpacing])
+
+  // Apply theme
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', selectedTheme)
+  }, [selectedTheme])
 
   // Close settings panel when clicking outside
   useEffect(() => {
@@ -88,8 +93,12 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
 
   return (
     <div
-      style={{ 
-        backgroundColor: '#F3E5AB',
+      className={`z-40 transition-all duration-300 ease-in-out ${
+        isVisible ? 'translate-y-0' : 'translate-y-full'
+      }`}
+      style={{
+        backgroundColor: 'var(--theme-bg)',
+        borderTop: '1px solid var(--theme-border)',
         position: 'fixed',
         bottom: '-1px',
         left: 0,
@@ -99,9 +108,6 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
         width: '100%',
         boxSizing: 'border-box'
       }}
-      className={`z-40 border-t border-default-text transition-all duration-300 ease-in-out ${
-        isVisible ? 'translate-y-0' : 'translate-y-full'
-      }`}
     >
       {/* Settings Panel - integrated into toolbar */}
       <div 
@@ -110,40 +116,86 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
           isSettingsOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="px-6 py-6 border-b border-default-text">
-          <h3 className="text-lg font-bold mb-4 text-default-text">Settings</h3>
+        <div className="px-6 py-6" style={{ borderBottom: '1px solid var(--theme-border)' }}>
+          <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--theme-text)' }}>Settings</h3>
           
           <div className="space-y-4 max-w-md mx-auto">
             {/* Theme */}
             <div>
-              <label className="block text-sm font-semibold mb-2 text-default-text">Theme</label>
-              <div className="flex gap-2">
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--theme-text)' }}>Theme</label>
+              <div className="flex gap-2 flex-wrap">
                 <button 
                   onClick={() => setSelectedTheme('light')}
-                  className={`px-3 py-1 border border-default-text rounded transition-colors ${
-                    selectedTheme === 'light' 
-                      ? 'bg-default-text text-default-bg' 
-                      : 'hover:bg-default-text hover:text-default-bg'
-                  }`}
+                  className="px-3 py-1 rounded transition-colors"
+                  style={{
+                    border: '1px solid var(--theme-border)',
+                    backgroundColor: selectedTheme === 'light' ? 'var(--theme-hover-bg)' : 'transparent',
+                    color: selectedTheme === 'light' ? 'var(--theme-hover-text)' : 'var(--theme-text)'
+                  }}
                 >
                   Light
                 </button>
                 <button 
                   onClick={() => setSelectedTheme('dark')}
-                  className={`px-3 py-1 border border-default-text rounded transition-colors ${
-                    selectedTheme === 'dark' 
-                      ? 'bg-default-text text-default-bg' 
-                      : 'hover:bg-default-text hover:text-default-bg'
-                  }`}
+                  className="px-3 py-1 rounded transition-colors"
+                  style={{
+                    border: '1px solid var(--theme-border)',
+                    backgroundColor: selectedTheme === 'dark' ? 'var(--theme-hover-bg)' : 'transparent',
+                    color: selectedTheme === 'dark' ? 'var(--theme-hover-text)' : 'var(--theme-text)'
+                  }}
                 >
                   Dark
+                </button>
+                <button 
+                  onClick={() => setSelectedTheme('blue')}
+                  className="px-3 py-1 rounded transition-colors"
+                  style={{
+                    border: '1px solid var(--theme-border)',
+                    backgroundColor: selectedTheme === 'blue' ? 'var(--theme-hover-bg)' : 'transparent',
+                    color: selectedTheme === 'blue' ? 'var(--theme-hover-text)' : 'var(--theme-text)'
+                  }}
+                >
+                  Blue
+                </button>
+                <button 
+                  onClick={() => setSelectedTheme('paper')}
+                  className="px-3 py-1 rounded transition-colors"
+                  style={{
+                    border: '1px solid var(--theme-border)',
+                    backgroundColor: selectedTheme === 'paper' ? 'var(--theme-hover-bg)' : 'transparent',
+                    color: selectedTheme === 'paper' ? 'var(--theme-hover-text)' : 'var(--theme-text)'
+                  }}
+                >
+                  Paper
+                </button>
+                <button 
+                  onClick={() => setSelectedTheme('sepia')}
+                  className="px-3 py-1 rounded transition-colors"
+                  style={{
+                    border: '1px solid var(--theme-border)',
+                    backgroundColor: selectedTheme === 'sepia' ? 'var(--theme-hover-bg)' : 'transparent',
+                    color: selectedTheme === 'sepia' ? 'var(--theme-hover-text)' : 'var(--theme-text)'
+                  }}
+                >
+                  Sepia
+                </button>
+                <button 
+                  onClick={() => setSelectedTheme('mint')}
+                  className="px-3 py-1 rounded transition-colors"
+                  style={{
+                    border: '1px solid var(--theme-border)',
+                    backgroundColor: selectedTheme === 'mint' ? 'var(--theme-hover-bg)' : 'transparent',
+                    color: selectedTheme === 'mint' ? 'var(--theme-hover-text)' : 'var(--theme-text)'
+                  }}
+                >
+                  Mint
                 </button>
               </div>
             </div>
 
             {/* Text Size - Full Width */}
             <div>
-              <label className="block text-sm font-semibold mb-2 text-default-text">
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--theme-text)' }}>
                 Text Size: {textSize}px
               </label>
               <input 
@@ -160,7 +212,7 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
             <div className="flex gap-4">
               {/* Line Spacing */}
               <div className="flex-1">
-                <label className="block text-sm font-semibold mb-2 text-default-text">
+                <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--theme-text)' }}>
                   Line: {lineSpacing.toFixed(1)}
                 </label>
                 <input 
@@ -176,7 +228,7 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
 
               {/* Margin Spacing */}
               <div className="flex-1">
-                <label className="block text-sm font-semibold mb-2 text-default-text">
+                <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--theme-text)' }}>
                   Margin: {marginSpacing}px
                 </label>
                 <input 
@@ -195,19 +247,19 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
       </div>
 
       {/* Toolbar buttons */}
-      <div className="flex items-center justify-around p-4 text-default-text">
+      <div className="flex items-center justify-around p-4">
         <button className="hover:opacity-70 transition-opacity flex items-center gap-2">
-          <IoBookOutline size={24} color="#4F4432" />
+          <IoBookOutline size={24} style={{ color: 'var(--theme-text)' }} />
         </button>
         <button className="hover:opacity-70 transition-opacity flex items-center gap-2">
-          <BsBookmark size={22} color="#4F4432" />
+          <BsBookmark size={22} style={{ color: 'var(--theme-text)' }} />
         </button>
         <button 
           ref={settingsButtonRef}
           onClick={() => setIsSettingsOpen(!isSettingsOpen)}
           className="hover:opacity-70 transition-opacity flex items-center gap-2"
         >
-          <IoSettingsOutline size={24} color="#4F4432" />
+          <IoSettingsOutline size={24} style={{ color: 'var(--theme-text)' }} />
         </button>
       </div>
     </div>
