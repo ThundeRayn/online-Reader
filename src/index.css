@@ -20,3 +20,33 @@ h1{
   font-weight: semibold;
   font-size: 2.5rem;
 }
+
+/* Custom slider styles */
+.slider-large {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #4F4432;
+  outline: none;
+}
+
+.slider-large::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4F4432;
+  cursor: pointer;
+  border: 2px solid #F3E5AB;
+}
+
+.slider-large::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4F4432;
+  cursor: pointer;
+  border: 2px solid #F3E5AB;
+}

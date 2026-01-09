@@ -4,7 +4,7 @@ import Elaboration from "../components/Elaboration"
 const Para146 = () => {
   return (
     <div>
-        <div className="leading-relaxed" style={{ fontSize: 'var(--reading-text-size)' }}>
+        <div className="leading-relaxed" style={{ fontSize: 'var(--reading-text-size)', lineHeight: 'var(--reading-line-height)' }}>
         <Anchor series="§ 1.46"/>
 
         {/*waiting to be done*/}

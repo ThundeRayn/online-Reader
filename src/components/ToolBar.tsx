@@ -12,7 +12,9 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark'>('light')
-  const [textSize, setTextSize] = useState(16)
+  const [textSize, setTextSize] = useState(17)
+  const [lineSpacing, setLineSpacing] = useState(1.5)
+  const [marginSpacing, setMarginSpacing] = useState(32)
   const settingsPanelRef = useRef<HTMLDivElement>(null)
   const settingsButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -20,6 +22,16 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
   useEffect(() => {
     document.documentElement.style.setProperty('--reading-text-size', `${textSize}px`)
   }, [textSize])
+
+  // Apply line spacing globally to reading content
+  useEffect(() => {
+    document.documentElement.style.setProperty('--reading-line-height', `${lineSpacing}`)
+  }, [lineSpacing])
+
+  // Apply margin spacing globally to reading page
+  useEffect(() => {
+    document.documentElement.style.setProperty('--reading-margin', `${marginSpacing}px`)
+  }, [marginSpacing])
 
   // Close settings panel when clicking outside
   useEffect(() => {
@@ -129,45 +141,54 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
               </div>
             </div>
 
-            {/* Text Size */}
+            {/* Text Size - Full Width */}
             <div>
               <label className="block text-sm font-semibold mb-2 text-default-text">
                 Text Size: {textSize}px
               </label>
               <input 
                 type="range" 
-                min="12" 
+                min="15" 
                 max="24" 
                 value={textSize}
                 onChange={(e) => setTextSize(Number(e.target.value))}
-                className="w-full"
+                className="w-full slider-large"
               />
             </div>
 
-            {/* Line Height */}
-            <div>
-              <label className="block text-sm font-semibold mb-2 text-default-text">Line Spacing</label>
-              <input 
-                type="range" 
-                min="1" 
-                max="3" 
-                step="0.1"
-                defaultValue="1.5"
-                className="w-full"
-              />
-            </div>
+            {/* Line Spacing and Margin Spacing - Side by Side */}
+            <div className="flex gap-4">
+              {/* Line Spacing */}
+              <div className="flex-1">
+                <label className="block text-sm font-semibold mb-2 text-default-text">
+                  Line: {lineSpacing.toFixed(1)}
+                </label>
+                <input 
+                  type="range" 
+                  min="1.5" 
+                  max="2.0" 
+                  step="0.1"
+                  value={lineSpacing}
+                  onChange={(e) => setLineSpacing(Number(e.target.value))}
+                  className="w-full slider-large"
+                />
+              </div>
 
-            {/* Letter Spacing */}
-            <div>
-              <label className="block text-sm font-semibold mb-2 text-default-text">Character Spacing</label>
-              <input 
-                type="range" 
-                min="0" 
-                max="5" 
-                step="0.5"
-                defaultValue="0"
-                className="w-full"
-              />
+              {/* Margin Spacing */}
+              <div className="flex-1">
+                <label className="block text-sm font-semibold mb-2 text-default-text">
+                  Margin: {marginSpacing}px
+                </label>
+                <input 
+                  type="range" 
+                  min="32" 
+                  max="52" 
+                  step="4"
+                  value={marginSpacing}
+                  onChange={(e) => setMarginSpacing(Number(e.target.value))}
+                  className="w-full slider-large"
+                />
+              </div>
             </div>
           </div>
         </div>
