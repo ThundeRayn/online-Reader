@@ -31,19 +31,43 @@
   color: var(--theme-text);
 }
 
-/* Blue theme */
-:root[data-theme="blue"] {
-  --theme-bg: #E3F2FD;
-  --theme-text: #1565C0;
-  --theme-border: #1565C0;
-  --theme-hover-bg: #1565C0;
-  --theme-hover-text: #E3F2FD;
+/* Night theme - Smooth dark with warm tones */
+:root[data-theme="night"] {
+  --theme-bg: #2d2d30;
+  --theme-text: #d4d4d4;
+  --theme-border: #858585;
+  --theme-hover-bg: #d4d4d4;
+  --theme-hover-text: #2d2d30;
   
   background-color: var(--theme-bg);
   color: var(--theme-text);
 }
 
-/* Paper theme */
+/* Blue Night theme - Cool dark with blue tones */
+:root[data-theme="bluenight"] {
+  --theme-bg: #1e2738;
+  --theme-text: #b0c4de;
+  --theme-border: #6b8cae;
+  --theme-hover-bg: #b0c4de;
+  --theme-hover-text: #1e2738;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Warm Night theme - Dark with warm amber tones */
+:root[data-theme="warmnight"] {
+  --theme-bg: #2b2520;
+  --theme-text: #d4c5b0;
+  --theme-border: #9d8b7a;
+  --theme-hover-bg: #d4c5b0;
+  --theme-hover-text: #2b2520;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Paper theme - Pure white like book pages */
 :root[data-theme="paper"] {
   --theme-bg: #FFFEF7;
   --theme-text: #2C2C2C;
@@ -55,7 +79,7 @@
   color: var(--theme-text);
 }
 
-/* Sepia theme */
+/* Sepia theme - Warm vintage book look */
 :root[data-theme="sepia"] {
   --theme-bg: #F4ECD8;
   --theme-text: #5C4A3A;
@@ -67,13 +91,49 @@
   color: var(--theme-text);
 }
 
-/* Mint theme */
-:root[data-theme="mint"] {
-  --theme-bg: #E8F5E9;
-  --theme-text: #2E7D32;
-  --theme-border: #2E7D32;
-  --theme-hover-bg: #2E7D32;
-  --theme-hover-text: #E8F5E9;
+/* Cream theme - Soft warm reading */
+:root[data-theme="cream"] {
+  --theme-bg: #FFF8E7;
+  --theme-text: #3E2723;
+  --theme-border: #8D6E63;
+  --theme-hover-bg: #3E2723;
+  --theme-hover-text: #FFF8E7;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Parchment theme - Classic manuscript style */
+:root[data-theme="parchment"] {
+  --theme-bg: #F5E6D3;
+  --theme-text: #4A3520;
+  --theme-border: #9C7C57;
+  --theme-hover-bg: #4A3520;
+  --theme-hover-text: #F5E6D3;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Linen theme - Natural fabric texture feel */
+:root[data-theme="linen"] {
+  --theme-bg: #FAF0E6;
+  --theme-text: #3C3C3C;
+  --theme-border: #8B7D6B;
+  --theme-hover-bg: #3C3C3C;
+  --theme-hover-text: #FAF0E6;
+  
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Ivory theme - Elegant off-white */
+:root[data-theme="ivory"] {
+  --theme-bg: #FFFFF0;
+  --theme-text: #2F2F2F;
+  --theme-border: #A9A9A9;
+  --theme-hover-bg: #2F2F2F;
+  --theme-hover-text: #FFFFF0;
   
   background-color: var(--theme-bg);
   color: var(--theme-text);
