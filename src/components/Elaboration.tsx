@@ -165,16 +165,17 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
               width: 'auto',
               minWidth: '200px',
               maxWidth: 'min(320px, calc(100vw - 32px))',
+              fontSize: 'calc(var(--reading-text-size) * 0.875)',
               ...position
             }}
             onClick={(e) => e.stopPropagation()}
           >
             {note && (
-              <div className="italic text-sm font-bold mb-2">
+              <div className="italic font-bold mb-2" style={{ fontSize: 'calc(var(--reading-text-size) * 0.8125)' }}>
                 {note}
               </div>
             )}
-            <p className="text-normal leading-5">{text}</p>
+            <p className="leading-relaxed">{text}</p>
           </div>
         </>
       )}

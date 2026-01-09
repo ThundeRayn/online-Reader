@@ -11,6 +11,13 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark'>('light')
+  const [textSize, setTextSize] = useState(16)
+
+  // Apply text size globally to reading content
+  useEffect(() => {
+    document.documentElement.style.setProperty('--reading-text-size', `${textSize}px`)
+  }, [textSize])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,10 +87,24 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
             <div>
               <label className="block text-sm font-semibold mb-2 text-default-text">Theme</label>
               <div className="flex gap-2">
-                <button className="px-3 py-1 border border-default-text rounded hover:bg-default-text hover:text-default-bg transition-colors">
+                <button 
+                  onClick={() => setSelectedTheme('light')}
+                  className={`px-3 py-1 border border-default-text rounded transition-colors ${
+                    selectedTheme === 'light' 
+                      ? 'bg-default-text text-default-bg' 
+                      : 'hover:bg-default-text hover:text-default-bg'
+                  }`}
+                >
                   Light
                 </button>
-                <button className="px-3 py-1 border border-default-text rounded hover:bg-default-text hover:text-default-bg transition-colors">
+                <button 
+                  onClick={() => setSelectedTheme('dark')}
+                  className={`px-3 py-1 border border-default-text rounded transition-colors ${
+                    selectedTheme === 'dark' 
+                      ? 'bg-default-text text-default-bg' 
+                      : 'hover:bg-default-text hover:text-default-bg'
+                  }`}
+                >
                   Dark
                 </button>
               </div>
@@ -91,12 +112,15 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
 
             {/* Text Size */}
             <div>
-              <label className="block text-sm font-semibold mb-2 text-default-text">Text Size</label>
+              <label className="block text-sm font-semibold mb-2 text-default-text">
+                Text Size: {textSize}px
+              </label>
               <input 
                 type="range" 
                 min="12" 
                 max="24" 
-                defaultValue="16"
+                value={textSize}
+                onChange={(e) => setTextSize(Number(e.target.value))}
                 className="w-full"
               />
             </div>
