@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { IoBookOutline } from 'react-icons/io5'
 import { BsBookmark } from 'react-icons/bs'
 import { IoSettingsOutline } from 'react-icons/io5'
@@ -13,11 +13,29 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark'>('light')
   const [textSize, setTextSize] = useState(16)
+  const settingsPanelRef = useRef<HTMLDivElement>(null)
+  const settingsButtonRef = useRef<HTMLButtonElement>(null)
 
   // Apply text size globally to reading content
   useEffect(() => {
     document.documentElement.style.setProperty('--reading-text-size', `${textSize}px`)
   }, [textSize])
+
+  // Close settings panel when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isSettingsOpen && 
+          settingsPanelRef.current && 
+          settingsButtonRef.current &&
+          !settingsPanelRef.current.contains(event.target as Node) &&
+          !settingsButtonRef.current.contains(event.target as Node)) {
+        setIsSettingsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isSettingsOpen])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,6 +93,7 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
     >
       {/* Settings Panel - integrated into toolbar */}
       <div 
+        ref={settingsPanelRef}
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
           isSettingsOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
@@ -163,6 +182,7 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
           <BsBookmark size={22} color="#4F4432" />
         </button>
         <button 
+          ref={settingsButtonRef}
           onClick={() => setIsSettingsOpen(!isSettingsOpen)}
           className="hover:opacity-70 transition-opacity flex items-center gap-2"
         >
