@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { IoInformationCircleOutline } from 'react-icons/io5'
 
 interface ElaborationProps {
@@ -26,10 +26,23 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
   const [position, setPosition] = useState<PositionStyle>({ top: '100%', left: '50%', transform: 'translateX(-50%)' })
   const popupRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const closeRef = useRef<(() => void) | null>(null)
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false)
+    if (currentOpenElaboration === closeRef.current) {
+      currentOpenElaboration = null
+    }
+  }, [])
+
+  // Store the close function in ref
+  useEffect(() => {
+    closeRef.current = handleClose
+  }, [handleClose])
 
   const handleOpen = () => {
     // Close any currently open elaboration (if it's a different one)
-    if (currentOpenElaboration && currentOpenElaboration !== handleClose) {
+    if (currentOpenElaboration && currentOpenElaboration !== closeRef.current) {
       currentOpenElaboration()
     }
     
@@ -38,16 +51,16 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
       handleClose()
     } else {
       setIsOpen(true)
-      currentOpenElaboration = handleClose
+      // Update in useEffect to avoid side effects during render
     }
   }
 
-  const handleClose = () => {
-    setIsOpen(false)
-    if (currentOpenElaboration === handleClose) {
-      currentOpenElaboration = null
+  // Update global state when opening
+  useEffect(() => {
+    if (isOpen) {
+      currentOpenElaboration = closeRef.current
     }
-  }
+  }, [isOpen])
 
   // Close when menu overlay opens
   useEffect(() => {
@@ -59,7 +72,7 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
     
     window.addEventListener('menuOverlayOpen', handleMenuOpen)
     return () => window.removeEventListener('menuOverlayOpen', handleMenuOpen)
-  }, [isOpen])
+  }, [isOpen, handleClose])
 
   useEffect(() => {
     if (isOpen && popupRef.current && buttonRef.current) {
@@ -152,16 +165,17 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
               width: 'auto',
               minWidth: '200px',
               maxWidth: 'min(320px, calc(100vw - 32px))',
+              fontSize: 'calc(var(--reading-text-size) * 0.875)',
               ...position
             }}
             onClick={(e) => e.stopPropagation()}
           >
             {note && (
-              <div className="italic text-sm font-bold mb-2">
+              <div className="italic font-bold mb-2" style={{ fontSize: 'calc(var(--reading-text-size) * 0.8125)' }}>
                 {note}
               </div>
             )}
-            <p className="text-normal leading-5">{text}</p>
+            <p className="leading-relaxed">{text}</p>
           </div>
         </>
       )}

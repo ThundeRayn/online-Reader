@@ -6,5 +6,11 @@
 
 
 ##### error
-- info elaboration component on the top of circle info icon
-- cannot open two info elaborations at the same time
+- waiting for bookmarks to be done
+- waiting for text size and line space adjustions to be done
+- waiting for theme changes
+
+##### future plan
+- browse as anonymous - allow comments, no saved bookmarks (only send request, no account)
+- login with wechat API
+- saved bookmarks/comments
