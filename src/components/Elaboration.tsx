@@ -141,7 +141,7 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
         className="inline-flex items-center justify-center hover:opacity-70 transition-opacity"
         aria-label="Show elaboration"
       >
-        <IoInformationCircleOutline size={20} color="#4F4432" />
+        <IoInformationCircleOutline size={20} style={{ color: 'var(--theme-text)' }} />
       </button>
 
       {/* Info Popup Box */}
@@ -156,7 +156,7 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
           {/* Info Box - smart positioning */}
           <div
             ref={popupRef}
-            className="absolute z-[35] bg-neutral-800 border-default-text text-default-bg p-4 rounded-lg shadow-lg max-h-96 overflow-y-auto"
+            className="absolute z-[35] rounded-lg shadow-lg max-h-96 overflow-y-auto"
             style={{
               top: '100%',
               left: '50%',
@@ -166,6 +166,10 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
               minWidth: '200px',
               maxWidth: 'min(320px, calc(100vw - 32px))',
               fontSize: 'calc(var(--reading-text-size) * 0.875)',
+              backgroundColor: '#2a2a2a',
+              color: '#e0e0e0',
+              border: '1px solid #444',
+              padding: '1rem',
               ...position
             }}
             onClick={(e) => e.stopPropagation()}

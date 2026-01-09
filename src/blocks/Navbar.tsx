@@ -18,8 +18,8 @@ const Navbar = () => {
       {/* Floating Menu Button */}
       <button
         onClick={handleMenuToggle}
-        style={{ backgroundColor: '#F3E5AB' }}
-        className="sticky top-4 float-right mr-4 z-[10000] w-12 h-12 text-default-text border border-default-text rounded-full hover:opacity-80 transition-opacity flex items-center justify-center"
+        style={{ backgroundColor: 'var(--theme-bg)', color: 'var(--theme-text)', border: '1px solid var(--theme-border)' }}
+        className="sticky top-4 float-right mr-4 z-[10000] w-12 h-12 rounded-full hover:opacity-80 transition-opacity flex items-center justify-center"
       >
         <svg
           width="24"
