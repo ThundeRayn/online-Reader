@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import MenuOverlay from '../components/MenuOverlay'
+import MenuOverlay from './MenuOverlay'
 //import ToolBar from '../components/ToolBar'
 
 const Navbar = () => {

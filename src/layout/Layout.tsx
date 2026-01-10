@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../blocks/Navbar";
-import ToolBar from "../components/ToolBar";
+import ToolBar from "../blocks/ToolBar";
 
 const Layout = () => {
   return (
