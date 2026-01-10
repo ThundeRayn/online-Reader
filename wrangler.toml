@@ -1,7 +1,0 @@
-name = "online-reader-thebaid"
-type = "javascript"  # 如果只是静态文件，type 可以留 javascript
-compatibility_date = "2026-01-10"
-
-[site]
-bucket = "./dist"
-entry-point = "workers-site"
