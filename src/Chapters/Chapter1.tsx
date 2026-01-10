@@ -5,7 +5,7 @@ import ChapterTitle from "./ChapterTitle"
 
 const Chapter1 = () => {
   return (
-    <div>
+    <div className="space-y-16">
         <ChapterTitle title="第一卷"/>
         <Para101 />
         <Para146 />
