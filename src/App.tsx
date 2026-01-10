@@ -12,6 +12,7 @@ function App() {
 
           <Route path='/' element={<Layout />}>
             <Route index element={<ReadingPage />} />
+            <Route path='chapter/:chapterId' element={<ReadingPage />} />
             <Route path='*' element={<div>404 Not Found</div>} />
             
             
