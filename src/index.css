@@ -12,7 +12,7 @@
   --theme-bg: #F3E5AB;
   --theme-text: #4F4432;
   --theme-border: #4F4432;
-  --theme-citation: #4F4432;
+  --theme-citation: #8B4513;
   --theme-hover-bg: #4F4432;
   --theme-hover-text: #F3E5AB;
   
@@ -25,7 +25,7 @@
   --theme-bg: #1a1a1a;
   --theme-text: #e0e0e0;
   --theme-border: #e0e0e0;
-  --theme-citation: #b0b0b0;
+  --theme-citation: #87CEEB;
   --theme-hover-bg: #e0e0e0;
   --theme-hover-text: #1a1a1a;
   
@@ -38,7 +38,7 @@
   --theme-bg: #2d2d30;
   --theme-text: #d4d4d4;
   --theme-border: #858585;
-  --theme-citation: #a0a0a0;
+  --theme-citation: #FFA500;
   --theme-hover-bg: #d4d4d4;
   --theme-hover-text: #2d2d30;
   
@@ -51,7 +51,7 @@
   --theme-bg: #1e2738;
   --theme-text: #b0c4de;
   --theme-border: #6b8cae;
-  --theme-citation: #8bb4d4;
+  --theme-citation: #87CEFA;
   --theme-hover-bg: #b0c4de;
   --theme-hover-text: #1e2738;
   
@@ -64,7 +64,7 @@
   --theme-bg: #2b2520;
   --theme-text: #d4c5b0;
   --theme-border: #9d8b7a;
-  --theme-citation: #b5a48f;
+  --theme-citation: #DEB887;
   --theme-hover-bg: #d4c5b0;
   --theme-hover-text: #2b2520;
   
@@ -77,7 +77,7 @@
   --theme-bg: #FFFEF7;
   --theme-text: #2C2C2C;
   --theme-border: #CCCCCC;
-  --theme-citation: #1a1a1a;
+  --theme-citation: #4682B4;
   --theme-hover-bg: #2C2C2C;
   --theme-hover-text: #FFFEF7;
   
@@ -90,7 +90,7 @@
   --theme-bg: #F4ECD8;
   --theme-text: #5C4A3A;
   --theme-border: #8B7355;
-  --theme-citation: #4a3528;
+  --theme-citation: #8B4513;
   --theme-hover-bg: #5C4A3A;
   --theme-hover-text: #F4ECD8;
   
@@ -103,7 +103,7 @@
   --theme-bg: #FFF8E7;
   --theme-text: #3E2723;
   --theme-border: #8D6E63;
-  --theme-citation: #2e1a16;
+  --theme-citation: #A0522D;
   --theme-hover-bg: #3E2723;
   --theme-hover-text: #FFF8E7;
   
@@ -116,7 +116,7 @@
   --theme-bg: #F5E6D3;
   --theme-text: #4A3520;
   --theme-border: #9C7C57;
-  --theme-citation: #3a2515;
+  --theme-citation: #8B4513;
   --theme-hover-bg: #4A3520;
   --theme-hover-text: #F5E6D3;
   
@@ -129,7 +129,7 @@
   --theme-bg: #FAF0E6;
   --theme-text: #3C3C3C;
   --theme-border: #8B7D6B;
-  --theme-citation: #2a2a2a;
+  --theme-citation: #8B7355;
   --theme-hover-bg: #3C3C3C;
   --theme-hover-text: #FAF0E6;
   
@@ -142,7 +142,7 @@
   --theme-bg: #FFFFF0;
   --theme-text: #2F2F2F;
   --theme-border: #A9A9A9;
-  --theme-citation: #1f1f1f;
+  --theme-citation: #4169E1;
   --theme-hover-bg: #2F2F2F;
   --theme-hover-text: #FFFFF0;
   
