@@ -139,6 +139,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       }}
     >
       <div
+        id="container-of-cards"
         style={{
           background: "var(--theme-bg, #fff)",
           color: "var(--theme-text, #222)",
@@ -146,20 +147,56 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
           borderRadius: 18,
           boxShadow: "0 8px 48px rgba(0,0,0,0.18)",
           width: "min(96vw, 700px)",
-          maxHeight: "90vh",
-          padding: "1.5rem 1rem 1rem 1rem",
+          minHeight: '110vh',
+          maxHeight: '90vh',
+          padding: "1.5rem 1rem 10rem 1rem",
           position: "relative",
           overflowY: "auto",
+          marginBottom: '-20vh',
         }}
       >
+        {renderCommentContent(comments)}
+        {/* Extra empty space at the bottom for scroll effect */}
+        <div style={{ height: '16vh' }} />
+
+        {/* Close Button */}
         <button
-          style={{ position: "absolute", top: 18, right: 24, fontSize: 28, background: "none", border: "none", cursor: "pointer", color: "var(--theme-border, #888)" }}
+          style={{
+            position: "fixed",
+            left: '50%',
+            bottom: 36,
+            transform: 'translateX(-50%)',
+            width: 56,
+            height: 56,
+            borderRadius: '50%',
+            background: 'var(--theme-bg, #fff)',
+            color: 'var(--theme-border, #888)',
+            border: '2px solid var(--theme-border, #e0e0e0)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.10)',
+            fontSize: 28,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            zIndex: 100000,
+            transition: 'background 0.2s, color 0.2s',
+          }}
           onClick={onClose}
           aria-label="关闭评论"
+          onMouseOver={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'var(--theme-border, #e0e0e0)';
+            (e.currentTarget as HTMLButtonElement).style.color = 'var(--theme-bg, #fff)';
+          }}
+          onMouseOut={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'var(--theme-bg, #fff)';
+            (e.currentTarget as HTMLButtonElement).style.color = 'var(--theme-border, #888)';
+          }}
         >
-          ×
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{display:'block'}}>
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="6" y1="18" x2="18" y2="6" />
+          </svg>
         </button>
-        {renderCommentContent(comments)}
       </div>
     </div>,
     document.body
