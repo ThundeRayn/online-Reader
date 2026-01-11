@@ -1,7 +1,10 @@
-
 import React, { useEffect } from "react";
 import commentsData from '../data/comments.json';
 import { createPortal } from "react-dom";
+import { BiMessageRounded } from 'react-icons/bi';
+import { MdContentCopy } from 'react-icons/md';
+import { HiOutlinePencil } from 'react-icons/hi';
+
 
 interface CommentData {
   id: string;
@@ -12,7 +15,7 @@ interface CommentData {
   author: string;
   timestamp: string;
   likes: number;
-  replies: CommentReply[];
+  replies: (string | CommentReply)[];
 }
 
 interface CommentReply {
@@ -29,6 +32,7 @@ interface CommentModalProps {
   comments?: CommentData[];
 }
 
+
 const formatTimestamp = (timestamp: string) => {
   const date = new Date(timestamp);
   return date.toLocaleDateString('zh-CN', {
@@ -39,6 +43,7 @@ const formatTimestamp = (timestamp: string) => {
   });
 };
 
+
 const renderCommentContent = (comments: CommentData[] = []) => {
   if (!comments.length) return <div className="p-4">暂无评论</div>;
   // Build a map of all comments by id for reply lookup
@@ -48,6 +53,8 @@ const renderCommentContent = (comments: CommentData[] = []) => {
 
   return (
     <div className="flex flex-col gap-6">
+      
+      {/* Comment Cards */}
       {comments.map((comment) => (
         <div
           key={comment.id}
@@ -62,9 +69,7 @@ const renderCommentContent = (comments: CommentData[] = []) => {
           }}
         >
           <div className="mb-3">
-            <div className="font-medium mb-1" style={{ color: 'var(--theme-text)', fontSize: 'calc(var(--reading-text-size) * 0.95)' }}>
-              选中文本: "{comment.textSelection}"
-            </div>
+            {/* ...existing code for each comment... */}
             <div className="mb-2 leading-relaxed" style={{ fontSize: 'var(--reading-text-size)' }}>
               {comment.comment}
             </div>
@@ -112,6 +117,7 @@ const renderCommentContent = (comments: CommentData[] = []) => {
   );
 };
 
+
 const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [] }) => {
   useEffect(() => {
     if (open) {
@@ -122,9 +128,13 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
   }, [open]);
   if (!open) return null;
 
+  // Get selectedText from the first comment (all comments share the same selectedText)
+  const selectedText = comments[0]?.textSelection || '';
+
+
   return createPortal(
     <div
-      className="flex flex-col gap-8"
+      className="flex flex-col items-center gap-4"
       style={{
         position: "fixed",
         top: 0,
@@ -134,30 +144,76 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
         zIndex: 99999,
         background: "rgba(0,0,0,0.25)",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
+        paddingTop: '5vh',
       }}
     >
-      <div
-        id="container-of-cards"
-        style={{
-          background: "var(--theme-bg, #fff)",
-          color: "var(--theme-text, #222)",
-          border: "1.5px solid var(--theme-border, #e0e0e0)",
-          borderRadius: 18,
-          boxShadow: "0 8px 48px rgba(0,0,0,0.18)",
-          width: "min(96vw, 700px)",
-          minHeight: '110vh',
-          maxHeight: '90vh',
-          padding: "1.5rem 1rem 10rem 1rem",
-          position: "relative",
-          overflowY: "auto",
-          marginBottom: '-20vh',
-        }}
-      >
+      {/* Selected Text Container at top */}
+      {selectedText && (
+          <div className="w-full px-4 flex justify-center mb-4">
+            <div
+              style={{
+                background: 'var(--theme-bg, #fff)',
+                color: 'var(--theme-text, #222)',
+                border: '1.5px solid var(--theme-border, #e0e0e0)',
+                borderRadius: 18,
+                boxShadow: '0 8px 48px rgba(0,0,0,0.18)',
+                padding: '1rem 1rem',
+                fontWeight: 600,
+                fontSize: 'calc(var(--reading-text-size) * 1.1)',
+                letterSpacing: '0.04em',
+                width: '100%',
+                textAlign: 'center',
+                margin: 0,
+                display: 'block',
+                height: 'auto',
+              }}
+            >
+              <span className="text-(--theme-border) font-medium text-[calc(var(--reading-text-size)*0.75)]">选中文本</span><br />
+              <span className="text-(--theme-text) font-semibold pb-4 block">&quot;{selectedText}&quot;</span>
+
+              <hr/>
+              <div className="flex justify-between px-8 pt-3">
+                {/* Comment Icon */}
+                <button type="button" className="hover:opacity-70 transition-opacity flex items-center gap-2" onClick={() => {}}>
+                  <BiMessageRounded size={24} style={{ color: 'var(--theme-border)' }} />
+                </button>
+                {/* Copy Icon */}
+                <button type="button" className="hover:opacity-70 transition-opacity flex items-center gap-2" onClick={() => {navigator.clipboard.writeText(selectedText);}}>
+                  <MdContentCopy size={24} style={{ color: 'var(--theme-border)' }} />
+                </button>
+                {/* Highlight Icon */}
+                <button type="button" className="hover:opacity-70 transition-opacity flex items-center gap-2" onClick={() => {}}>
+                  <HiOutlinePencil size={24} style={{ color: 'var(--theme-border)' }} />
+                </button>
+              </div>
+            </div>
+          </div>
+      )}
+      <div className="w-full px-4 flex justify-center">
+        <div
+          id="container-container"
+          className="flex flex-col"
+          style={{
+            background: "var(--theme-bg, #fff)",
+            color: "var(--theme-text, #222)",
+            border: "1.5px solid var(--theme-border, #e0e0e0)",
+            borderRadius: 18,
+            boxShadow: "0 8px 48px rgba(0,0,0,0.18)",
+            width: '100%',
+            flex: 1,
+            minHeight: 0,
+            maxHeight: '80vh',
+            padding: "1.5rem 1rem 1rem 1rem",
+            paddingBottom: '35vh',
+            position: "relative",
+            overflowY: "auto",
+            marginBottom: 0,
+          }}
+        >
         {renderCommentContent(comments)}
-        {/* Extra empty space at the bottom for scroll effect */}
-        <div style={{ height: '16vh' }} />
 
         {/* Close Button */}
         <button
@@ -197,10 +253,12 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             <line x1="6" y1="18" x2="18" y2="6" />
           </svg>
         </button>
+        </div>
       </div>
     </div>,
     document.body
   );
 };
+
 
 export default CommentModal;
