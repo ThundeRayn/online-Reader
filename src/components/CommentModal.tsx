@@ -127,12 +127,13 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       setShouldRender(true);
       const original = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-      // Trigger animation after render
-      requestAnimationFrame(() => {
+      // Trigger animation after render with a slight delay
+      const timer = setTimeout(() => {
         setIsAnimating(true);
-      });
+      }, 10);
       return () => { 
-        document.body.style.overflow = original; 
+        document.body.style.overflow = original;
+        clearTimeout(timer);
       };
     } else if (shouldRender) {
       // Start closing animation
