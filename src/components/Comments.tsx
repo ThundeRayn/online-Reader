@@ -41,58 +41,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     setComments(paragraphComments)
   }, [paragraphId])
 
-  const formatTimestamp = (timestamp: string) => {
-    const date = new Date(timestamp)
-    return date.toLocaleDateString('zh-CN', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  }
 
-  const renderCommentContent = (comment: CommentData) => {
-    return (
-      <div className="max-w-sm p-4 bg-white rounded shadow-lg border border-gray-200" style={{color: 'var(--theme-text)'}}>
-        <div className="mb-3">
-          <div className="font-medium text-sm mb-1" style={{ color: 'var(--theme-text)' }}>
-            选中文本: "{comment.textSelection}"
-          </div>
-          <div className="text-sm mb-2 leading-relaxed">
-            {comment.comment}
-          </div>
-          <div className="flex justify-between items-center text-xs" style={{ color: 'var(--theme-border)' }}>
-            <span>{comment.author}</span>
-            <span>{formatTimestamp(comment.timestamp)}</span>
-          </div>
-          <div className="flex items-center gap-2 mt-1 text-xs" style={{ color: 'var(--theme-border)' }}>
-            <span>👍 {comment.likes}</span>
-            {comment.replies.length > 0 && (
-              <span>💬 {comment.replies.length} 回复</span>
-            )}
-          </div>
-        </div>
-        
-        {/* Replies */}
-        {comment.replies.length > 0 && (
-          <div className="border-t pt-2 mt-2" style={{ borderColor: 'var(--theme-border)' }}>
-            <div className="text-xs mb-2 font-medium" style={{ color: 'var(--theme-text)' }}>
-              回复:
-            </div>
-            {comment.replies.map((reply) => (
-              <div key={reply.id} className="mb-2 p-2 rounded" style={{ backgroundColor: 'rgba(128, 128, 128, 0.1)' }}>
-                <div className="text-sm mb-1">{reply.comment}</div>
-                <div className="flex justify-between items-center text-xs" style={{ color: 'var(--theme-border)' }}>
-                  <span>{reply.author}</span>
-                  <span>👍 {reply.likes}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    )
-  }
 
 
   const handleCommentClick = (commentId: string, event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
@@ -182,13 +131,9 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
   return <>
     {processChildren(children)}
     <CommentModal
-      open={!!openCommentId && !!modalPosition}
-      top={modalPosition?.top || 0}
-      left={modalPosition?.left || 0}
-      onClose={() => setOpenCommentId(null)}
-    >
-      {openCommentId && renderCommentContent(comments.find(c => c.id === openCommentId)!)}
-    </CommentModal>
+          open={!!openCommentId && !!modalPosition}
+          onClose={() => setOpenCommentId(null)}
+          comment={openCommentId ? comments.find(c => c.id === openCommentId) || null : null} children={undefined}    />
   </>;
 }
 
