@@ -4,6 +4,7 @@ interface InfoBoxProps {
   trigger: React.ReactNode
   title?: string
   content: string
+  customContent?: React.ReactNode
   isOpen: boolean
   onToggle: () => void
   onClose: () => void
@@ -20,7 +21,7 @@ interface PositionStyle {
   marginBottom?: string
 }
 
-const InfoBox = ({ trigger, title, content, isOpen, onToggle, onClose }: InfoBoxProps) => {
+const InfoBox = ({ trigger, title, content, customContent, isOpen, onToggle, onClose }: InfoBoxProps) => {
   const [position, setPosition] = useState<PositionStyle>({ 
     top: '100%', 
     left: '50%', 
@@ -150,7 +151,7 @@ const InfoBox = ({ trigger, title, content, isOpen, onToggle, onClose }: InfoBox
                 {title}
               </div>
             )}
-            <p className="leading-relaxed">{content}</p>
+            {customContent ? customContent : <p className="leading-relaxed">{content}</p>}
           </div>
         </>
       )}
