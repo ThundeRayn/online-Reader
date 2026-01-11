@@ -1,5 +1,5 @@
 import { useEffect, useRef, type RefObject } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 interface ChaptersPanelProps {
   isOpen: boolean
@@ -10,6 +10,10 @@ interface ChaptersPanelProps {
 const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
   const panelRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
+  const { chapterId } = useParams<{ chapterId: string }>()
+  
+  // Get current chapter (default to 1 if on home page)
+  const currentChapter = chapterId ? parseInt(chapterId) : 1
 
   const handleChapterClick = (chapterNumber: number) => {
     navigate(`/chapter/${chapterNumber}`)
@@ -50,7 +54,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 1 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 1 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 1 ? '700' : 'normal',
+              paddingLeft: currentChapter === 1 ? '1.25rem' : '1rem'
             }}
           >
             第一章
@@ -62,7 +69,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 2 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 2 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 2 ? '700' : 'normal',
+              paddingLeft: currentChapter === 2 ? '1.25rem' : '1rem'
             }}
           >
             第二章
@@ -74,7 +84,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 3 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 3 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 3 ? '700' : 'normal',
+              paddingLeft: currentChapter === 3 ? '1.25rem' : '1rem'
             }}
           >
             第三章
@@ -86,7 +99,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 4 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 4 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 4 ? '700' : 'normal',
+              paddingLeft: currentChapter === 4 ? '1.25rem' : '1rem'
             }}
           >
             第四章
@@ -98,7 +114,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 5 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 5 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 5 ? '700' : 'normal',
+              paddingLeft: currentChapter === 5 ? '1.25rem' : '1rem'
             }}
           >
             第五章
@@ -110,7 +129,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 6 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 6 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 6 ? '700' : 'normal',
+              paddingLeft: currentChapter === 6 ? '1.25rem' : '1rem'
             }}
           >
             第六章
@@ -122,7 +144,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 7 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 7 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 7 ? '700' : 'normal',
+              paddingLeft: currentChapter === 7 ? '1.25rem' : '1rem'
             }}
           >
             第七章
@@ -134,7 +159,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 8 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 8 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 8 ? '700' : 'normal',
+              paddingLeft: currentChapter === 8 ? '1.25rem' : '1rem'
             }}
           >
             第八章
@@ -146,7 +174,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 9 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 9 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 9 ? '700' : 'normal',
+              paddingLeft: currentChapter === 9 ? '1.25rem' : '1rem'
             }}
           >
             第九章
@@ -158,7 +189,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 10 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 10 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 10 ? '700' : 'normal',
+              paddingLeft: currentChapter === 10 ? '1.25rem' : '1rem'
             }}
           >
             第十章
@@ -170,7 +204,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 11 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 11 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 11 ? '700' : 'normal',
+              paddingLeft: currentChapter === 11 ? '1.25rem' : '1rem'
             }}
           >
             第十一章
@@ -182,7 +219,10 @@ const ChaptersPanel = ({ isOpen, onClose, buttonRef }: ChaptersPanelProps) => {
             className="block w-full text-left px-4 py-2 rounded transition-colors hover:bg-opacity-10"
             style={{ 
               color: 'var(--theme-text)',
-              borderLeft: '3px solid var(--theme-border)'
+              borderLeft: currentChapter === 12 ? '5px solid var(--theme-text)' : '3px solid var(--theme-border)',
+              fontSize: currentChapter === 12 ? '1.1em' : '1em',
+              fontWeight: currentChapter === 12 ? '700' : 'normal',
+              paddingLeft: currentChapter === 12 ? '1.25rem' : '1rem'
             }}
           >
             第十二章
