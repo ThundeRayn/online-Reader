@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import commentsData from '../data/comments.json';
+import React, { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { BiMessageRounded } from 'react-icons/bi';
 import { MdContentCopy } from 'react-icons/md';
 import { HiOutlinePencil } from 'react-icons/hi';
+import CommentCard from './CommentCard';
 
 
 interface CommentData {
@@ -33,85 +33,13 @@ interface CommentModalProps {
 }
 
 
-const formatTimestamp = (timestamp: string) => {
-  const date = new Date(timestamp);
-  return date.toLocaleDateString('zh-CN', {
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-};
-
-
 const renderCommentContent = (comments: CommentData[] = []) => {
   if (!comments.length) return <div className="p-4">暂无评论</div>;
-  // Build a map of all comments by id for reply lookup
-  const allComments: CommentData[] = (commentsData as any).comments || [];
-  const commentMap = new Map<string, CommentData>();
-  allComments.forEach(c => commentMap.set(c.id, c));
 
   return (
     <div className="flex flex-col gap-6">
-      
-      {/* Comment Cards */}
       {comments.map((comment) => (
-        <div
-          key={comment.id}
-          className="max-w-sm p-4 rounded shadow-lg"
-          style={{
-            color: 'var(--theme-text)',
-            background: 'var(--theme-bg)',
-            border: '1.5px solid var(--theme-border)',
-            boxShadow: '0 8px 48px rgba(0,0,0,0.18)',
-            fontSize: 'var(--reading-text-size)',
-            lineHeight: 'var(--reading-line-height)'
-          }}
-        >
-          <div className="mb-3">
-            {/* ...existing code for each comment... */}
-            <div className="mb-2 leading-relaxed" style={{ fontSize: 'var(--reading-text-size)' }}>
-              {comment.comment}
-            </div>
-            <div className="flex justify-between items-center" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
-              <span>{comment.author}</span>
-              <span>{formatTimestamp(comment.timestamp)}</span>
-            </div>
-            <div className="flex items-center gap-2 mt-1" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
-              <span>👍 {comment.likes}</span>
-              {Array.isArray(comment.replies) && comment.replies.length > 0 && (
-                <span>💬 {comment.replies.length} 回复</span>
-              )}
-            </div>
-          </div>
-          {/* Replies */}
-          {Array.isArray(comment.replies) && comment.replies.length > 0 && (
-            <div className="border-t pt-2 mt-2" style={{ borderColor: 'var(--theme-border)' }}>
-              <div className="mb-2 font-medium" style={{ color: 'var(--theme-text)', fontSize: 'calc(var(--reading-text-size) * 0.9)' }}>
-                回复:
-              </div>
-              {comment.replies.map((reply, idx) => {
-                // Support both array of reply IDs (string) and array of reply objects
-                let replyObj: any = null;
-                if (typeof reply === 'string') {
-                  replyObj = commentMap.get(reply);
-                } else if (reply && typeof reply === 'object' && reply.id) {
-                  replyObj = reply;
-                }
-                if (!replyObj) return null;
-                return (
-                  <div key={replyObj.id || idx} className="mb-2 p-2 rounded" style={{ backgroundColor: 'rgba(128, 128, 128, 0.1)', fontSize: 'var(--reading-text-size)' }}>
-                    <div className="mb-1" style={{ fontSize: 'var(--reading-text-size)' }}>{replyObj.comment}</div>
-                    <div className="flex justify-between items-center" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
-                      <span>{replyObj.author}</span>
-                      <span>👍 {replyObj.likes}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+        <CommentCard key={comment.id} comment={comment} />
       ))}
     </div>
   );
@@ -121,21 +49,27 @@ const renderCommentContent = (comments: CommentData[] = []) => {
 const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [] }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
+  const [overscrollOffset, setOverscrollOffset] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (open) {
+      // First render the modal
       setShouldRender(true);
+      setIsAnimating(false);
       const original = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-      // Trigger animation after render with a slight delay
+      
+      // Then trigger animation after a brief delay
       const timer = setTimeout(() => {
         setIsAnimating(true);
-      }, 10);
+      }, 20);
+      
       return () => { 
         document.body.style.overflow = original;
         clearTimeout(timer);
       };
-    } else if (shouldRender) {
+    } else {
       // Start closing animation
       setIsAnimating(false);
       // Wait for animation to complete before unmounting
@@ -144,7 +78,47 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       }, 300); // Match transition duration
       return () => clearTimeout(timer);
     }
-  }, [open, shouldRender]);
+  }, [open]);
+
+  // Handle overscroll bounce effect
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let isAnimating = false;
+
+    const handleWheel = (e: WheelEvent) => {
+      const scrollTop = container.scrollTop;
+      const scrollHeight = container.scrollHeight;
+      const clientHeight = container.clientHeight;
+      const isAtTop = scrollTop === 0;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      
+      const scrollingUp = e.deltaY < 0;
+      const scrollingDown = e.deltaY > 0;
+
+      // If at top and trying to scroll up, or at bottom and trying to scroll down
+      if ((isAtTop && scrollingUp) || (isAtBottom && scrollingDown)) {
+        if (!isAnimating) {
+          isAnimating = true;
+          // Pull in the direction of scroll (down when scrolling up at top, up when scrolling down at bottom)
+          const delta = scrollingUp ? 30 : -30;
+          setOverscrollOffset(delta);
+          
+          // Bounce back smoothly
+          setTimeout(() => {
+            setOverscrollOffset(0);
+            setTimeout(() => {
+              isAnimating = false;
+            }, 200);
+          }, 200);
+        }
+      }
+    };
+
+    container.addEventListener('wheel', handleWheel);
+    return () => container.removeEventListener('wheel', handleWheel);
+  }, [shouldRender]);
 
   if (!shouldRender) return null;
 
@@ -220,6 +194,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       )}
       <div className="w-full px-4 flex justify-center">
         <div
+          ref={containerRef}
           onClick={(e) => e.stopPropagation()}
           id="container-container"
           className="flex flex-col"
@@ -234,7 +209,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             minHeight: 0,
             maxHeight: '80vh',
             padding: "1.5rem 1rem 1rem 1rem",
-            paddingBottom: '35vh',
+            paddingBottom: '25vh',
             position: "relative",
             overflowY: "auto",
             marginBottom: 0,
@@ -242,7 +217,16 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             transition: 'transform 300ms ease-in-out',
           }}
         >
+        <div 
+          style={{
+            transform: `translateY(${overscrollOffset}px)`,
+            transition: overscrollOffset !== 0 
+              ? 'transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)' 
+              : 'transform 0ms',
+          }}
+        >
         {renderCommentContent(comments)}
+        </div>
         </div>
       </div>
 
