@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, Children } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import InfoBox from './InfoBox'
 
 interface CitationProps {
