@@ -43,7 +43,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
 
   return (
     <div
-      className="max-w-sm p-4 rounded shadow-lg"
+      className="w-full p-4 rounded-[18px] shadow-lg"
       style={{
         color: 'var(--theme-text)',
         background: 'var(--theme-bg)',

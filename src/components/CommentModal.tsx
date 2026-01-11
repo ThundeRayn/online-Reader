@@ -128,7 +128,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
 
   return createPortal(
     <div
-      className="flex flex-col items-center gap-4"
+      className="flex flex-col items-center"
       onClick={onClose}
       style={{
         position: "fixed",
@@ -137,7 +137,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
         width: "100vw",
         height: "100vh",
         zIndex: 99999,
-        background: "rgba(0,0,0,0.25)",
+        background: "rgba(0,0,0,0.35)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -149,7 +149,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
     >
       {/* Selected Text Container at top */}
       {selectedText && (
-          <div className="w-full px-4 flex justify-center mb-4">
+          <div className="w-full px-4 flex justify-center">
             <div
               onClick={(e) => e.stopPropagation()}
               style={{
@@ -192,23 +192,21 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             </div>
           </div>
       )}
-      <div className="w-full px-4 flex justify-center">
+      <div className="w-full px-4 flex justify-center" onClick={onClose}>
         <div
           ref={containerRef}
-          onClick={(e) => e.stopPropagation()}
           id="container-container"
           className="flex flex-col"
           style={{
-            background: "var(--theme-bg, #fff)",
             color: "var(--theme-text, #222)",
-            border: "1.5px solid var(--theme-border, #e0e0e0)",
-            borderRadius: 18,
+            border: "0px solid var(--theme-border, #e0e0e0)",
+            borderRadius: 1,
             boxShadow: "0 8px 48px rgba(0,0,0,0.18)",
+            padding: '1.5rem 0rem 0rem 0rem',
             width: '100%',
             flex: 1,
             minHeight: 0,
             maxHeight: '80vh',
-            padding: "1.5rem 1rem 1rem 1rem",
             paddingBottom: '25vh',
             position: "relative",
             overflowY: "auto",
@@ -218,6 +216,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
           }}
         >
         <div 
+          onClick={(e) => e.stopPropagation()}
           style={{
             transform: `translateY(${overscrollOffset}px)`,
             transition: overscrollOffset !== 0 
