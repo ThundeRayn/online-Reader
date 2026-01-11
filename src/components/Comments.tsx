@@ -32,26 +32,29 @@ interface CommentsProps {
 
 const Comments = ({ paragraphId, children }: CommentsProps) => {
   const [comments, setComments] = useState<CommentData[]>([])
-  const [openCommentId, setOpenCommentId] = useState<string | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
   const [modalPosition, setModalPosition] = useState<{top: number, left: number} | null>(null)
+  const [selectedText, setSelectedText] = useState<string | null>(null)
 
   useEffect(() => {
     // Load comments for this paragraph
-    const paragraphComments = (commentsData as any)[`${paragraphId}_comments`] || []
-    setComments(paragraphComments)
-  }, [paragraphId])
+    const commentIds = (commentsData as any)[`${paragraphId}_comments`] || [];
+    const allComments = (commentsData as any).comments || [];
+    const paragraphComments = allComments.filter((c: any) => commentIds.includes(c.id));
+    setComments(paragraphComments);
+  }, [paragraphId]);
 
 
 
 
-  const handleCommentClick = (commentId: string, event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const handleCommentClick = (textSelection: string, event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     const rect = (event.target as HTMLElement).getBoundingClientRect();
-    // Center modal horizontally, 40px below the highlighted text
     setModalPosition({
       top: rect.bottom + 8,
       left: rect.left + rect.width / 2
     });
-    setOpenCommentId(commentId);
+    setSelectedText(textSelection);
+    setModalOpen(true);
   };
 
   const processTextWithComments = (text: string): React.ReactNode => {
@@ -78,14 +81,14 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
         // Add the commented text as a clickable element
         result.push(
           <span
-            key={comment.id}
+            key={comment.id + '-' + index}
             className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80"
             style={{
               textDecorationColor: 'rgba(255, 165, 0, 0.8)',
               textUnderlineOffset: '3px',
               backgroundColor: 'rgba(255, 165, 0, 0.1)'
             }}
-            onClick={e => handleCommentClick(comment.id, e)}
+            onClick={e => handleCommentClick(comment.textSelection, e)}
           >
             {comment.textSelection}
           </span>
@@ -128,12 +131,17 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
   }
 
   // Modal rendering
+  const filteredComments = selectedText
+    ? comments.filter(c => c.textSelection === selectedText)
+    : [];
+
   return <>
     {processChildren(children)}
     <CommentModal
-          open={!!openCommentId && !!modalPosition}
-          onClose={() => setOpenCommentId(null)}
-          comment={openCommentId ? comments.find(c => c.id === openCommentId) || null : null} />
+      open={modalOpen && !!modalPosition}
+      onClose={() => setModalOpen(false)}
+      comments={filteredComments}
+    />
   </>;
 }
 
