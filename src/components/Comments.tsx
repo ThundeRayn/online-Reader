@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import React from 'react'
-import InfoBox from './InfoBox'
+import CommentModal from './CommentModal'
 import Citation from './Citation'
 import Elaboration from './Elaboration'
 import commentsData from '../data/comments.json'
@@ -33,6 +33,7 @@ interface CommentsProps {
 const Comments = ({ paragraphId, children }: CommentsProps) => {
   const [comments, setComments] = useState<CommentData[]>([])
   const [openCommentId, setOpenCommentId] = useState<string | null>(null)
+  const [modalPosition, setModalPosition] = useState<{top: number, left: number} | null>(null)
 
   useEffect(() => {
     // Load comments for this paragraph
@@ -52,7 +53,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
 
   const renderCommentContent = (comment: CommentData) => {
     return (
-      <div className="max-w-sm">
+      <div className="max-w-sm p-4 bg-white rounded shadow-lg border border-gray-200" style={{color: 'var(--theme-text)'}}>
         <div className="mb-3">
           <div className="font-medium text-sm mb-1" style={{ color: 'var(--theme-text)' }}>
             选中文本: "{comment.textSelection}"
@@ -93,63 +94,65 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     )
   }
 
+
+  const handleCommentClick = (commentId: string, event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const rect = (event.target as HTMLElement).getBoundingClientRect();
+    // Center modal horizontally, 40px below the highlighted text
+    setModalPosition({
+      top: rect.bottom + 8,
+      left: rect.left + rect.width / 2
+    });
+    setOpenCommentId(commentId);
+  };
+
   const processTextWithComments = (text: string): React.ReactNode => {
     if (!text || comments.length === 0) {
-      return text
+      return text;
     }
 
     // Sort comments by position to avoid conflicts
-    const sortedComments = [...comments].sort((a, b) => 
+    const sortedComments = [...comments].sort((a, b) =>
       text.indexOf(a.textSelection) - text.indexOf(b.textSelection)
-    )
+    );
 
-    let result: React.ReactNode[] = []
-    let lastIndex = 0
+    let result: React.ReactNode[] = [];
+    let lastIndex = 0;
 
     sortedComments.forEach((comment) => {
-      const index = text.indexOf(comment.textSelection, lastIndex)
+      const index = text.indexOf(comment.textSelection, lastIndex);
       if (index !== -1) {
         // Add text before the comment
         if (index > lastIndex) {
-          result.push(text.substring(lastIndex, index))
+          result.push(text.substring(lastIndex, index));
         }
 
         // Add the commented text as a clickable element
         result.push(
-          <InfoBox
+          <span
             key={comment.id}
-            trigger={
-              <span
-                className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80"
-                style={{
-                  textDecorationColor: 'rgba(255, 165, 0, 0.8)',
-                  textUnderlineOffset: '3px',
-                  backgroundColor: 'rgba(255, 165, 0, 0.1)'
-                }}
-              >
-                {comment.textSelection}
-              </span>
-            }
-            title="💬 用户评论"
-            content=""
-            isOpen={openCommentId === comment.id}
-            onToggle={() => setOpenCommentId(openCommentId === comment.id ? null : comment.id)}
-            onClose={() => setOpenCommentId(null)}
-            customContent={renderCommentContent(comment)}
-          />
-        )
+            className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80"
+            style={{
+              textDecorationColor: 'rgba(255, 165, 0, 0.8)',
+              textUnderlineOffset: '3px',
+              backgroundColor: 'rgba(255, 165, 0, 0.1)'
+            }}
+            onClick={e => handleCommentClick(comment.id, e)}
+          >
+            {comment.textSelection}
+          </span>
+        );
 
-        lastIndex = index + comment.textSelection.length
+        lastIndex = index + comment.textSelection.length;
       }
-    })
+    });
 
     // Add remaining text
     if (lastIndex < text.length) {
-      result.push(text.substring(lastIndex))
+      result.push(text.substring(lastIndex));
     }
 
-    return result
-  }
+    return result;
+  };
 
   const processChildren = (node: React.ReactNode): React.ReactNode => {
     if (typeof node === 'string') {
@@ -175,7 +178,18 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     return node
   }
 
-  return <>{processChildren(children)}</>
+  // Modal rendering
+  return <>
+    {processChildren(children)}
+    <CommentModal
+      open={!!openCommentId && !!modalPosition}
+      top={modalPosition?.top || 0}
+      left={modalPosition?.left || 0}
+      onClose={() => setOpenCommentId(null)}
+    >
+      {openCommentId && renderCommentContent(comments.find(c => c.id === openCommentId)!)}
+    </CommentModal>
+  </>;
 }
 
 export default Comments
