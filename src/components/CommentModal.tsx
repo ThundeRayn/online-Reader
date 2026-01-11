@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import commentsData from '../data/comments.json';
 import { createPortal } from "react-dom";
 import { BiMessageRounded } from 'react-icons/bi';
@@ -119,14 +119,33 @@ const renderCommentContent = (comments: CommentData[] = []) => {
 
 
 const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [] }) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
+
   useEffect(() => {
     if (open) {
+      setShouldRender(true);
       const original = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-      return () => { document.body.style.overflow = original; };
+      // Trigger animation after render
+      requestAnimationFrame(() => {
+        setIsAnimating(true);
+      });
+      return () => { 
+        document.body.style.overflow = original; 
+      };
+    } else if (shouldRender) {
+      // Start closing animation
+      setIsAnimating(false);
+      // Wait for animation to complete before unmounting
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+      }, 300); // Match transition duration
+      return () => clearTimeout(timer);
     }
-  }, [open]);
-  if (!open) return null;
+  }, [open, shouldRender]);
+
+  if (!shouldRender) return null;
 
   // Get selectedText from the first comment (all comments share the same selectedText)
   const selectedText = comments[0]?.textSelection || '';
@@ -135,6 +154,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
   return createPortal(
     <div
       className="flex flex-col items-center gap-4"
+      onClick={onClose}
       style={{
         position: "fixed",
         top: 0,
@@ -148,12 +168,15 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
         alignItems: "center",
         justifyContent: "flex-start",
         paddingTop: '5vh',
+        opacity: isAnimating ? 1 : 0,
+        transition: 'opacity 300ms ease-in-out',
       }}
     >
       {/* Selected Text Container at top */}
       {selectedText && (
           <div className="w-full px-4 flex justify-center mb-4">
             <div
+              onClick={(e) => e.stopPropagation()}
               style={{
                 background: 'var(--theme-bg, #fff)',
                 color: 'var(--theme-text, #222)',
@@ -169,6 +192,8 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
                 margin: 0,
                 display: 'block',
                 height: 'auto',
+                transform: isAnimating ? 'translateY(0)' : 'translateY(-100%)',
+                transition: 'transform 300ms ease-in-out',
               }}
             >
               <span className="text-(--theme-border) font-medium text-[calc(var(--reading-text-size)*0.75)]">选中文本</span><br />
@@ -194,6 +219,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       )}
       <div className="w-full px-4 flex justify-center">
         <div
+          onClick={(e) => e.stopPropagation()}
           id="container-container"
           className="flex flex-col"
           style={{
@@ -211,9 +237,13 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             position: "relative",
             overflowY: "auto",
             marginBottom: 0,
+            transform: isAnimating ? 'translateY(0)' : 'translateY(100%)',
+            transition: 'transform 300ms ease-in-out',
           }}
         >
         {renderCommentContent(comments)}
+        </div>
+      </div>
 
         {/* Close Button */}
         <button
@@ -253,8 +283,6 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             <line x1="6" y1="18" x2="18" y2="6" />
           </svg>
         </button>
-        </div>
-      </div>
     </div>,
     document.body
   );
