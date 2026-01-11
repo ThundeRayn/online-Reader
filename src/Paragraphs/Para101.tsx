@@ -1,10 +1,12 @@
 import Anchor from "../components/Anchor"
 import Citation from "../components/Citation"
 import Elaboration from "../components/Elaboration"
+import Comments from "../components/Comments"
 
 const Para101 = () => {
   return (
-    <div>
+    <Comments paragraphId="para101">
+      <div>
         <div className="leading-relaxed" style={{ fontSize: 'var(--reading-text-size)', lineHeight: 'var(--reading-line-height)' }}>
         <Anchor series="§ 1.01"/>
         
@@ -15,7 +17,8 @@ const Para101 = () => {
         {/* <Elaboration text="text"/> */}
         &nbsp;
     </div>
-</div>
+      </div>
+    </Comments>
   )
 }
 

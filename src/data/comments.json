@@ -1,0 +1,75 @@
+{
+  "para101_comments": [
+    {
+      "id": "comment_001",
+      "textSelection": "皮埃里亚的火焰",
+      "startOffset": 30,
+      "endOffset": 36,
+      "comment": "这个比喻太美了！把诗歌灵感比作火焰真的很形象。",
+      "author": "诗歌爱好者",
+      "timestamp": "2026-01-08T14:30:00Z",
+      "likes": 5,
+      "replies": []
+    },
+    {
+      "id": "comment_002", 
+      "textSelection": "兄弟之间的纷争",
+      "startOffset": 45,
+      "endOffset": 51,
+      "comment": "这就是整个史诗的核心冲突！波吕涅刻斯和厄忒俄克勒斯的兄弟相残。",
+      "author": "古典文学研究者",
+      "timestamp": "2026-01-09T09:15:00Z", 
+      "likes": 8,
+      "replies": [
+        {
+          "id": "reply_001",
+          "comment": "确实，这种家族内部的仇恨是希腊悲剧的经典主题。",
+          "author": "戏剧评论家",
+          "timestamp": "2026-01-09T10:20:00Z",
+          "likes": 3
+        }
+      ]
+    },
+    {
+      "id": "comment_003",
+      "textSelection": "西顿尼安人的劫掠",
+      "startOffset": 85,
+      "endOffset": 92,
+      "comment": "这里指的是宙斯绑架欧罗巴的神话，是整个底比斯故事的起源。",
+      "author": "神话学者",
+      "timestamp": "2026-01-09T16:45:00Z",
+      "likes": 12,
+      "replies": []
+    },
+    {
+      "id": "comment_004",
+      "textSelection": "播撒下隐秘战争的种子",
+      "startOffset": 180,
+      "endOffset": 189,
+      "comment": "龙牙战士的故事！卡德摩斯种下龙牙，长出的武士自相残杀，幸存者成为底比斯的建城者。",
+      "author": "古代历史爱好者",
+      "timestamp": "2026-01-10T08:30:00Z",
+      "likes": 6,
+      "replies": [
+        {
+          "id": "reply_002", 
+          "comment": "这个隐喻太棒了，种下仇恨就会收获战争。",
+          "author": "文学批评家",
+          "timestamp": "2026-01-10T09:15:00Z",
+          "likes": 4
+        }
+      ]
+    },
+    {
+      "id": "comment_005",
+      "textSelection": "罗马渴望永远拥有你",
+      "startOffset": 420,
+      "endOffset": 428,
+      "comment": "这里诗人在向当时的皇帝致敬，可能是图密善。史诗经常有这种政治性的赞美。",
+      "author": "罗马史专家",
+      "timestamp": "2026-01-10T11:00:00Z",
+      "likes": 15,
+      "replies": []
+    }
+  ]
+}

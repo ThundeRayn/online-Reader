@@ -107,10 +107,13 @@ const Citation = ({ children, extranote, replacenote }: CitationProps) => {
         <span 
           className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80"
           style={{ 
+            display: 'inline',
             color: 'var(--theme-citation)',
             fontWeight: '500',
             textDecorationColor: 'var(--theme-citation)',
-            textUnderlineOffset: '3px'
+            textUnderlineOffset: '3px',
+            lineHeight: 'inherit',
+            verticalAlign: 'baseline'
           }}
         >
           {children}
