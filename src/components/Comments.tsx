@@ -133,7 +133,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     <CommentModal
           open={!!openCommentId && !!modalPosition}
           onClose={() => setOpenCommentId(null)}
-          comment={openCommentId ? comments.find(c => c.id === openCommentId) || null : null} children={undefined}    />
+          comment={openCommentId ? comments.find(c => c.id === openCommentId) || null : null} />
   </>;
 }
 

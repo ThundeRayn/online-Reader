@@ -41,19 +41,29 @@ const formatTimestamp = (timestamp: string) => {
 const renderCommentContent = (comment: CommentData | null) => {
   if (!comment) return null;
   return (
-    <div className="max-w-sm p-4 bg-white rounded shadow-lg border border-gray-200" style={{color: 'var(--theme-text)'}}>
+    <div
+      className="max-w-sm p-4 rounded shadow-lg"
+      style={{
+        color: 'var(--theme-text)',
+        background: 'var(--theme-bg)',
+        border: '1.5px solid var(--theme-border)',
+        boxShadow: '0 8px 48px rgba(0,0,0,0.18)',
+        fontSize: 'var(--reading-text-size)',
+        lineHeight: 'var(--reading-line-height)'
+      }}
+    >
       <div className="mb-3">
-        <div className="font-medium text-sm mb-1" style={{ color: 'var(--theme-text)' }}>
+        <div className="font-medium mb-1" style={{ color: 'var(--theme-text)', fontSize: 'calc(var(--reading-text-size) * 0.95)' }}>
           选中文本: "{comment.textSelection}"
         </div>
-        <div className="text-sm mb-2 leading-relaxed">
+        <div className="mb-2 leading-relaxed" style={{ fontSize: 'var(--reading-text-size)' }}>
           {comment.comment}
         </div>
-        <div className="flex justify-between items-center text-xs" style={{ color: 'var(--theme-border)' }}>
+        <div className="flex justify-between items-center" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
           <span>{comment.author}</span>
           <span>{formatTimestamp(comment.timestamp)}</span>
         </div>
-        <div className="flex items-center gap-2 mt-1 text-xs" style={{ color: 'var(--theme-border)' }}>
+        <div className="flex items-center gap-2 mt-1" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
           <span>👍 {comment.likes}</span>
           {comment.replies.length > 0 && (
             <span>💬 {comment.replies.length} 回复</span>
@@ -63,13 +73,13 @@ const renderCommentContent = (comment: CommentData | null) => {
       {/* Replies */}
       {comment.replies.length > 0 && (
         <div className="border-t pt-2 mt-2" style={{ borderColor: 'var(--theme-border)' }}>
-          <div className="text-xs mb-2 font-medium" style={{ color: 'var(--theme-text)' }}>
+          <div className="mb-2 font-medium" style={{ color: 'var(--theme-text)', fontSize: 'calc(var(--reading-text-size) * 0.9)' }}>
             回复:
           </div>
           {comment.replies.map((reply) => (
-            <div key={reply.id} className="mb-2 p-2 rounded" style={{ backgroundColor: 'rgba(128, 128, 128, 0.1)' }}>
-              <div className="text-sm mb-1">{reply.comment}</div>
-              <div className="flex justify-between items-center text-xs" style={{ color: 'var(--theme-border)' }}>
+            <div key={reply.id} className="mb-2 p-2 rounded" style={{ backgroundColor: 'rgba(128, 128, 128, 0.1)', fontSize: 'var(--reading-text-size)' }}>
+              <div className="mb-1" style={{ fontSize: 'var(--reading-text-size)' }}>{reply.comment}</div>
+              <div className="flex justify-between items-center" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
                 <span>{reply.author}</span>
                 <span>👍 {reply.likes}</span>
               </div>
