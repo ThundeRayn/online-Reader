@@ -5,6 +5,7 @@ import citationsData from '../data/citations.json'
 interface CitationProps {
   children: React.ReactNode
   extranote?: string
+  replacenote?: string
 }
 
 interface CitationData {
@@ -18,7 +19,7 @@ const citationDatabase: Record<string, CitationData> = citationsData
 // Global state to track the currently open citation (reusing the same system as Elaboration)
 let currentOpenCitation: (() => void) | null = null
 
-const Citation = ({ children, extranote }: CitationProps) => {
+const Citation = ({ children, extranote, replacenote }: CitationProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const closeRef = useRef<(() => void) | null>(null)
 
@@ -34,8 +35,9 @@ const Citation = ({ children, extranote }: CitationProps) => {
   const citationKey = getTextContent(children).trim()
   const citationInfo = citationDatabase[citationKey]
   
-  // Combine base content with extranote if provided
+  // Priority: replacenote > original content + extranote
   const finalContent = citationInfo ? 
+    replacenote ? replacenote : 
     extranote ? `${citationInfo.content}\n\n${extranote}` : citationInfo.content
     : ''
 
