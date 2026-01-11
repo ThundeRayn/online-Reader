@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import InfoBox from './InfoBox'
+import citationsData from '../data/citations.json'
 
 interface CitationProps {
   children: React.ReactNode
+  extranote?: string
 }
 
 interface CitationData {
@@ -10,39 +12,13 @@ interface CitationData {
   content: string
 }
 
-// Citation database - you can expand this with more entries
-const citationDatabase: Record<string, CitationData> = {
-  // Example entries - replace with your actual citation data
-  'a': {
-    title: 'Letter A',
-    content: 'This is information about the letter A and its significance in the text.'
-  },
-  'Juno': {
-    title: 'Goddess Juno',
-    content: 'Juno is the Roman goddess of marriage and childbirth, queen of the gods and wife of Jupiter.'
-  },
-  'Thebes': {
-    title: 'City of Thebes',
-    content: 'Ancient Greek city-state in Boeotia, famous for its seven gates and the tragic stories of Oedipus and his descendants.'
-  },
-  'Polynices': {
-    title: 'Polynices',
-    content: 'Son of Oedipus, brother of Eteocles. He led the Seven Against Thebes in an attempt to claim his rightful throne.'
-  },
-  'Eteocles': {
-    title: 'Eteocles',
-    content: 'Son of Oedipus, brother of Polynices. He refused to give up the throne of Thebes, leading to the fraternal war.'
-  },
-  '俄狄浦斯': {
-    title: 'Oedipus',
-    content: 'Son of Oedipus, brother of Polynices. He refused to give up the throne of Thebes, leading to the fraternal war.'
-  }
-}
+// Import citation database from JSON file
+const citationDatabase: Record<string, CitationData> = citationsData
 
 // Global state to track the currently open citation (reusing the same system as Elaboration)
 let currentOpenCitation: (() => void) | null = null
 
-const Citation = ({ children }: CitationProps) => {
+const Citation = ({ children, extranote }: CitationProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const closeRef = useRef<(() => void) | null>(null)
 
@@ -57,6 +33,11 @@ const Citation = ({ children }: CitationProps) => {
 
   const citationKey = getTextContent(children).trim()
   const citationInfo = citationDatabase[citationKey]
+  
+  // Combine base content with extranote if provided
+  const finalContent = citationInfo ? 
+    extranote ? `${citationInfo.content}\n\n${extranote}` : citationInfo.content
+    : ''
 
   const handleClose = useCallback(() => {
     setIsOpen(false)
@@ -94,6 +75,9 @@ const Citation = ({ children }: CitationProps) => {
   }
 
   return (
+    <>
+    {/* Citation underline style: do not remove this comments ever
+    
     <InfoBox
       trigger={
         <span 
@@ -108,11 +92,35 @@ const Citation = ({ children }: CitationProps) => {
         </span>
       }
       title={citationInfo.title}
-      content={citationInfo.content}
+      content={finalContent}
       isOpen={isOpen}
       onToggle={handleToggle}
       onClose={handleClose}
     />
+    
+    */}
+
+    <InfoBox
+      trigger={
+        <span 
+          className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80"
+          style={{ 
+            color: 'var(--theme-citation)',
+            fontWeight: '500',
+            textDecorationColor: 'var(--theme-citation)',
+            textUnderlineOffset: '3px'
+          }}
+        >
+          {children}
+        </span>
+      }
+      title={citationInfo.title}
+      content={finalContent}
+      isOpen={isOpen}
+      onToggle={handleToggle}
+      onClose={handleClose}
+    />
+    </>
   )
 }
 
