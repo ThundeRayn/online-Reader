@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { IoInformationCircleOutline } from 'react-icons/io5'
+import InfoBox from './InfoBox'
 
 interface ElaborationProps {
   note?:string;
@@ -7,25 +8,11 @@ interface ElaborationProps {
   more?:string;
 }
 
-interface PositionStyle {
-  width?: string;
-  top?: string;
-  bottom?: string;
-  left?: string;
-  right?: string;
-  transform?: string;
-  marginTop?: string;
-  marginBottom?: string;
-}
-
 // Global state to track the currently open elaboration
 let currentOpenElaboration: (() => void) | null = null
 
-const Elaboration = ({ note,text }: ElaborationProps) => {
+const Elaboration = ({ note, text }: ElaborationProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [position, setPosition] = useState<PositionStyle>({ top: '100%', left: '50%', transform: 'translateX(-50%)' })
-  const popupRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
   const closeRef = useRef<(() => void) | null>(null)
 
   const handleClose = useCallback(() => {
@@ -40,7 +27,7 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
     closeRef.current = handleClose
   }, [handleClose])
 
-  const handleOpen = () => {
+  const handleToggle = () => {
     // Close any currently open elaboration (if it's a different one)
     if (currentOpenElaboration && currentOpenElaboration !== closeRef.current) {
       currentOpenElaboration()
@@ -51,139 +38,19 @@ const Elaboration = ({ note,text }: ElaborationProps) => {
       handleClose()
     } else {
       setIsOpen(true)
-      // Update in useEffect to avoid side effects during render
+      currentOpenElaboration = closeRef.current
     }
   }
 
-  // Update global state when opening
-  useEffect(() => {
-    if (isOpen) {
-      currentOpenElaboration = closeRef.current
-    }
-  }, [isOpen])
-
-  // Close when menu overlay opens
-  useEffect(() => {
-    const handleMenuOpen = () => {
-      if (isOpen) {
-        handleClose()
-      }
-    }
-    
-    window.addEventListener('menuOverlayOpen', handleMenuOpen)
-    return () => window.removeEventListener('menuOverlayOpen', handleMenuOpen)
-  }, [isOpen, handleClose])
-
-  useEffect(() => {
-    if (isOpen && popupRef.current && buttonRef.current) {
-      const popup = popupRef.current
-      const button = buttonRef.current.getBoundingClientRect()
-      
-      const viewportWidth = window.innerWidth
-      const viewportHeight = window.innerHeight
-      const padding = 16
-      
-      const adjustedStyle: PositionStyle = {
-        top: '100%',
-        bottom: 'auto',
-        marginTop: '8px',
-        marginBottom: '0'
-      }
-      
-      // Determine horizontal position based on button location
-      const buttonCenter = button.left + button.width / 2
-      //const halfMaxWidth = 160 // Half of 320px max width
-      
-      if (buttonCenter < viewportWidth / 3) {
-        // Button on left side - align left
-        adjustedStyle.left = '0'
-        adjustedStyle.right = 'auto'
-        adjustedStyle.transform = 'none'
-      } else if (buttonCenter > (viewportWidth * 2) / 3) {
-        // Button on right side - align right
-        adjustedStyle.left = 'auto'
-        adjustedStyle.right = '0'
-        adjustedStyle.transform = 'none'
-      } else {
-        // Button in center - center the popup
-        adjustedStyle.left = '50%'
-        adjustedStyle.right = 'auto'
-        adjustedStyle.transform = 'translateX(-50%)'
-      }
-      
-      // Apply initial styles
-      Object.assign(popup.style, adjustedStyle)
-      
-      // Check if it fits below, otherwise show above
-      setTimeout(() => {
-        const rect = popup.getBoundingClientRect()
-        if (rect.bottom > viewportHeight - padding) {
-          setPosition({
-            ...adjustedStyle,
-            top: 'auto',
-            bottom: '100%',
-            marginTop: '0',
-            marginBottom: '8px'
-          })
-        } else {
-          setPosition(adjustedStyle)
-        }
-      }, 0)
-    }
-  }, [isOpen])
-
   return (
-    <span className="inline-block relative group">
-      {/* Info Circle Button */}
-      <button
-        ref={buttonRef}
-        onClick={handleOpen}
-        className="inline-flex items-center justify-center hover:opacity-70 transition-opacity"
-        aria-label="Show elaboration"
-      >
-        <IoInformationCircleOutline size={20} style={{ color: 'var(--theme-text)' }} />
-      </button>
-
-      {/* Info Popup Box */}
-      {isOpen && (
-        <>
-          {/* Backdrop to close when clicking outside */}
-          <div
-            className="fixed inset-0 z-[35]"
-            onClick={handleClose}
-          />
-          
-          {/* Info Box - smart positioning */}
-          <div
-            ref={popupRef}
-            className="absolute z-[35] rounded-lg shadow-lg max-h-96 overflow-y-auto"
-            style={{
-              top: '100%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              marginTop: '8px',
-              width: 'auto',
-              minWidth: '200px',
-              maxWidth: 'min(320px, calc(100vw - 32px))',
-              fontSize: 'calc(var(--reading-text-size) * 0.875)',
-              backgroundColor: '#2a2a2a',
-              color: '#e0e0e0',
-              border: '1px solid #444',
-              padding: '1rem',
-              ...position
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {note && (
-              <div className="italic font-bold mb-2" style={{ fontSize: 'calc(var(--reading-text-size) * 0.8125)' }}>
-                {note}
-              </div>
-            )}
-            <p className="leading-relaxed">{text}</p>
-          </div>
-        </>
-      )}
-    </span>
+    <InfoBox
+      trigger={<IoInformationCircleOutline size={20} style={{ color: 'var(--theme-text)' }} />}
+      title={note}
+      content={text}
+      isOpen={isOpen}
+      onToggle={handleToggle}
+      onClose={handleClose}
+    />
   )
 }
 
