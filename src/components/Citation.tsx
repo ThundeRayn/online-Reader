@@ -105,7 +105,7 @@ const Citation = ({ children, extranote, replacenote }: CitationProps) => {
     <InfoBox
       trigger={
         <span 
-          className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80"
+          className="cursor-pointer transition-all duration-200 hover:opacity-80 active:opacity-60"
           style={{ 
             display: 'inline',
             color: 'var(--theme-citation)',
