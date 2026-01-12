@@ -38,7 +38,7 @@ const formatTimestamp = (timestamp: string) => {
 
 const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   // Build a map of all comments by id for reply lookup
-  const allComments: CommentData[] = (commentsData as any).comments || [];
+  const allComments: CommentData[] = (commentsData as Record<string, unknown>).comments as CommentData[] || [];
   const commentMap = new Map<string, CommentData>();
   allComments.forEach(c => commentMap.set(c.id, c));
 
@@ -73,7 +73,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           </div>
           {comment.replies.map((reply, idx) => {
             // Support both array of reply IDs (string) and array of reply objects
-            let replyObj: any = null;
+            let replyObj: CommentReply | undefined = undefined;
             if (typeof reply === 'string') {
               replyObj = commentMap.get(reply);
             } else if (reply && typeof reply === 'object' && reply.id) {

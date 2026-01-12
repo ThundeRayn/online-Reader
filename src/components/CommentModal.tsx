@@ -54,9 +54,16 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (open) {
+    if (open && !shouldRender) {
       // First render the modal
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShouldRender(true);
+    }
+  }, [open, shouldRender]);
+
+  useEffect(() => {
+    if (shouldRender && open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAnimating(false);
       const original = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
@@ -70,16 +77,18 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
         document.body.style.overflow = original;
         clearTimeout(timer);
       };
-    } else {
+    } else if (shouldRender && !open) {
       // Start closing animation
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAnimating(false);
       // Wait for animation to complete before unmounting
       const timer = setTimeout(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setShouldRender(false);
       }, 300); // Match transition duration
       return () => clearTimeout(timer);
     }
-  }, [open]);
+  }, [open, shouldRender]);
 
   // Handle overscroll bounce effect
   useEffect(() => {

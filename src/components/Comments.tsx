@@ -38,9 +38,11 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
 
   useEffect(() => {
     // Load comments for this paragraph
-    const commentIds = (commentsData as any)[`${paragraphId}_comments`] || [];
-    const allComments = (commentsData as any).comments || [];
-    const paragraphComments = allComments.filter((c: any) => commentIds.includes(c.id));
+    const data = commentsData as Record<string, unknown>;
+    const commentIds = (data[`${paragraphId}_comments`] as string[]) || [];
+    const allComments = (data.comments as CommentData[]) || [];
+    const paragraphComments = allComments.filter((c) => commentIds.includes(c.id));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setComments(paragraphComments);
   }, [paragraphId]);
 
@@ -69,7 +71,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
       text.indexOf(a.textSelection) - text.indexOf(b.textSelection)
     );
 
-    let result: React.ReactNode[] = [];
+    const result: React.ReactNode[] = [];
     let lastIndex = 0;
 
     sortedComments.forEach((comment) => {
@@ -114,7 +116,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     }
 
     if (React.isValidElement(node)) {
-      const element = node as React.ReactElement<any>
+      const element = node as React.ReactElement<{children?: React.ReactNode}>
       
       // Skip processing for Citation and Elaboration components - preserve them as-is
       if (element.type === Citation || element.type === Elaboration) {
