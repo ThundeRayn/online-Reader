@@ -110,7 +110,7 @@ const InfoBox = ({ trigger, title, content, customContent, isOpen, onToggle, onC
       <button
         ref={buttonRef}
         onClick={onToggle}
-        className="inline-flex items-center justify-center hover:opacity-70 transition-opacity"
+        className="inline-flex items-center justify-center hover:opacity-70 active:opacity-50 transition-opacity"
         aria-label="Show info"
       >
         {trigger}

@@ -229,15 +229,15 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
               <hr/>
               <div className="flex justify-between px-8 pt-3">
                 {/* Comment Icon */}
-                <button type="button" className="hover:opacity-70 transition-opacity flex items-center gap-2" onClick={() => {}}>
+                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {}}>
                   <BiMessageRounded size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
                 {/* Copy Icon */}
-                <button type="button" className="hover:opacity-70 transition-opacity flex items-center gap-2" onClick={() => {navigator.clipboard.writeText(selectedText);}}>
+                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {navigator.clipboard.writeText(selectedText);}}>
                   <MdContentCopy size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
                 {/* Highlight Icon */}
-                <button type="button" className="hover:opacity-70 transition-opacity flex items-center gap-2" onClick={() => {}}>
+                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {}}>
                   <HiOutlinePencil size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
               </div>

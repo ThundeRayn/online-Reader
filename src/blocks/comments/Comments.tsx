@@ -86,7 +86,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
         result.push(
           <span
             key={comment.id + '-' + index}
-            className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80"
+            className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80 active:opacity-60"
             style={{
               //textDecorationColor: 'rgba(255, 165, 0, 0.8)',
               textUnderlineOffset: '3px',

@@ -80,10 +80,10 @@ const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
           onClick={(e) => e.stopPropagation()}
         >
           <nav className="flex flex-col gap-6 text-2xl">
-            <a href="#" className="hover:opacity-70 transition-opacity">Home</a>
-            <a href="#" className="hover:opacity-70 transition-opacity">Chapters</a>
-            <a href="#" className="hover:opacity-70 transition-opacity">About</a>
-            <a href="#" className="hover:opacity-70 transition-opacity">Settings</a>
+            <a href="#" className="hover:opacity-70 active:opacity-50 transition-opacity">Home</a>
+            <a href="#" className="hover:opacity-70 active:opacity-50 transition-opacity">Chapters</a>
+            <a href="#" className="hover:opacity-70 active:opacity-50 transition-opacity">About</a>
+            <a href="#" className="hover:opacity-70 active:opacity-50 transition-opacity">Settings</a>
           </nav>
         </ThemeCard>
       </div>
