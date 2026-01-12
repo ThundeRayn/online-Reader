@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import React from 'react'
 import CommentModal from './CommentModal'
-import Citation from './Citation'
-import Elaboration from './Elaboration'
-import commentsData from '../data/comments.json'
+import Citation from '../../components/Citation'
+import Elaboration from '../../components/Elaboration'
+import commentsData from '../../data/comments.json'
 
 interface CommentData {
   id: string
@@ -34,26 +34,30 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
   const [comments, setComments] = useState<CommentData[]>([])
   const [modalOpen, setModalOpen] = useState(false)
   const [modalPosition, setModalPosition] = useState<{top: number, left: number} | null>(null)
-  const [selectedText, setSelectedText] = useState<string | null>(null)
+  const [selectedComments, setSelectedComments] = useState<CommentData[]>([])
 
   useEffect(() => {
     // Load comments for this paragraph
-    const commentIds = (commentsData as any)[`${paragraphId}_comments`] || [];
-    const allComments = (commentsData as any).comments || [];
-    const paragraphComments = allComments.filter((c: any) => commentIds.includes(c.id));
+    const data = commentsData as Record<string, unknown>;
+    const commentIds = (data[`${paragraphId}_comments`] as string[]) || [];
+    const allComments = (data.comments as CommentData[]) || [];
+    const paragraphComments = allComments.filter((c) => commentIds.includes(c.id));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setComments(paragraphComments);
   }, [paragraphId]);
 
 
 
 
-  const handleCommentClick = (textSelection: string, event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const handleCommentClick = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>, clickedText: string) => {
     const rect = (event.target as HTMLElement).getBoundingClientRect();
     setModalPosition({
       top: rect.bottom + 8,
       left: rect.left + rect.width / 2
     });
-    setSelectedText(textSelection);
+    // Filter comments for this specific selected text
+    const filteredComments = comments.filter(c => c.textSelection === clickedText);
+    setSelectedComments(filteredComments);
     setModalOpen(true);
   };
 
@@ -67,7 +71,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
       text.indexOf(a.textSelection) - text.indexOf(b.textSelection)
     );
 
-    let result: React.ReactNode[] = [];
+    const result: React.ReactNode[] = [];
     let lastIndex = 0;
 
     sortedComments.forEach((comment) => {
@@ -82,13 +86,13 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
         result.push(
           <span
             key={comment.id + '-' + index}
-            className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80"
+            className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80 active:opacity-60"
             style={{
-              textDecorationColor: 'rgba(255, 165, 0, 0.8)',
+              //textDecorationColor: 'rgba(255, 165, 0, 0.8)',
               textUnderlineOffset: '3px',
-              backgroundColor: 'rgba(255, 165, 0, 0.1)'
+              //backgroundColor: 'rgba(255, 165, 0, 0.1)'
             }}
-            onClick={e => handleCommentClick(comment.textSelection, e)}
+            onClick={e => handleCommentClick(e, comment.textSelection)}
           >
             {comment.textSelection}
           </span>
@@ -112,7 +116,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     }
 
     if (React.isValidElement(node)) {
-      const element = node as React.ReactElement<any>
+      const element = node as React.ReactElement<{children?: React.ReactNode}>
       
       // Skip processing for Citation and Elaboration components - preserve them as-is
       if (element.type === Citation || element.type === Elaboration) {
@@ -131,16 +135,12 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
   }
 
   // Modal rendering
-  const filteredComments = selectedText
-    ? comments.filter(c => c.textSelection === selectedText)
-    : [];
-
   return <>
     {processChildren(children)}
     <CommentModal
       open={modalOpen && !!modalPosition}
       onClose={() => setModalOpen(false)}
-      comments={filteredComments}
+      comments={selectedComments}
     />
   </>;
 }
