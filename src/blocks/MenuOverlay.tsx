@@ -68,24 +68,27 @@ const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
       
       {/* Menu Window */}
       <div 
-        className="fixed top-1/2 left-1/2 z-[9999] w-full px-8"
+        className="fixed top-1/2 left-1/2 z-[9999]"
         style={{
           transform: isAnimating 
             ? 'translate(-50%, -50%)' 
             : 'translate(-50%, calc(-50% + 100vh))',
           transition: 'transform 300ms ease-in-out',
           maxHeight: '80vh',
+          width: '100%',
+          maxWidth: '600px',
+          padding: '0 2rem',
+          pointerEvents: 'none',
         }}
       >
         <ThemeCard 
           style={{ 
             padding: 0,
             width: '100%',
-            maxWidth: '600px',
-            margin: '0 auto',
             display: 'flex',
             flexDirection: 'column',
             maxHeight: '80vh',
+            pointerEvents: 'auto',
            }}
           onClick={(e) => e.stopPropagation()}
         >

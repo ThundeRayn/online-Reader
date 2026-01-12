@@ -93,20 +93,30 @@ const Book = ({ coverText, title, author, translator, status, description }: Boo
       </div>
       
       {/* Description Section */}
-      {description && isExpanded && (
-        <div 
-          className="pl-4 pr-2 opacity-80"
-          style={{ 
-            color: 'var(--theme-text)',
-            fontSize: 'calc(var(--reading-text-size) * 0.85)',
-            lineHeight: '1.6',
-            paddingTop: '0.5rem',
-            borderLeft: '2px solid var(--theme-border)',
-          }}
-        >
-          {description}
-        </div>
-      )}
+      <div
+        style={{
+          maxHeight: isExpanded ? '500px' : '0',
+          overflow: 'hidden',
+          transition: 'max-height 300ms ease-in-out, opacity 300ms ease-in-out',
+          opacity: isExpanded ? 1 : 0,
+        }}
+      >
+        {description && (
+          <div 
+            className="pl-4 pr-2"
+            style={{ 
+              color: 'var(--theme-text)',
+              fontSize: 'calc(var(--reading-text-size) * 0.85)',
+              lineHeight: '1.6',
+              paddingTop: '0.5rem',
+              borderLeft: '2px solid var(--theme-border)',
+              opacity: 0.8,
+            }}
+          >
+            {description}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
