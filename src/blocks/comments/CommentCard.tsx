@@ -1,6 +1,6 @@
 import React from 'react';
-import commentsData from '../data/comments.json';
-import ThemeCard from './ThemeCard';
+import commentsData from '../../data/comments.json';
+import ThemeCard from '../../components/ThemeCard';
 
 interface CommentData {
   id: string;

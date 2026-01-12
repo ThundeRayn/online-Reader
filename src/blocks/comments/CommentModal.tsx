@@ -4,7 +4,7 @@ import { BiMessageRounded } from 'react-icons/bi';
 import { MdContentCopy } from 'react-icons/md';
 import { HiOutlinePencil } from 'react-icons/hi';
 import CommentCard from './CommentCard';
-import ThemeCard from './ThemeCard';
+import ThemeCard from '../../components/ThemeCard';
 
 
 interface CommentData {
@@ -79,11 +79,9 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       };
     } else if (shouldRender && !open) {
       // Start closing animation
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAnimating(false);
       // Wait for animation to complete before unmounting
       const timer = setTimeout(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setShouldRender(false);
       }, 300); // Match transition duration
       return () => clearTimeout(timer);
@@ -229,15 +227,15 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
               <hr/>
               <div className="flex justify-between px-8 pt-3">
                 {/* Comment Icon */}
-                <button type="button" className="hover:opacity-70 transition-opacity flex items-center gap-2" onClick={() => {}}>
+                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {}}>
                   <BiMessageRounded size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
                 {/* Copy Icon */}
-                <button type="button" className="hover:opacity-70 transition-opacity flex items-center gap-2" onClick={() => {navigator.clipboard.writeText(selectedText);}}>
+                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {navigator.clipboard.writeText(selectedText);}}>
                   <MdContentCopy size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
                 {/* Highlight Icon */}
-                <button type="button" className="hover:opacity-70 transition-opacity flex items-center gap-2" onClick={() => {}}>
+                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {}}>
                   <HiOutlinePencil size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
               </div>
@@ -254,7 +252,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             color: "var(--theme-text, #222)",
             border: "0px solid var(--theme-border, #e0e0e0)",
             borderRadius: 18,
-            boxShadow: "0 8px 48px rgba(0,0,0,0.18)",
+            //boxShadow: "0 8px 48px rgba(0,0,0,0.18)",
             padding: '1.5rem 0rem 0rem 0rem',
             width: '100%',
             flex: 1,
