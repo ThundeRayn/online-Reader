@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import React from 'react'
 import CommentModal from './CommentModal'
-import Citation from './Citation'
-import Elaboration from './Elaboration'
-import commentsData from '../data/comments.json'
+import Citation from '../../components/Citation'
+import Elaboration from '../../components/Elaboration'
+import commentsData from '../../data/comments.json'
 
 interface CommentData {
   id: string

@@ -4,7 +4,7 @@ import { BiMessageRounded } from 'react-icons/bi';
 import { MdContentCopy } from 'react-icons/md';
 import { HiOutlinePencil } from 'react-icons/hi';
 import CommentCard from './CommentCard';
-import ThemeCard from './ThemeCard';
+import ThemeCard from '../../components/ThemeCard';
 
 
 interface CommentData {

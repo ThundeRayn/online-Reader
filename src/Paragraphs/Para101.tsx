@@ -1,7 +1,7 @@
 import Anchor from "../components/Anchor"
 import Citation from "../components/Citation"
 import Elaboration from "../components/Elaboration"
-import Comments from "../components/Comments"
+import Comments from "../blocks/comments/Comments"
 
 const Para101 = () => {
   return (
