@@ -1,5 +1,6 @@
 import { GiSpartanHelmet } from 'react-icons/gi'
 import Book from '../../components/Book'
+import { Link } from 'react-router-dom'
 
 const HomePanel = () => {
   return (
@@ -59,6 +60,20 @@ const HomePanel = () => {
         />
       </div>
       <hr style={{ margin: 0 }}/>
+
+      {/* Made with Love Section */}
+      <div 
+        className="text-center py-4"
+        style={{
+          color: 'var(--theme-text)',
+          fontSize: 'calc(var(--reading-text-size) * 0.65)',
+          opacity: 0.8,
+        }}
+      >
+        由雅典娜赞助的智慧，
+        <Link className="underline" to="https://shirong.site/">Shirong</Link> 倾情制作
+      </div>
+        
     </>
   )
 }

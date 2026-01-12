@@ -4,6 +4,7 @@ import FeedPanel from './submenus/FeedPanel';
 import ChaptersPanel from './submenus/ChaptersPanel';
 import AboutPanel from './submenus/AboutPanel';
 import FeedbackPanel from './submenus/FeedbackPanel';
+import MenuNav from '../components/MenuNav';
 import { LuCat, LuMessageSquareMore } from 'react-icons/lu';
 import { PiBooks } from 'react-icons/pi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
@@ -17,20 +18,34 @@ interface SubmenusProps {
 const Submenus: React.FC<SubmenusProps> = ({ currentView, onBackToHome, onNavigate }) => {
   return (
     <>
+      {/* Fixed MenuNav for non-home views */}
+      {currentView !== 'home' && (
+        <MenuNav 
+          title={
+            currentView === 'feed' ? '投喂' :
+            currentView === 'chapters' ? '书架' :
+            currentView === 'about' ? '声明' :
+            '反馈'
+          }
+          onBackToHome={onBackToHome}
+        />
+      )}
+
       {/* Scrollable Content Area */}
       <div 
         style={{ 
           flex: '1 1 auto',
           overflowY: 'auto',
-          padding: '2rem 2rem 0 2rem',
           minHeight: 0,
         }}
       >
-        {currentView === 'home' && <HomePanel />}
-        {currentView === 'feed' && <FeedPanel onBackToHome={onBackToHome} />}
-        {currentView === 'chapters' && <ChaptersPanel onBackToHome={onBackToHome} />}
-        {currentView === 'about' && <AboutPanel onBackToHome={onBackToHome} />}
-        {currentView === 'feedback' && <FeedbackPanel onBackToHome={onBackToHome} />}
+        <div style={{ padding: currentView === 'home' ? '2rem 2rem 0 2rem' : '1rem 2rem 0 2rem' }}>
+          {currentView === 'home' && <HomePanel />}
+          {currentView === 'feed' && <FeedPanel/>}
+          {currentView === 'chapters' && <ChaptersPanel/>}
+          {currentView === 'about' && <AboutPanel />}
+          {currentView === 'feedback' && <FeedbackPanel/>}
+        </div>
       </div>
 
       {/* Fixed Navigation at Bottom */}

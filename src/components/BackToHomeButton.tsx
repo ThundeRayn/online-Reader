@@ -9,7 +9,7 @@ const BackToHomeButton = ({ onBackToHome }: BackToHomeButtonProps) => {
     <button
       type="button"
       onClick={onBackToHome}
-      className="absolute top-0 left-0 hover:opacity-70 active:opacity-50 transition-opacity"
+      className="hover:opacity-70 active:opacity-50 transition-opacity"
       style={{
         color: 'var(--theme-text)',
         background: 'none',
