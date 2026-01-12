@@ -252,7 +252,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             color: "var(--theme-text, #222)",
             border: "0px solid var(--theme-border, #e0e0e0)",
             borderRadius: 18,
-            boxShadow: "0 8px 48px rgba(0,0,0,0.18)",
+            //boxShadow: "0 8px 48px rgba(0,0,0,0.18)",
             padding: '1.5rem 0rem 0rem 0rem',
             width: '100%',
             flex: 1,

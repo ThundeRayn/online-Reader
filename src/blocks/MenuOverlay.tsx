@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { GiSpartanHelmet } from 'react-icons/gi'
 import ThemeCard from '../components/ThemeCard'
 
 interface MenuOverlayProps {
@@ -65,7 +66,7 @@ const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
       
       {/* Menu Window */}
       <div 
-        className="fixed top-1/2 left-1/2 z-[9999]"
+        className="fixed top-1/2 left-1/2 z-[9999] w-full px-8"
         style={{
           transform: isAnimating 
             ? 'translate(-50%, -50%)' 
@@ -74,10 +75,46 @@ const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
         }}
       >
         <ThemeCard 
-          style={{ padding: '3rem', width: 'fit-content' }}
+          style={{ 
+            padding: '2rem',
+            width: '100%',
+            maxWidth: '600px',
+            margin: '0 auto',
+           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <nav className="flex flex-col gap-6 text-2xl">
+          {/* User Profile Section */}
+          <div className="flex items-center gap-4 mb-6">
+            {/* Avatar */}
+            <div 
+              className="w-16 h-16 rounded-full flex items-center justify-center"
+              style={{ 
+                backgroundColor: 'var(--theme-border)', 
+                color: 'var(--theme-bg)' 
+              }}
+            >
+              <GiSpartanHelmet size={44} />
+            </div>
+            {/* User Info */}
+            <div className="flex flex-col gap-1">
+              <div className="text-xl font-semibold" style={{ color: 'var(--theme-text)' }}>
+                匿名希腊战士666
+              </div>
+              <div className="text-sm opacity-70" style={{ color: 'var(--theme-text)' }}>
+                未登录
+              </div>
+            </div>
+          </div>
+          <hr/>
+          
+          {/* Book Intro Section */}
+          <div className="mb-6" style={{ color: 'var(--theme-text)' }}>
+            你正在阅读
+          </div>
+
+          
+          <hr/>
+          <nav className="flex flex-col gap-6 text-2xl text-center">
             <a href="#" className="hover:opacity-70 active:opacity-50 transition-opacity">Home</a>
             <a href="#" className="hover:opacity-70 active:opacity-50 transition-opacity">Chapters</a>
             <a href="#" className="hover:opacity-70 active:opacity-50 transition-opacity">About</a>
