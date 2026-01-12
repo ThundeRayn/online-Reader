@@ -54,7 +54,7 @@ const HomePanel = () => {
         </div>
         <Book 
           coverText="THEBAID"
-          title="特拜之战"
+          title="忒拜之战"
           author="斯塔提乌斯"
           translator="唐诗榕，肖翔尹"
         />
