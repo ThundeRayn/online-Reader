@@ -1,5 +1,6 @@
 import React from 'react';
 import commentsData from '../data/comments.json';
+import ThemeCard from './ThemeCard';
 
 interface CommentData {
   id: string;
@@ -37,18 +38,14 @@ const formatTimestamp = (timestamp: string) => {
 
 const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   // Build a map of all comments by id for reply lookup
-  const allComments: CommentData[] = (commentsData as any).comments || [];
+  const allComments: CommentData[] = (commentsData as Record<string, unknown>).comments as CommentData[] || [];
   const commentMap = new Map<string, CommentData>();
   allComments.forEach(c => commentMap.set(c.id, c));
 
   return (
-    <div
-      className="w-full p-4 rounded-[18px] shadow-lg"
+    <ThemeCard
+      className="w-full p-4"
       style={{
-        color: 'var(--theme-text)',
-        background: 'var(--theme-bg)',
-        border: '1.5px solid var(--theme-border)',
-        boxShadow: '0 8px 48px rgba(0,0,0,0.18)',
         fontSize: 'var(--reading-text-size)',
         lineHeight: 'var(--reading-line-height)'
       }}
@@ -76,7 +73,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           </div>
           {comment.replies.map((reply, idx) => {
             // Support both array of reply IDs (string) and array of reply objects
-            let replyObj: any = null;
+            let replyObj: CommentReply | undefined = undefined;
             if (typeof reply === 'string') {
               replyObj = commentMap.get(reply);
             } else if (reply && typeof reply === 'object' && reply.id) {
@@ -95,7 +92,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           })}
         </div>
       )}
-    </div>
+    </ThemeCard>
   );
 };
 

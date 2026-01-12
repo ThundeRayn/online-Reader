@@ -4,6 +4,7 @@ import { BiMessageRounded } from 'react-icons/bi';
 import { MdContentCopy } from 'react-icons/md';
 import { HiOutlinePencil } from 'react-icons/hi';
 import CommentCard from './CommentCard';
+import ThemeCard from './ThemeCard';
 
 
 interface CommentData {
@@ -37,7 +38,7 @@ const renderCommentContent = (comments: CommentData[] = []) => {
   if (!comments.length) return <div className="p-4">暂无评论</div>;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       {comments.map((comment) => (
         <CommentCard key={comment.id} comment={comment} />
       ))}
@@ -53,9 +54,16 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (open) {
+    if (open && !shouldRender) {
       // First render the modal
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShouldRender(true);
+    }
+  }, [open, shouldRender]);
+
+  useEffect(() => {
+    if (shouldRender && open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAnimating(false);
       const original = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
@@ -69,16 +77,18 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
         document.body.style.overflow = original;
         clearTimeout(timer);
       };
-    } else {
+    } else if (shouldRender && !open) {
       // Start closing animation
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAnimating(false);
       // Wait for animation to complete before unmounting
       const timer = setTimeout(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setShouldRender(false);
       }, 300); // Match transition duration
       return () => clearTimeout(timer);
     }
-  }, [open]);
+  }, [open, shouldRender]);
 
   // Handle overscroll bounce effect
   useEffect(() => {
@@ -86,6 +96,8 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
     if (!container) return;
 
     let isAnimating = false;
+    let touchStartY = 0;
+    let lastTouchY = 0;
 
     const handleWheel = (e: WheelEvent) => {
       const scrollTop = container.scrollTop;
@@ -116,8 +128,53 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       }
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+      lastTouchY = touchStartY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY;
+      const deltaY = currentY - lastTouchY;
+      
+      const scrollTop = container.scrollTop;
+      const scrollHeight = container.scrollHeight;
+      const clientHeight = container.clientHeight;
+      const isAtTop = scrollTop === 0;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      
+      const scrollingUp = deltaY > 0;
+      const scrollingDown = deltaY < 0;
+
+      // If at top and trying to scroll up, or at bottom and trying to scroll down
+      if ((isAtTop && scrollingUp) || (isAtBottom && scrollingDown)) {
+        if (!isAnimating) {
+          isAnimating = true;
+          // Pull in the direction of scroll
+          const delta = scrollingUp ? 30 : -30;
+          setOverscrollOffset(delta);
+          
+          // Bounce back smoothly
+          setTimeout(() => {
+            setOverscrollOffset(0);
+            setTimeout(() => {
+              isAnimating = false;
+            }, 200);
+          }, 200);
+        }
+      }
+      
+      lastTouchY = currentY;
+    };
+
     container.addEventListener('wheel', handleWheel);
-    return () => container.removeEventListener('wheel', handleWheel);
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchmove', handleTouchMove);
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+    };
   }, [shouldRender]);
 
   if (!shouldRender) return null;
@@ -150,14 +207,9 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       {/* Selected Text Container at top */}
       {selectedText && (
           <div className="w-full px-4 flex justify-center">
-            <div
+            <ThemeCard
               onClick={(e) => e.stopPropagation()}
               style={{
-                background: 'var(--theme-bg, #fff)',
-                color: 'var(--theme-text, #222)',
-                border: '1.5px solid var(--theme-border, #e0e0e0)',
-                borderRadius: 18,
-                boxShadow: '0 8px 48px rgba(0,0,0,0.18)',
                 padding: '1rem 1rem',
                 fontWeight: 600,
                 fontSize: 'calc(var(--reading-text-size) * 1.1)',
@@ -189,9 +241,10 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
                   <HiOutlinePencil size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
               </div>
-            </div>
+            </ThemeCard>
           </div>
       )}
+      {/* Comments displayed below */}
       <div className="w-full px-4 flex justify-center" onClick={onClose}>
         <div
           ref={containerRef}
