@@ -87,6 +87,8 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
     if (!container) return;
 
     let isAnimating = false;
+    let touchStartY = 0;
+    let lastTouchY = 0;
 
     const handleWheel = (e: WheelEvent) => {
       const scrollTop = container.scrollTop;
@@ -117,8 +119,53 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       }
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+      lastTouchY = touchStartY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY;
+      const deltaY = currentY - lastTouchY;
+      
+      const scrollTop = container.scrollTop;
+      const scrollHeight = container.scrollHeight;
+      const clientHeight = container.clientHeight;
+      const isAtTop = scrollTop === 0;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      
+      const scrollingUp = deltaY > 0;
+      const scrollingDown = deltaY < 0;
+
+      // If at top and trying to scroll up, or at bottom and trying to scroll down
+      if ((isAtTop && scrollingUp) || (isAtBottom && scrollingDown)) {
+        if (!isAnimating) {
+          isAnimating = true;
+          // Pull in the direction of scroll
+          const delta = scrollingUp ? 30 : -30;
+          setOverscrollOffset(delta);
+          
+          // Bounce back smoothly
+          setTimeout(() => {
+            setOverscrollOffset(0);
+            setTimeout(() => {
+              isAnimating = false;
+            }, 200);
+          }, 200);
+        }
+      }
+      
+      lastTouchY = currentY;
+    };
+
     container.addEventListener('wheel', handleWheel);
-    return () => container.removeEventListener('wheel', handleWheel);
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchmove', handleTouchMove);
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+    };
   }, [shouldRender]);
 
   if (!shouldRender) return null;
