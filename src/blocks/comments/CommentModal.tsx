@@ -5,6 +5,7 @@ import { MdContentCopy } from 'react-icons/md';
 import { HiOutlinePencil } from 'react-icons/hi';
 import CommentCard from './CommentCard';
 import ThemeCard from '../../components/ThemeCard';
+import Notification from '../../components/Notification';
 
 
 interface CommentData {
@@ -51,6 +52,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
   const [isAnimating, setIsAnimating] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const [overscrollOffset, setOverscrollOffset] = useState(0);
+  const [showCopiedNotification, setShowCopiedNotification] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -231,7 +233,10 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
                   <BiMessageRounded size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
                 {/* Copy Icon */}
-                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {navigator.clipboard.writeText(selectedText);}}>
+                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {
+                  navigator.clipboard.writeText(selectedText);
+                  setShowCopiedNotification(true);
+                }}>
                   <MdContentCopy size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
                 {/* Highlight Icon */}
@@ -242,6 +247,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             </ThemeCard>
           </div>
       )}
+
       {/* Comments displayed below */}
       <div className="w-full px-4 flex justify-center" onClick={onClose}>
         <div
@@ -318,6 +324,15 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             <line x1="6" y1="18" x2="18" y2="6" />
           </svg>
         </button>
+        
+        {/* Notification */}
+        {showCopiedNotification && (
+          <Notification 
+            message="已复制！" 
+            duration={1500}
+            onClose={() => setShowCopiedNotification(false)}
+          />
+        )}
     </div>,
     document.body
   );
