@@ -3,7 +3,7 @@ import { GiSpartanHelmet  } from 'react-icons/gi'
 import { LuMessageSquareMore } from "react-icons/lu";
 import { LuCat } from "react-icons/lu";
 import { PiBooks  } from "react-icons/pi";
-import { AiOutlineBook, AiOutlineInfoCircle } from 'react-icons/ai'
+import { AiOutlineInfoCircle } from 'react-icons/ai'
 import ThemeCard from '../components/ThemeCard'
 
 interface MenuOverlayProps {
