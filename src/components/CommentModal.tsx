@@ -4,6 +4,7 @@ import { BiMessageRounded } from 'react-icons/bi';
 import { MdContentCopy } from 'react-icons/md';
 import { HiOutlinePencil } from 'react-icons/hi';
 import CommentCard from './CommentCard';
+import ThemeCard from './ThemeCard';
 
 
 interface CommentData {
@@ -37,7 +38,7 @@ const renderCommentContent = (comments: CommentData[] = []) => {
   if (!comments.length) return <div className="p-4">暂无评论</div>;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       {comments.map((comment) => (
         <CommentCard key={comment.id} comment={comment} />
       ))}
@@ -150,14 +151,9 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
       {/* Selected Text Container at top */}
       {selectedText && (
           <div className="w-full px-4 flex justify-center">
-            <div
+            <ThemeCard
               onClick={(e) => e.stopPropagation()}
               style={{
-                background: 'var(--theme-bg, #fff)',
-                color: 'var(--theme-text, #222)',
-                border: '1.5px solid var(--theme-border, #e0e0e0)',
-                borderRadius: 18,
-                boxShadow: '0 8px 48px rgba(0,0,0,0.18)',
                 padding: '1rem 1rem',
                 fontWeight: 600,
                 fontSize: 'calc(var(--reading-text-size) * 1.1)',
@@ -189,9 +185,10 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
                   <HiOutlinePencil size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
               </div>
-            </div>
+            </ThemeCard>
           </div>
       )}
+      {/* Comments displayed below */}
       <div className="w-full px-4 flex justify-center" onClick={onClose}>
         <div
           ref={containerRef}

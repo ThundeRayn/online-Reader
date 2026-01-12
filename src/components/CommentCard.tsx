@@ -1,5 +1,6 @@
 import React from 'react';
 import commentsData from '../data/comments.json';
+import ThemeCard from './ThemeCard';
 
 interface CommentData {
   id: string;
@@ -42,13 +43,9 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   allComments.forEach(c => commentMap.set(c.id, c));
 
   return (
-    <div
-      className="w-full p-4 rounded-[18px] shadow-lg"
+    <ThemeCard
+      className="w-full p-4"
       style={{
-        color: 'var(--theme-text)',
-        background: 'var(--theme-bg)',
-        border: '1.5px solid var(--theme-border)',
-        boxShadow: '0 8px 48px rgba(0,0,0,0.18)',
         fontSize: 'var(--reading-text-size)',
         lineHeight: 'var(--reading-line-height)'
       }}
@@ -95,7 +92,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           })}
         </div>
       )}
-    </div>
+    </ThemeCard>
   );
 };
 
