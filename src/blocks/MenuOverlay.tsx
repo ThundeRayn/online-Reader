@@ -38,11 +38,9 @@ const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
       }
     } else if (shouldRender && !isOpen) {
       // Start closing animation
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAnimating(false)
       // Wait for animation to complete before unmounting
       const timer = setTimeout(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setShouldRender(false)
       }, 300) // Match transition duration
       return () => clearTimeout(timer)
