@@ -10,8 +10,9 @@ const Chapter1 = () => {
     <div className="space-y-16">
         <ChapterTitle title="第一卷"/>
         <Para101 />
-        <Processing />
+        
         <Para146 />
+        <Processing />
         <ChapterNavigation currentChapter={1} />
     </div>
   )
