@@ -1,8 +1,18 @@
+import { useState } from 'react'
 import { GiSpartanHelmet } from 'react-icons/gi'
 import Book from '../../components/Book'
 import { Link } from 'react-router-dom'
+import Notification from '../../components/Notification'
 
 const HomePanel = () => {
+  const [showNotification, setShowNotification] = useState(false)
+
+  const handleLoginClick = () => {
+    setShowNotification(true)
+    // Reset after notification closes
+    setTimeout(() => setShowNotification(false), 3500)
+  }
+
   return (
     <>
       {/* User Profile Section */}
@@ -29,11 +39,12 @@ const HomePanel = () => {
             无名
           </div>
           <div 
-            className="opacity-70" 
+            className="opacity-70 underline cursor-pointer hover:opacity-100 transition-opacity" 
             style={{ 
               color: 'var(--theme-text)',
               fontSize: 'calc(var(--reading-text-size) * 0.8)'
             }}
+            onClick={handleLoginClick}
           >
             未登录
           </div>
@@ -71,8 +82,15 @@ const HomePanel = () => {
         }}
       >
         由雅典娜赞助的智慧，
-        <Link className="underline" to="https://shirong.site/">Shirong</Link> 倾情制作
+        <Link className="underline" to="https://shirong.site/" target='_blank'>Shirong</Link> 倾情制作
       </div>
+
+      {showNotification && (
+        <Notification 
+          message="登录功能尚未上线~"
+          onClose={() => setShowNotification(false)}
+        />
+      )}
         
     </>
   )
