@@ -44,7 +44,16 @@ const Elaboration = ({ note, text }: ElaborationProps) => {
 
   return (
     <InfoBox
-      trigger={<IoInformationCircleOutline size={20} style={{ color: 'var(--theme-text)' }} />}
+      trigger={
+        <IoInformationCircleOutline 
+          style={{ 
+            color: 'var(--theme-text)',
+            fontSize: 'calc(var(--reading-text-size) * 1)',
+            display: 'inline-block',
+            verticalAlign: 'middle'
+          }} 
+        />
+      }
       title={note}
       content={text}
       isOpen={isOpen}
