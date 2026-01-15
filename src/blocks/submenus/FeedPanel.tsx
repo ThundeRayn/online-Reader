@@ -1,8 +1,37 @@
-
+import { useState } from 'react'
+import Notification from '../../components/Notification'
 
 const FeedPanel = () => {
+  const [showPaymentNotification, setShowPaymentNotification] = useState(false)
+  const [showCueNotification, setShowCueNotification] = useState(false)
+  const [notificationMessage, setNotificationMessage] = useState('')
+
+  const handlePaymentClick = () => {
+    setNotificationMessage('尚未开放支付哦~')
+    setShowPaymentNotification(true)
+    setTimeout(() => setShowPaymentNotification(false), 3000)
+  }
+
+  const handleCueClick = () => {
+    setNotificationMessage('已催更')
+    setShowCueNotification(true)
+    setTimeout(() => setShowCueNotification(false), 3000)
+  }
+
   return (
     <div>
+      {showPaymentNotification && (
+        <Notification 
+          message={notificationMessage} 
+          onClose={() => setShowPaymentNotification(false)} 
+        />
+      )}
+      {showCueNotification && (
+        <Notification 
+          message={notificationMessage} 
+          onClose={() => setShowCueNotification(false)} 
+        />
+      )}
       <div style={{ marginTop: '1.5rem' }}>
         {/* Cat Profile Section */}
         <div className="flex flex-col items-center gap-4 mb-6">
@@ -135,6 +164,238 @@ const FeedPanel = () => {
         <p className="text-center" style={{ color: 'var(--theme-text)', fontSize: 'calc(var(--reading-text-size) * 1)' }}>
           我们郑重向您承诺，一切打赏所得都将进入猫的嘴巴
         </p>
+        <br/>
+
+        {/* Payment Info Section */}
+        <div className="flex flex-col items-center gap-4">
+          <div 
+            className="font-semibold" 
+            style={{ 
+              color: 'var(--theme-text)',
+              fontSize: 'calc(var(--reading-text-size) * 1.1)',
+            }}
+          >
+            打赏方式
+          </div>
+          
+          <div className="flex flex-col gap-3 w-full max-w-md">
+            {/* 点击催更 */}
+            <div 
+              className="flex items-center px-4 py-3"
+              style={{
+                borderRadius: '8px',
+                backgroundColor: 'var(--theme-bg)',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <span style={{ 
+                color: 'var(--theme-text)', 
+                fontSize: 'calc(var(--reading-text-size) * 0.9)',
+                whiteSpace: 'nowrap'
+              }}>
+                免费
+              </span>
+              <span style={{
+                flex: 1,
+                margin: '0 0.5rem',
+                color: 'var(--theme-border)',
+                fontSize: 'calc(var(--reading-text-size) * 0.9)',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'clip',
+                borderBottom: '2px dotted currentColor',
+                display: 'inline-block',
+                height: '0.6em',
+                verticalAlign: 'middle'
+              }}>
+              </span>
+              <button
+                onClick={handleCueClick}
+                style={{
+                  padding: '0.5rem 1.2rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--theme-border)',
+                  backgroundColor: 'var(--theme-bg)',
+                  color: 'var(--theme-text)',
+                  fontSize: 'calc(var(--reading-text-size) * 0.85)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = '0.7'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = '1'
+                }}
+              >
+                催更
+              </button>
+            </div>
+
+            {/* 5元档 */}
+            <div 
+              className="flex items-center px-4 py-3"
+              style={{
+                borderRadius: '8px',
+                backgroundColor: 'var(--theme-bg)',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <span style={{ 
+                color: 'var(--theme-text)', 
+                fontSize: 'calc(var(--reading-text-size) * 0.9)',
+                whiteSpace: 'nowrap'
+              }}>
+                冻干
+              </span>
+              <span style={{
+                flex: 1,
+                margin: '0 0.5rem',
+                color: 'var(--theme-border)',
+                fontSize: 'calc(var(--reading-text-size) * 0.9)',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'clip',
+                borderBottom: '2px dotted currentColor',
+                display: 'inline-block',
+                height: '0.6em',
+                verticalAlign: 'middle'
+              }}>
+              </span>
+              <button
+                onClick={handlePaymentClick}
+                style={{
+                  padding: '0.5rem 1.2rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--theme-border)',
+                  backgroundColor: 'var(--theme-bg)',
+                  color: 'var(--theme-text)',
+                  fontSize: 'calc(var(--reading-text-size) * 0.85)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = '0.7'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = '1'
+                }}
+              >
+                支持
+              </button>
+            </div>
+
+            {/* 15元档 */}
+            <div 
+              className="flex items-center px-4 py-3"
+              style={{
+                borderRadius: '8px',
+                backgroundColor: 'var(--theme-bg)',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <span style={{ 
+                color: 'var(--theme-text)', 
+                fontSize: 'calc(var(--reading-text-size) * 0.9)',
+                whiteSpace: 'nowrap'
+              }}>
+                罐头
+              </span>
+              <span style={{
+                flex: 1,
+                margin: '0 0.5rem',
+                color: 'var(--theme-border)',
+                fontSize: 'calc(var(--reading-text-size) * 0.9)',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'clip',
+                borderBottom: '2px dotted currentColor',
+                display: 'inline-block',
+                height: '0.6em',
+                verticalAlign: 'middle'
+              }}>
+              </span>
+              <button
+                onClick={handlePaymentClick}
+                style={{
+                  padding: '0.5rem 1.2rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--theme-border)',
+                  backgroundColor: 'var(--theme-bg)',
+                  color: 'var(--theme-text)',
+                  fontSize: 'calc(var(--reading-text-size) * 0.85)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = '0.7'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = '1'
+                }}
+              >
+                支持
+              </button>
+            </div>
+
+            {/* 30元档 */}
+            <div 
+              className="flex items-center px-4 py-3"
+              style={{
+                borderRadius: '8px',
+                backgroundColor: 'var(--theme-bg)',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <span style={{ 
+                color: 'var(--theme-text)', 
+                fontSize: 'calc(var(--reading-text-size) * 0.9)',
+                whiteSpace: 'nowrap'
+              }}>
+                豪华生骨肉
+              </span>
+              <span style={{
+                flex: 1,
+                margin: '0 0.5rem',
+                color: 'var(--theme-border)',
+                fontSize: 'calc(var(--reading-text-size) * 0.9)',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'clip',
+                borderBottom: '2px dotted currentColor',
+                display: 'inline-block',
+                height: '0.6em',
+                verticalAlign: 'middle'
+              }}>
+              </span>
+              <button
+                onClick={handlePaymentClick}
+                style={{
+                  padding: '0.5rem 1.2rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--theme-border)',
+                  backgroundColor: 'var(--theme-bg)',
+                  color: 'var(--theme-text)',
+                  fontSize: 'calc(var(--reading-text-size) * 0.85)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = '0.7'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = '1'
+                }}
+              >
+                支持
+              </button>
+            </div>
+          </div>
+        </div>
         <br/>
       </div>
     </div>
