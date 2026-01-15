@@ -11,8 +11,6 @@ import Notification from '../../components/Notification';
 interface CommentData {
   id: string;
   textSelection: string;
-  startOffset: number;
-  endOffset: number;
   comment: string;
   author: string;
   timestamp: string;

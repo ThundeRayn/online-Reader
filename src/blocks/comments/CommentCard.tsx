@@ -1,12 +1,12 @@
 import React from 'react';
 import commentsData from '../../data/comments.json';
 import ThemeCard from '../../components/ThemeCard';
+import { AiOutlineLike } from 'react-icons/ai';
+import { BiMessageRounded } from 'react-icons/bi';
 
 interface CommentData {
   id: string;
   textSelection: string;
-  startOffset: number;
-  endOffset: number;
   comment: string;
   author: string;
   timestamp: string;
@@ -29,7 +29,8 @@ interface CommentCardProps {
 const formatTimestamp = (timestamp: string) => {
   const date = new Date(timestamp);
   return date.toLocaleDateString('zh-CN', {
-    month: 'short',
+    year: 'numeric',
+    month: 'long',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit'
@@ -51,20 +52,22 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
       }}
     >
       <div className="mb-3">
-        <div className="mb-2 leading-relaxed" style={{ fontSize: 'var(--reading-text-size)' }}>
-          {comment.comment}
-        </div>
-        <div className="flex justify-between items-center" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
+        <div className="flex justify-between items-center mb-2" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
           <span>{comment.author}</span>
           <span>{formatTimestamp(comment.timestamp)}</span>
         </div>
+        <div className="mb-2 leading-relaxed" style={{ fontSize: 'var(--reading-text-size)' }}>
+          {comment.comment}
+        </div>
         <div className="flex items-center gap-2 mt-1" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
-          <span>👍 {comment.likes}</span>
+          <span className="flex items-center gap-1"><AiOutlineLike /> {comment.likes}</span>
           {Array.isArray(comment.replies) && comment.replies.length > 0 && (
-            <span>💬 {comment.replies.length} 回复</span>
+            <span className="flex items-center gap-1"><BiMessageRounded /> {comment.replies.length} 回复</span>
           )}
         </div>
       </div>
+
+
       {/* Replies */}
       {Array.isArray(comment.replies) && comment.replies.length > 0 && (
         <div className="border-t pt-2 mt-2" style={{ borderColor: 'var(--theme-border)' }}>
@@ -85,7 +88,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
                 <div className="mb-1" style={{ fontSize: 'var(--reading-text-size)' }}>{replyObj.comment}</div>
                 <div className="flex justify-between items-center" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
                   <span>{replyObj.author}</span>
-                  <span>👍 {replyObj.likes}</span>
+                  <span className="flex items-center gap-1"><AiOutlineLike /> {replyObj.likes}</span>
                 </div>
               </div>
             );
