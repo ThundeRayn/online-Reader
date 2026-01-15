@@ -7,17 +7,43 @@ interface SettingsPanelProps {
 }
 
 const SettingsPanel = ({ isOpen, onClose, buttonRef }: SettingsPanelProps) => {
-  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light')
-  const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark' | 'night' | 'bluenight' | 'warmnight' | 'paper' | 'sepia' | 'cream' | 'parchment' | 'linen' | 'ivory'>('light')
-  const [textSize, setTextSize] = useState(19)
-  const [lineSpacing, setLineSpacing] = useState(1.7)
-  const [marginSpacing, setMarginSpacing] = useState(32)
+  type ThemeType = 'light' | 'dark' | 'night' | 'bluenight' | 'warmnight' | 'paper' | 'sepia' | 'cream' | 'parchment' | 'linen' | 'ivory'
+  
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>(() => {
+    const saved = localStorage.getItem('themeMode')
+    return (saved as 'light' | 'dark') || 'light'
+  })
+  const [selectedTheme, setSelectedTheme] = useState<ThemeType>(() => {
+    const saved = localStorage.getItem('selectedTheme')
+    return (saved as ThemeType) || 'light'
+  })
+  const [textSize, setTextSize] = useState(() => {
+    const saved = localStorage.getItem('textSize')
+    return saved ? parseInt(saved) : 19
+  })
+  const [lineSpacing, setLineSpacing] = useState(() => {
+    const saved = localStorage.getItem('lineSpacing')
+    return saved ? parseFloat(saved) : 1.9
+  })
+  const [marginSpacing, setMarginSpacing] = useState(() => {
+    const saved = localStorage.getItem('marginSpacing')
+    return saved ? parseInt(saved) : 40
+  })
   const panelRef = useRef<HTMLDivElement>(null)
 
   // Light mode themes
-  const lightThemes: Array<typeof selectedTheme> = ['light', 'paper', 'sepia', 'cream', 'parchment', 'linen', 'ivory']
+  const lightThemes: Array<ThemeType> = ['light', 'paper', 'sepia', 'cream', 'parchment', 'linen', 'ivory']
   // Dark mode themes
-  const darkThemes: Array<typeof selectedTheme> = ['dark', 'night', 'bluenight', 'warmnight']
+  const darkThemes: Array<ThemeType> = ['dark', 'night', 'bluenight', 'warmnight']
+
+  // Save all settings to localStorage when any change
+  useEffect(() => {
+    localStorage.setItem('themeMode', themeMode)
+    localStorage.setItem('selectedTheme', selectedTheme)
+    localStorage.setItem('textSize', textSize.toString())
+    localStorage.setItem('lineSpacing', lineSpacing.toString())
+    localStorage.setItem('marginSpacing', marginSpacing.toString())
+  }, [themeMode, selectedTheme, textSize, lineSpacing, marginSpacing])
 
   // Apply text size globally to reading content
   useEffect(() => {
@@ -264,7 +290,7 @@ const SettingsPanel = ({ isOpen, onClose, buttonRef }: SettingsPanelProps) => {
               <input 
                 type="range" 
                 min="1.5" 
-                max="2.0" 
+                max="2.4" 
                 step="0.1"
                 value={lineSpacing}
                 onChange={(e) => setLineSpacing(Number(e.target.value))}

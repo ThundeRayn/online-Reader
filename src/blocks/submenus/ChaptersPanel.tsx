@@ -10,7 +10,7 @@ const ChaptersPanel = () => {
   })
 
   const handleBookClick = (bookTitle: string) => {
-    if (bookTitle === '特拜之战') {
+    if (bookTitle === '忒拜之战') {
       //window.location.href = '/'
       setNotification({ 
         message: `还在翻译中~`, 
@@ -29,12 +29,12 @@ const ChaptersPanel = () => {
       
       <div className="flex flex-col gap-6 px-2" style={{ marginTop: '1.5rem' }}>
         <div 
-          onClick={() => handleBookClick('特拜之战')}
+          onClick={() => handleBookClick('忒拜之战')}
           className="cursor-pointer hover:opacity-80 active:opacity-60 transition-opacity"
         >
           <Book 
             coverText="THEBAID"
-            title="特拜之战"
+            title="忒拜之战"
             author="斯塔提乌斯"
             translator="唐诗榕，肖翔尹"
             status="in-progress"

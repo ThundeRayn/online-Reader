@@ -11,8 +11,6 @@ import Notification from '../../components/Notification';
 interface CommentData {
   id: string;
   textSelection: string;
-  startOffset: number;
-  endOffset: number;
   comment: string;
   author: string;
   timestamp: string;
@@ -53,7 +51,13 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
   const [shouldRender, setShouldRender] = useState(false);
   const [overscrollOffset, setOverscrollOffset] = useState(0);
   const [showCopiedNotification, setShowCopiedNotification] = useState(false);
+  const [showFeatureNotification, setShowFeatureNotification] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleFeatureClick = () => {
+    setShowFeatureNotification(true);
+    setTimeout(() => setShowFeatureNotification(false), 3500);
+  };
 
   useEffect(() => {
     if (open && !shouldRender) {
@@ -229,7 +233,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
               <hr/>
               <div className="flex justify-between px-8 pt-3">
                 {/* Comment Icon */}
-                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {}}>
+                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={handleFeatureClick}>
                   <BiMessageRounded size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
                 {/* Copy Icon */}
@@ -240,7 +244,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
                   <MdContentCopy size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
                 {/* Highlight Icon */}
-                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={() => {}}>
+                <button type="button" className="hover:opacity-70 active:opacity-50 transition-opacity flex items-center gap-2" onClick={handleFeatureClick}>
                   <HiOutlinePencil size={24} style={{ color: 'var(--theme-border)' }} />
                 </button>
               </div>
@@ -331,6 +335,14 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
             message="已复制！" 
             duration={1500}
             onClose={() => setShowCopiedNotification(false)}
+          />
+        )}
+        
+        {showFeatureNotification && (
+          <Notification 
+            message="功能暂未开放~" 
+            duration={2000}
+            onClose={() => setShowFeatureNotification(false)}
           />
         )}
     </div>,
