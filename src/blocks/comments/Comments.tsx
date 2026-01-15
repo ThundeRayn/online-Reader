@@ -9,8 +9,6 @@ import chapter2Data from '../../data/comments/chapter2.json'
 interface CommentData {
   id: string
   textSelection: string
-  startOffset: number
-  endOffset: number
   comment: string
   author: string
   timestamp: string
