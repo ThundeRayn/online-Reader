@@ -3,7 +3,8 @@ import React from 'react'
 import CommentModal from './CommentModal'
 import Citation from '../../components/Citation'
 import Elaboration from '../../components/Elaboration'
-import commentsData from '../../data/comments.json'
+import chapter1Data from '../../data/comments/chapter1.json'
+import chapter2Data from '../../data/comments/chapter2.json'
 
 interface CommentData {
   id: string
@@ -25,9 +26,30 @@ interface CommentReply {
   likes: number
 }
 
+interface ChapterCommentsData {
+  chapterId: string
+  paragraphs: {
+    [key: string]: CommentData[]
+  }
+}
+
 interface CommentsProps {
   paragraphId: string
   children: React.ReactNode
+}
+
+// Map paragraph IDs to their chapter numbers
+const paragraphToChapter: { [key: string]: number } = {
+  para101: 1,
+  para146: 1,
+  // Add more mappings as you create more paragraphs
+}
+
+// Map chapter numbers to their data
+const chapterDataMap: { [key: number]: ChapterCommentsData } = {
+  1: chapter1Data as ChapterCommentsData,
+  2: chapter2Data as ChapterCommentsData,
+  // Add more chapters as you create them
 }
 
 const Comments = ({ paragraphId, children }: CommentsProps) => {
@@ -37,13 +59,27 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
   const [selectedComments, setSelectedComments] = useState<CommentData[]>([])
 
   useEffect(() => {
-    // Load comments for this paragraph
-    const data = commentsData as Record<string, unknown>;
-    const commentIds = (data[`${paragraphId}_comments`] as string[]) || [];
-    const allComments = (data.comments as CommentData[]) || [];
-    const paragraphComments = allComments.filter((c) => commentIds.includes(c.id));
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setComments(paragraphComments);
+    // Get the chapter number for this paragraph
+    const chapterNumber = paragraphToChapter[paragraphId]
+    
+    if (!chapterNumber) {
+      console.warn(`No chapter mapping found for paragraph: ${paragraphId}`)
+      setComments([])
+      return
+    }
+
+    // Get the chapter data
+    const chapterData = chapterDataMap[chapterNumber]
+    
+    if (!chapterData) {
+      console.warn(`No chapter data found for chapter: ${chapterNumber}`)
+      setComments([])
+      return
+    }
+
+    // Get comments for this specific paragraph
+    const paragraphComments = chapterData.paragraphs[paragraphId] || []
+    setComments(paragraphComments)
   }, [paragraphId]);
 
 
