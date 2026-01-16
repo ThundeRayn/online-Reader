@@ -1,5 +1,4 @@
 import React from 'react';
-import commentsData from '../../data/comments.json';
 import ThemeCard from '../../components/ThemeCard';
 import { AiOutlineLike } from 'react-icons/ai';
 import { BiMessageRounded } from 'react-icons/bi';
@@ -11,7 +10,7 @@ interface CommentData {
   author: string;
   timestamp: string;
   likes: number;
-  replies: (string | CommentReply)[];
+  replies: (CommentReply)[];
 }
 
 interface CommentReply {
@@ -38,11 +37,6 @@ const formatTimestamp = (timestamp: string) => {
 };
 
 const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
-  // Build a map of all comments by id for reply lookup
-  const allComments: CommentData[] = (commentsData as Record<string, unknown>).comments as CommentData[] || [];
-  const commentMap = new Map<string, CommentData>();
-  allComments.forEach(c => commentMap.set(c.id, c));
-
   return (
     <ThemeCard
       className="w-full p-4"
@@ -75,20 +69,12 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
             回复:
           </div>
           {comment.replies.map((reply, idx) => {
-            // Support both array of reply IDs (string) and array of reply objects
-            let replyObj: CommentReply | undefined = undefined;
-            if (typeof reply === 'string') {
-              replyObj = commentMap.get(reply);
-            } else if (reply && typeof reply === 'object' && reply.id) {
-              replyObj = reply;
-            }
-            if (!replyObj) return null;
             return (
-              <div key={replyObj.id || idx} className="mb-2 p-2 rounded" style={{ backgroundColor: 'rgba(128, 128, 128, 0.1)', fontSize: 'var(--reading-text-size)' }}>
-                <div className="mb-1" style={{ fontSize: 'var(--reading-text-size)' }}>{replyObj.comment}</div>
+              <div key={reply.id || idx} className="mb-2 p-2 rounded" style={{ backgroundColor: 'rgba(128, 128, 128, 0.1)', fontSize: 'var(--reading-text-size)' }}>
+                <div className="mb-1" style={{ fontSize: 'var(--reading-text-size)' }}>{reply.comment}</div>
                 <div className="flex justify-between items-center" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
-                  <span>{replyObj.author}</span>
-                  <span className="flex items-center gap-1"><AiOutlineLike /> {replyObj.likes}</span>
+                  <span>{reply.author}</span>
+                  <span className="flex items-center gap-1"><AiOutlineLike /> {reply.likes}</span>
                 </div>
               </div>
             );

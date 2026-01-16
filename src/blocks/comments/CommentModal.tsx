@@ -15,7 +15,7 @@ interface CommentData {
   author: string;
   timestamp: string;
   likes: number;
-  replies: (string | CommentReply)[];
+  replies: CommentReply[];
 }
 
 interface CommentReply {
