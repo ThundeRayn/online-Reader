@@ -3,7 +3,7 @@
   "paragraphs": {
     "para101": [
       {
-        "id": "comment_101_001",
+        "id": "comment_para101_001",
         "textSelection": "皮埃里亚的火焰",
         "comment": "这个比喻太美了！把诗歌灵感比作火焰真的很形象。",
         "author": "诗歌爱好者",
@@ -12,7 +12,7 @@
         "replies": []
       },
       {
-        "id": "comment_101_002",
+        "id": "comment_para101_002",
         "textSelection": "皮埃里亚的火焰",
         "comment": "'皮埃里亚的火焰'让我想到灵感突然降临的那种感觉，仿佛心中点燃了一把火。",
         "author": "灵感追寻者",
@@ -21,7 +21,7 @@
         "replies": []
       },
       {
-        "id": "comment_101_003",
+        "id": "comment_para101_003",
         "textSelection": "皮埃里亚的火焰",
         "comment": "古希腊诗人常用火焰象征诗意，这里用得很巧妙。",
         "author": "文学史学生",
@@ -30,7 +30,7 @@
         "replies": []
       },
       {
-        "id": "comment_101_004",
+        "id": "comment_para101_004",
         "textSelection": "兄弟之间的纷争",
         "comment": "这就是整个史诗的核心冲突！波吕涅刻斯和厄忒俄克勒斯的兄弟相残。",
         "author": "古典文学研究者",
@@ -38,7 +38,7 @@
         "likes": 8,
         "replies": [
           {
-            "id": "reply_001",
+            "id": "reply_para101_001",
             "comment": "确实，这种家族内部的仇恨是希腊悲剧的经典主题。",
             "author": "戏剧评论家",
             "timestamp": "2026-01-09T10:20:00Z",
@@ -47,7 +47,7 @@
         ]
       },
       {
-        "id": "comment_101_005",
+        "id": "comment_para101_005",
         "textSelection": "西顿尼安人的劫掠",
         "comment": "这里指的是宙斯绑架欧罗巴的神话，是整个底比斯故事的起源。",
         "author": "神话学者",
@@ -56,7 +56,7 @@
         "replies": []
       },
       {
-        "id": "comment_101_006",
+        "id": "comment_para101_006",
         "textSelection": "播撒下隐秘战争的种子",
         "comment": "龙牙战士的故事！卡德摩斯种下龙牙，长出的武士自相残杀，幸存者成为底比斯的建城者。",
         "author": "古代历史爱好者",
@@ -64,7 +64,7 @@
         "likes": 6,
         "replies": [
           {
-            "id": "reply_002",
+            "id": "reply_para101_002",
             "comment": "这个隐喻太棒了，种下仇恨就会收获战争。",
             "author": "文学批评家",
             "timestamp": "2026-01-10T09:15:00Z",
@@ -73,7 +73,7 @@
         ]
       },
       {
-        "id": "comment_101_007",
+        "id": "comment_para101_007",
         "textSelection": "罗马渴望永远拥有你",
         "comment": "这里诗人在向当时的皇帝致敬，可能是图密善。史诗经常有这种政治性的赞美。",
         "author": "罗马史专家",
@@ -84,7 +84,7 @@
     ],
     "para146": [
       {
-        "id": "comment_146_001",
+        "id": "comment_para146_001",
         "textSelection": "用撕裂的手指对自己施暴",
         "comment": "这里是撕裂自己的手指",
         "author": "神秘译者",
@@ -93,7 +93,7 @@
         "replies": []
       },
       {
-        "id": "comment_146_002",
+        "id": "comment_para146_002",
         "textSelection": "那么你至少该来，我应得的辩护者，过来，开启一项复仇之举，让他们的血脉永世枯绝！",
         "comment": "俄狄浦斯自断血脉，已经so crazy了",
         "author": "神秘译者",
