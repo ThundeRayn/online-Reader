@@ -16,9 +16,10 @@ const Chapter1 = () => {
         <Para146 />
         
         <Para188 />
-<Processing />
-        <Para1114 />
 
+        <Para1114 />
+        
+<Processing />
         
 
         <ChapterNavigation currentChapter={1} />
