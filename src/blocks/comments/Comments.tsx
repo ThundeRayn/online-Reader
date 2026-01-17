@@ -97,77 +97,118 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     setModalOpen(true);
   };
 
-  const processTextWithComments = (text: string): React.ReactNode => {
-    if (!text || comments.length === 0) {
-      return text;
+  // Extract plain text from React nodes (for matching)
+  const extractPlainText = (node: React.ReactNode): string => {
+    if (typeof node === 'string') {
+      return node;
     }
-
-    // Sort comments by position to avoid conflicts
-    const sortedComments = [...comments].sort((a, b) =>
-      text.indexOf(a.textSelection) - text.indexOf(b.textSelection)
-    );
-
-    const result: React.ReactNode[] = [];
-    let lastIndex = 0;
-
-    sortedComments.forEach((comment) => {
-      const index = text.indexOf(comment.textSelection, lastIndex);
-      if (index !== -1) {
-        // Add text before the comment
-        if (index > lastIndex) {
-          result.push(text.substring(lastIndex, index));
+    if (React.isValidElement(node)) {
+      const element = node as React.ReactElement<{children?: React.ReactNode}>
+      if (element.props.children) {
+        if (Array.isArray(element.props.children)) {
+          return element.props.children.map(extractPlainText).join('');
         }
-
-        // Add the commented text as a clickable element
-        result.push(
-          <span
-            key={comment.id + '-' + index}
-            className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80 active:opacity-60"
-            style={{
-              //textDecorationColor: 'rgba(255, 165, 0, 0.8)',
-              textUnderlineOffset: '3px',
-              //backgroundColor: 'rgba(255, 165, 0, 0.1)'
-            }}
-            onClick={e => handleCommentClick(e, comment.textSelection)}
-          >
-            {comment.textSelection}
-          </span>
-        );
-
-        lastIndex = index + comment.textSelection.length;
+        return extractPlainText(element.props.children);
       }
-    });
-
-    // Add remaining text
-    if (lastIndex < text.length) {
-      result.push(text.substring(lastIndex));
+      return '';
     }
+    if (Array.isArray(node)) {
+      return node.map(extractPlainText).join('');
+    }
+    return '';
+  };
 
-    return result;
+  // Apply comment highlighting, skipping Citation and Elaboration components
+  const applyCommentHighlight = (node: React.ReactNode, plainText: string, commentTextSelection: string, commentId: string): React.ReactNode => {
+    const commentStart = plainText.indexOf(commentTextSelection);
+    if (commentStart === -1) return node;
+    
+    const commentEnd = commentStart + commentTextSelection.length;
+    let currentPos = 0;
+
+    const traverse = (n: React.ReactNode): React.ReactNode => {
+      if (typeof n === 'string') {
+        const nodeStart = currentPos;
+        const nodeEnd = currentPos + n.length;
+        currentPos += n.length;
+
+        // Check if this string overlaps with comment range
+        if (nodeStart < commentEnd && nodeEnd > commentStart) {
+          const textStart = Math.max(0, commentStart - nodeStart);
+          const textEnd = Math.min(n.length, commentEnd - nodeStart);
+          const beforeText = n.substring(0, textStart);
+          const commentedText = n.substring(textStart, textEnd);
+          const afterText = n.substring(textEnd);
+
+          const result: React.ReactNode[] = [];
+          if (beforeText) result.push(beforeText);
+          if (commentedText) {
+            result.push(
+              <span
+                key={`comment-${commentId}-${commentStart}`}
+                className="underline decoration-dotted cursor-pointer transition-all duration-200 hover:opacity-80 active:opacity-60"
+                style={{
+                  textUnderlineOffset: '3px',
+                }}
+                onClick={e => handleCommentClick(e, commentTextSelection)}
+              >
+                {commentedText}
+              </span>
+            );
+          }
+          if (afterText) result.push(afterText);
+          return result.length === 1 ? result[0] : result;
+        }
+        return n;
+      }
+
+      if (React.isValidElement(n)) {
+        const element = n as React.ReactElement<{children?: React.ReactNode}>
+        
+        // For Citation and Elaboration, just traverse but don't modify
+        // The text inside will be skipped in the plainText calculation
+        if (element.type === Citation || element.type === Elaboration) {
+          const nodeText = extractPlainText(n);
+          currentPos += nodeText.length;
+          return n;
+        }
+        
+        const processedChildren = React.Children.map(element.props.children, traverse);
+        return React.cloneElement(element, {}, processedChildren);
+      }
+
+      if (Array.isArray(n)) {
+        return n.map(traverse);
+      }
+
+      return n;
+    };
+
+    return traverse(node);
   };
 
   const processChildren = (node: React.ReactNode): React.ReactNode => {
-    if (typeof node === 'string') {
-      return processTextWithComments(node)
+    if (comments.length === 0) {
+      return node;
     }
 
-    if (React.isValidElement(node)) {
-      const element = node as React.ReactElement<{children?: React.ReactNode}>
-      
-      // Skip processing for Citation and Elaboration components - preserve them as-is
-      if (element.type === Citation || element.type === Elaboration) {
-        return element
+    const plainText = extractPlainText(node);
+    
+    // Sort comments by position
+    const sortedComments = [...comments].sort((a, b) =>
+      plainText.indexOf(a.textSelection) - plainText.indexOf(b.textSelection)
+    );
+
+    let result = node;
+    
+    // Apply each comment to the node tree
+    sortedComments.forEach((comment) => {
+      if (plainText.indexOf(comment.textSelection) !== -1) {
+        result = applyCommentHighlight(result, extractPlainText(result), comment.textSelection, comment.id);
       }
-      
-      const processedChildren = React.Children.map(element.props.children, processChildren)
-      return React.cloneElement(element, {}, processedChildren)
-    }
+    });
 
-    if (Array.isArray(node)) {
-      return node.map(processChildren)
-    }
-
-    return node
+    return result;
   }
 
   // Modal rendering
