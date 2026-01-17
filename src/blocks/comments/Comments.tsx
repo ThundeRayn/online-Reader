@@ -40,6 +40,7 @@ interface CommentsProps {
 const paragraphToChapter: { [key: string]: number } = {
   para101: 1,
   para146: 1,
+  para188: 1,
   // Add more mappings as you create more paragraphs
 }
 

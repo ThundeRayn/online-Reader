@@ -5,81 +5,104 @@
       {
         "id": "comment_para101_001",
         "textSelection": "皮埃里亚的火焰",
-        "comment": "这个比喻太美了！把诗歌灵感比作火焰真的很形象。",
-        "author": "诗歌爱好者",
+        "comment": "震撼首发",
+        "author": "内测用户001",
         "timestamp": "2026-01-08T14:30:00Z",
-        "likes": 5,
+        "likes": 1,
         "replies": []
       },
       {
         "id": "comment_para101_002",
         "textSelection": "皮埃里亚的火焰",
-        "comment": "'皮埃里亚的火焰'让我想到灵感突然降临的那种感觉，仿佛心中点燃了一把火。",
-        "author": "灵感追寻者",
+        "comment": "震撼沙发",
+        "author": "内测用户002",
         "timestamp": "2026-01-11T10:00:00Z",
-        "likes": 2,
+        "likes": 1,
         "replies": []
       },
       {
         "id": "comment_para101_003",
         "textSelection": "皮埃里亚的火焰",
-        "comment": "古希腊诗人常用火焰象征诗意，这里用得很巧妙。",
-        "author": "文学史学生",
+        "comment": "其实我是豆包生成的因为根本没人看忒拜，都是译者自己在评论区自嗨",
+        "author": "内测用户001",
         "timestamp": "2026-01-11T11:20:00Z",
         "likes": 1,
-        "replies": []
+        "replies": [
+          {
+            "id": "reply_para101_003",
+            "comment": "破防了拉黑了",
+            "author": "神秘译者",
+            "timestamp": "2026-01-11T12:00:00Z",
+            "likes": 0
+          },
+          {
+            "id": "reply_para101_004",
+            "comment": "内测码还给我",
+            "author": "神秘译者",
+            "timestamp": "2026-01-11T12:00:00Z",
+            "likes": 0
+          }
+        ]
       },
       {
         "id": "comment_para101_004",
         "textSelection": "兄弟之间的纷争",
-        "comment": "这就是整个史诗的核心冲突！波吕涅刻斯和厄忒俄克勒斯的兄弟相残。",
-        "author": "古典文学研究者",
+        "comment": "波吕涅刻斯和厄忒俄克勒斯这两个倒霉蛋，因为诅咒互相残杀，结果王位给克瑞翁捡了。",
+        "author": "内测用户001",
         "timestamp": "2026-01-09T09:15:00Z",
-        "likes": 8,
+        "likes": 2,
         "replies": [
           {
             "id": "reply_para101_001",
-            "comment": "确实，这种家族内部的仇恨是希腊悲剧的经典主题。",
-            "author": "戏剧评论家",
+            "comment": "+1 太顶了",
+            "author": "内测用户002",
             "timestamp": "2026-01-09T10:20:00Z",
-            "likes": 3
+            "likes": 1
           }
         ]
       },
       {
         "id": "comment_para101_005",
         "textSelection": "西顿尼安人的劫掠",
-        "comment": "这里指的是宙斯绑架欧罗巴的神话，是整个底比斯故事的起源。",
-        "author": "神话学者",
+        "comment": "宙斯老登",
+        "author": "内测用户004",
         "timestamp": "2026-01-09T16:45:00Z",
-        "likes": 12,
+        "likes": 1,
         "replies": []
       },
       {
         "id": "comment_para101_006",
         "textSelection": "播撒下隐秘战争的种子",
-        "comment": "龙牙战士的故事！卡德摩斯种下龙牙，长出的武士自相残杀，幸存者成为底比斯的建城者。",
-        "author": "古代历史爱好者",
+        "comment": "卡德摩斯撒个龙牙种子下去，唰地长出一堆武装部队，然后这些战士疯狂互砍……活下来的几个就成了建城的元勋。苦难建国",
+        "author": "内测用户004",
         "timestamp": "2026-01-10T08:30:00Z",
-        "likes": 6,
+        "likes": 1,
         "replies": [
           {
             "id": "reply_para101_002",
-            "comment": "这个隐喻太棒了，种下仇恨就会收获战争。",
-            "author": "文学批评家",
-            "timestamp": "2026-01-10T09:15:00Z",
-            "likes": 4
+            "comment": "有你这样认真的读者俺就放心了",
+            "author": "神秘译者",
+            "timestamp": "2026-01-09T10:20:00Z",
+            "likes": 1
           }
         ]
       },
       {
         "id": "comment_para101_007",
         "textSelection": "罗马渴望永远拥有你",
-        "comment": "这里诗人在向当时的皇帝致敬，可能是图密善。史诗经常有这种政治性的赞美。",
-        "author": "罗马史专家",
+        "comment": "哈哈，吹捧帝王换饭吃啊。",
+        "author": "内测用户004",
         "timestamp": "2026-01-10T11:00:00Z",
-        "likes": 15,
-        "replies": []
+        "likes": 1,
+        "replies": [
+          {
+            "id": "reply_para101_005",
+            "comment": "一直在捧这个皇帝",
+            "author": "神秘译者",
+            "timestamp": "2026-01-09T10:20:00Z",
+            "likes": 1
+          }
+        ]
       }
     ],
     "para146": [
@@ -94,11 +117,31 @@
       },
       {
         "id": "comment_para146_002",
-        "textSelection": "那么你至少该来，我应得的辩护者，过来，开启一项复仇之举，让他们的血脉永世枯绝！",
+        "textSelection": "那么你至少该来，我应得的辩护者，过来吧，开启一项复仇之举，让他们的血脉永世枯绝！",
         "comment": "俄狄浦斯自断血脉，已经so crazy了",
         "author": "神秘译者",
         "timestamp": "2026-01-11T10:00:00Z",
         "likes": 2,
+        "replies": []
+      },
+      {
+        "id": "comment_para146_003",
+        "textSelection": "那么你至少该来，我应得的辩护者，过来吧，开启一项复仇之举，让他们的血脉永世枯绝！",
+        "comment": "omg",
+        "author": "内测用户004",
+        "timestamp": "2026-01-11T10:00:00Z",
+        "likes": 1,
+        "replies": []
+      }
+    ],
+    "para188": [
+      {
+        "id": "comment_para188_001",
+        "textSelection": "炽热的蒸汽从她邪恶的口中喷出",
+        "comment": "还能这样",
+        "author": "内测用户004",
+        "timestamp": "2026-01-08T14:30:00Z",
+        "likes": 1,
         "replies": []
       }
     ]
