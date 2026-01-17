@@ -5,7 +5,6 @@ import Citation from '../../components/Citation'
 import Elaboration from '../../components/Elaboration'
 import chapter1Data from '../../data/comments/chapter1.json'
 import chapter2Data from '../../data/comments/chapter2.json'
-
 interface CommentData {
   id: string
   textSelection: string
@@ -41,6 +40,7 @@ const paragraphToChapter: { [key: string]: number } = {
   para101: 1,
   para146: 1,
   para188: 1,
+  para1114: 1,
   // Add more mappings as you create more paragraphs
 }
 
@@ -78,6 +78,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
 
     // Get comments for this specific paragraph
     const paragraphComments = chapterData.paragraphs[paragraphId] || []
+    console.log(`Loading comments for ${paragraphId}:`, paragraphComments)
     setComments(paragraphComments)
   }, [paragraphId]);
 
