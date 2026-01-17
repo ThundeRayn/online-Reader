@@ -7,7 +7,7 @@
         "textSelection": "皮埃里亚的火焰",
         "comment": "震撼首发",
         "author": "内测用户001",
-        "timestamp": "2026-01-08T14:30:00Z",
+        "timestamp": "2026-01-11T14:30:00Z",
         "likes": 1,
         "replies": []
       },
@@ -49,14 +49,14 @@
         "textSelection": "兄弟之间的纷争",
         "comment": "波吕涅刻斯和厄忒俄克勒斯这两个倒霉蛋，因为诅咒互相残杀，结果王位给克瑞翁捡了。",
         "author": "内测用户001",
-        "timestamp": "2026-01-09T09:15:00Z",
+        "timestamp": "2026-01-11T09:15:00Z",
         "likes": 2,
         "replies": [
           {
             "id": "reply_para101_001",
-            "comment": "+1 太顶了",
+            "comment": "是那个迫害安提戈涅的吗？",
             "author": "内测用户002",
-            "timestamp": "2026-01-09T10:20:00Z",
+            "timestamp": "2026-01-11T10:20:00Z",
             "likes": 1
           }
         ]
@@ -65,8 +65,8 @@
         "id": "comment_para101_005",
         "textSelection": "西顿尼安人的劫掠",
         "comment": "宙斯老登",
-        "author": "内测用户004",
-        "timestamp": "2026-01-09T16:45:00Z",
+        "author": "内测用户001",
+        "timestamp": "2026-01-11T16:45:00Z",
         "likes": 1,
         "replies": []
       },
@@ -75,14 +75,14 @@
         "textSelection": "播撒下隐秘战争的种子",
         "comment": "卡德摩斯撒个龙牙种子下去，唰地长出一堆武装部队，然后这些战士疯狂互砍……活下来的几个就成了建城的元勋。苦难建国",
         "author": "内测用户004",
-        "timestamp": "2026-01-10T08:30:00Z",
+        "timestamp": "2026-01-11T08:30:00Z",
         "likes": 1,
         "replies": [
           {
             "id": "reply_para101_002",
             "comment": "有你这样认真的读者俺就放心了",
             "author": "神秘译者",
-            "timestamp": "2026-01-09T10:20:00Z",
+            "timestamp": "2026-01-11T10:20:00Z",
             "likes": 1
           }
         ]
@@ -99,7 +99,7 @@
             "id": "reply_para101_005",
             "comment": "一直在捧这个皇帝",
             "author": "神秘译者",
-            "timestamp": "2026-01-09T10:20:00Z",
+            "timestamp": "2026-01-11T10:20:00Z",
             "likes": 1
           }
         ]
@@ -111,7 +111,7 @@
         "textSelection": "用撕裂的手指对自己施暴",
         "comment": "这里是撕裂自己的手指",
         "author": "神秘译者",
-        "timestamp": "2026-01-08T14:30:00Z",
+        "timestamp": "2026-01-11T14:30:00Z",
         "likes": 1,
         "replies": []
       },
@@ -140,8 +140,19 @@
         "textSelection": "炽热的蒸汽从她邪恶的口中喷出",
         "comment": "还能这样",
         "author": "内测用户004",
-        "timestamp": "2026-01-08T14:30:00Z",
+        "timestamp": "2026-01-11T14:30:00Z",
         "likes": 1,
+        "replies": []
+      }
+    ],
+    "para1114": [
+      {
+        "id": "comment_para1114_001",
+        "textSelection": "于是，那位母亲亲手将",
+        "comment": "这里是史诗的叙述手法，把过去的悲剧插入到当前的情节中，增强了故事的层次感。伊诺是卡德摩斯之女，她抱起儿子帕拉埃蒙跃海的事件发生在俄狄浦斯出生前，是家族悲剧的一部分，比俄狄浦斯的祈祷复仇女神还早。",
+        "author": "神秘译者",
+        "timestamp": "2026-01-17T14:30:00Z",
+        "likes": 0,
         "replies": []
       }
     ]
