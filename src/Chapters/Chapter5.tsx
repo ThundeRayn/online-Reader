@@ -5,7 +5,7 @@ const Chapter5 = () => {
   return (
     <div>
         <ChapterTitle title="第五卷"/>
-        <p>字幕组还在赶工中...</p>
+        <p>翻译组正在思考中...</p>
         <ChapterNavigation currentChapter={5} />
     </div>
   )
