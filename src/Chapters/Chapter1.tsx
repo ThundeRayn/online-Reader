@@ -6,6 +6,7 @@ import ChapterNavigation from "../components/ChapterNavigation"
 import Processing from "../components/Processing"
 import Para188 from "../Paragraphs/Para188"
 import Para1114 from "../Paragraphs/Para1114"
+import Para1164 from "../Paragraphs/Para1164"
 
 const Chapter1 = () => {
   return (
@@ -18,8 +19,10 @@ const Chapter1 = () => {
         <Para188 />
 
         <Para1114 />
-        
+
 <Processing />
+
+        <Para1164 />
         
 
         <ChapterNavigation currentChapter={1} />

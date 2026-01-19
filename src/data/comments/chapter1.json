@@ -148,13 +148,61 @@
     "para1114": [
       {
         "id": "comment_para1114_001",
-        "textSelection": "于是，那位母亲亲手将帕拉埃蒙从那漫无方向的海豚弯曲的背上夺下，并将他紧紧抱入怀中",
+        "textSelection": "于是，那位母亲又亲手将帕拉埃蒙从那漫无方向的海豚弯曲的背上夺下，并将他紧紧抱入怀中",
         "comment": "这里是史诗的叙述手法，把过去的悲剧插入到当前的情节中，增强了故事的层次感。伊诺是卡德摩斯之女，她抱起儿子帕拉埃蒙跃海的事件发生在俄狄浦斯出生前，是家族悲剧的一部分，比俄狄浦斯的祈祷复仇女神还早。",
         "author": "神秘译者",
         "timestamp": "2026-01-17T14:30:00Z",
         "likes": 0,
         "replies": []
       }
+    ],
+    "para1164": [
+      {
+        "id": "comment_para1164_001",
+        "textSelection": "就像船帆一侧屈从于寒冷的北风，另一侧又向猛烈的东风退避",
+        "comment": "这里寒冷的北风是厄忒俄克勒斯，猛烈的东风是波吕涅刻斯，象征着他们各自的性格和命运。厄忒俄克勒斯残忍且冷酷，而波吕涅刻斯则热情而冲动",
+        "author": "神秘译者",
+        "timestamp": "2026-01-18T14:30:00Z",
+        "likes": 0,
+        "replies": []
+      },
+      {
+        "id": "comment_para1164_002",
+        "textSelection": "那觊觎王位的人",
+        "comment": "此处指波吕涅刻斯",
+        "author": "神秘译者",
+        "timestamp": "2026-01-18T14:30:00Z",
+        "likes": 0,
+        "replies": []
+      },
+      {
+        "id": "comment_para1164_003",
+        "textSelection": "何等骄矜的一日啊，凶猛的暴君！",
+        "comment": "厄忒俄克勒斯: 来感觉了",
+        "author": "神秘译者",
+        "timestamp": "2026-01-18T14:30:00Z",
+        "likes": 0,
+        "replies": []
+      },
+      {
+        "id": "comment_para1164_004",
+        "textSelection": "他们把万民的命运从一只手抛向另一只手，任由命运不确定地掌舵。",
+        "comment": "拉丁语populi fata ferant人民的命运在彼此手中被携转，他们却把万民的命运从一只手抛向另一只手。",
+        "author": "神秘译者",
+        "timestamp": "2026-01-18T14:35:00Z",
+        "likes": 0,
+        "replies": []
+      },
+      {
+        "id": "comment_para1164_005",
+        "textSelection": "却在许安忒安的田野上找到了流亡者的统治",
+        "comment": "指卡德摩斯建立底比斯城",
+        "author": "神秘译者",
+        "timestamp": "2026-01-18T14:40:00Z",
+        "likes": 0,
+        "replies": []
+      }
+      
     ]
   }
 }
