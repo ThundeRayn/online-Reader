@@ -77,23 +77,27 @@
     "content": "帕尔忒诺帕厄斯，忒拜七英雄之一，以其年轻和英俊著称。"
 },
 
-"底比斯": {
-    "title": "Thebes",
-    "content": "Ancient Greek city-state in Boeotia, famous for its seven gates and the tragic stories of Oedipus and his descendants."
+"波吕涅刻斯": {
+    "title": "Polynices",
+    "content": "俄狄浦斯之子，厄忒俄克勒斯的兄弟，忒拜七英雄之一。他引导阿尔戈斯人发起战争，试图夺回属于他的王位。"
+},
+"厄忒俄克勒斯": {
+    "title": "Eteocles",
+    "content": "俄狄浦斯之子，波吕涅刻斯的兄弟。他拒绝放弃忒拜的王位，导致了兄弟间的战争。"
 },
 "忒拜": {
     "title": "Thebes",
     "content": "Ancient Greek city-state in Boeotia, famous for its seven gates and the tragic stories of Oedipus and his descendants."
 },
-"Polynices": {
-    "title": "Polynices",
-    "content": "Son of Oedipus, brother of Eteocles. He led the Seven Against Thebes in an attempt to claim his rightful throne."
-},
-"Eteocles": {
-    "title": "Eteocles",
-    "content": "Son of Oedipus, brother of Polynices. He refused to give up the throne of Thebes, leading to the fraternal war."
+"底比斯": {
+    "title": "Thebis",
+    "content": "即忒拜城"
 },
 
+"奥吉吉亚": {
+    "title": "Ogygian land",
+    "content": "奥吉吉亚之地，忒拜的古老诗性称呼。"
+},
 
 
 "阿革诺尔": {
@@ -115,6 +119,10 @@
 "安菲翁": {
     "title": "Amphion",
     "content": "安菲翁，宙斯和安提俄珀之子，他与孪生兄弟泽托斯共同创建并建造了底比斯城墙。"
+},
+"埃喀翁": {
+    "title": "Echion",
+    "content": "埃喀翁，卡德摩斯的五个兄弟之一，最勇敢的一个。他是底比斯的创始人之一。"
 },
 "阿塔玛斯": {
     "title": "Athamas",
@@ -188,6 +196,11 @@
 "基泰戎": {
     "title": "Cithaeron",
     "content": "基泰戎山，忒拜附近的关键山脉，在神话中以狄俄尼索斯祭祀的场所、俄狄浦斯被遗弃的诞生地等传说而闻名。"
+},
+"卡帕提亚海": {
+    "title": "Carpathium aequor",
+    "content": "爱琴海的一部分。"
+
 }
 
 }
