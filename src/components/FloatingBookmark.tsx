@@ -5,6 +5,7 @@ const FloatingBookmark = () => {
   const { bookmarks, addBookmark } = useBookmarks()
   const [currentAnchor, setCurrentAnchor] = useState<string | null>(null)
   const [isBookmarked, setIsBookmarked] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
     const detectCurrentAnchor = () => {
@@ -44,8 +45,10 @@ const FloatingBookmark = () => {
 
   return (
     <div
-      className="fixed left-0 top-12 z-30 transition-all duration-300 hover:translate-x-0 -translate-x-6"
+      className="fixed left-0 top-12 z-30 transition-all duration-300"
       onClick={handleBookmarkClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       title={currentAnchor ? `Bookmark ${currentAnchor}` : 'Scroll to a paragraph first'}
       style={{
         width: '100px',
@@ -55,6 +58,8 @@ const FloatingBookmark = () => {
         clipPath: 'polygon(0 0, 100% 0, 100% 15%, 85% 50%, 100% 85%, 100% 100%, 0 100%)',
         // Transition for fill/border
         backgroundColor: isBookmarked ? 'var(--theme-text)' : 'var(--theme-bg)',
+        // Dynamic translation based on bookmark state and hover
+        transform: isHovered ? 'translateX(0)' : (isBookmarked ? 'translateX(-24px)' : 'translateX(-80px)'),
         transition: 'all 0.3s ease',
       }}
     >
