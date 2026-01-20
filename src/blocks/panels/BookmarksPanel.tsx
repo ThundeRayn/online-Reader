@@ -33,6 +33,13 @@ const BookmarksPanel = ({ isOpen, onClose, buttonRef }: BookmarksPanelProps) => 
     onClose()
   }
 
+  // Sort bookmarks by paragraph reading order
+  const sortedBookmarks = [...bookmarks].sort((a, b) => {
+    const aNum = parseInt(a.label.replace(/\D/g, '')) || 0
+    const bNum = parseInt(b.label.replace(/\D/g, '')) || 0
+    return aNum - bNum
+  })
+
   return (
     <div 
       ref={panelRef}
@@ -49,7 +56,7 @@ const BookmarksPanel = ({ isOpen, onClose, buttonRef }: BookmarksPanelProps) => 
               暂无书签
             </p>
           ) : (
-            bookmarks.map((bookmark) => (
+            sortedBookmarks.map((bookmark) => (
               <div
                 key={bookmark.id}
                 className="flex items-center justify-between p-3 rounded"

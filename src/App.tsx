@@ -8,8 +8,8 @@ function App() {
 
   return (
     <>
-      <BookmarkProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <BookmarkProvider>
           <Routes>
 
             <Route path='/' element={<Layout />}>
@@ -21,8 +21,8 @@ function App() {
             </Route>
             
           </Routes>
-        </BrowserRouter>
-      </BookmarkProvider>
+        </BookmarkProvider>
+      </BrowserRouter>
     </>
   )
 }
