@@ -122,15 +122,17 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const scrollToElement = () => {
       const element = document.querySelector(`[data-anchor="${label}"]`)
       if (element) {
-        // Get element position
+        // Get element position relative to viewport
         const rect = element.getBoundingClientRect()
+        // Calculate absolute position in document
         const elementTop = window.scrollY + rect.top
         
-        // Calculate scroll position to place element at 25% from top (or nearest valid position)
-        const targetScrollTop = Math.max(0, elementTop - window.innerHeight * 0.25)
+        // Calculate scroll position to place element at 25% from top
+        // We want the element to appear at 25% of the viewport height
+        const targetScrollTop = elementTop - window.innerHeight * 0.25
         
         window.scrollTo({
-          top: targetScrollTop,
+          top: Math.max(0, targetScrollTop),
           behavior: 'smooth'
         })
       }
