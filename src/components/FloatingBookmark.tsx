@@ -10,21 +10,23 @@ const FloatingBookmark = () => {
     const detectCurrentAnchor = () => {
       // Get all anchor elements
       const anchors = document.querySelectorAll('[data-anchor]')
-      let closestAnchor: string | null = null
-      let closestDistance = Infinity
+      const viewportMidpoint = window.innerHeight / 2
+      let nextAnchor: string | null = null
 
-      anchors.forEach((anchor) => {
-        const rect = anchor.getBoundingClientRect()
-        // Find the anchor closest to the top of the viewport
-        if (rect.top >= 0 && rect.top < closestDistance) {
-          closestDistance = rect.top
-          closestAnchor = anchor.getAttribute('data-anchor')
+      // Find the lowest anchor that is above the midpoint (currently reading area)
+      for (let i = anchors.length - 1; i >= 0; i--) {
+        const rect = anchors[i].getBoundingClientRect()
+        // Anchor must be above midpoint (reading area)
+        if (rect.top < viewportMidpoint) {
+          nextAnchor = anchors[i].getAttribute('data-anchor')
+          break
         }
-      })
+      }
 
-      if (closestAnchor) {
-        setCurrentAnchor(closestAnchor)
-        setIsBookmarked(bookmarks.some(b => b.label === closestAnchor))
+      // Only update if we found a valid anchor
+      if (nextAnchor) {
+        setCurrentAnchor(nextAnchor)
+        setIsBookmarked(bookmarks.some(b => b.label === nextAnchor))
       }
     }
 
