@@ -57,7 +57,17 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const scrollToElement = () => {
       const element = document.querySelector(`[data-anchor="${label}"]`)
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        // Get element position
+        const rect = element.getBoundingClientRect()
+        const elementTop = window.scrollY + rect.top
+        
+        // Calculate scroll position to place element at 25% from top (or nearest valid position)
+        const targetScrollTop = Math.max(0, elementTop - window.innerHeight * 0.25)
+        
+        window.scrollTo({
+          top: targetScrollTop,
+          behavior: 'smooth'
+        })
       }
     }
 

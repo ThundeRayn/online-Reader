@@ -8,13 +8,19 @@ const FloatingBookmark = () => {
   const [isHovered, setIsHovered] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
-  // Detect if device is mobile (touch-enabled)
+  // Detect if device is mobile (touch-enabled or narrow viewport)
   useEffect(() => {
     const isTouchDevice = () => {
       return (('ontouchstart' in window) ||
               (navigator.maxTouchPoints > 0))
     }
-    setIsMobile(isTouchDevice())
+    
+    const isNarrowViewport = () => {
+      return window.innerWidth < 768 // Less than tablet width
+    }
+    
+    // Consider it mobile if either touch-enabled OR narrow viewport
+    setIsMobile(isTouchDevice() || isNarrowViewport())
   }, [])
 
   useEffect(() => {
@@ -72,8 +78,8 @@ const FloatingBookmark = () => {
         // On mobile: always show more (no hover effect possible)
         // On desktop: use hover-based animation
         transform: isMobile 
-          ? (isBookmarked ? 'translateX(-24px)' : 'translateX(-56px)')
-          : (isHovered ? 'translateX(0)' : (isBookmarked ? 'translateX(-24px)' : 'translateX(-80px)')),
+          ? (isBookmarked ? 'translateX(-24px)' : 'translateX(-75px)')
+          : (isHovered ? 'translateX(0)' : (isBookmarked ? 'translateX(-24px)' : 'translateX(-90px)')),
         transition: 'all 0.3s ease',
       }}
     >
