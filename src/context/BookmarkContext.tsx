@@ -1,10 +1,14 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import bookmarksData from '../data/bookmarks.json'
 
 export interface Bookmark {
   id: string
   label: string
-  timestamp: number
+  bookId?: string
+  chapterId?: number
+  createdAt?: string
+  updatedAt?: string
 }
 
 interface BookmarkContextType {
@@ -16,6 +20,21 @@ interface BookmarkContextType {
 
 const BookmarkContext = createContext<BookmarkContextType | undefined>(undefined)
 
+// Get default bookmarks from JSON file
+const getDefaultBookmarks = (): Bookmark[] => {
+  try {
+    console.log('bookmarksData:', bookmarksData)
+    const bookmarks = (bookmarksData as any).users?.[0]?.bookmarks || []
+    console.log('Extracted bookmarks:', bookmarks)
+    return bookmarks
+  } catch (error) {
+    console.error('Failed to load default bookmarks from JSON:', error)
+    return []
+  }
+}
+
+const DEFAULT_BOOKMARKS = getDefaultBookmarks()
+
 // Helper function to extract chapter number from anchor label
 // Examples: "§ 1.01" -> 1, "§ 2.05" -> 2, "§ 10.03" -> 10
 const getChapterFromAnchor = (label: string): number => {
@@ -23,8 +42,38 @@ const getChapterFromAnchor = (label: string): number => {
   return match ? parseInt(match[1]) : 1
 }
 
+// Utility functions for bookmark storage - easy to migrate to backend API later
+const loadBookmarksFromStorage = (): Bookmark[] => {
+  try {
+    const stored = localStorage.getItem('bookmarks')
+    if (stored) {
+      const parsed = JSON.parse(stored)
+      // If array is empty, use defaults instead
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed
+      }
+    }
+    // Fallback to default mock cloud data from JSON
+    if (DEFAULT_BOOKMARKS.length > 0) {
+      localStorage.setItem('bookmarks', JSON.stringify(DEFAULT_BOOKMARKS))
+    }
+    return DEFAULT_BOOKMARKS
+  } catch (error) {
+    console.error('Failed to load bookmarks:', error)
+    return DEFAULT_BOOKMARKS
+  }
+}
+
+const saveBookmarksToStorage = (bookmarks: Bookmark[]): void => {
+  try {
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+  } catch (error) {
+    console.error('Failed to save bookmarks:', error)
+  }
+}
+
 export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([])
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => loadBookmarksFromStorage())
   const navigate = useNavigate()
 
   const addBookmark = (label: string) => {
@@ -35,16 +84,24 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return
     }
 
+    const chapterId = getChapterFromAnchor(label)
     const newBookmark: Bookmark = {
-      id: `${label}-${Date.now()}`,
+      id: `bookmark-${Date.now()}`,
       label,
-      timestamp: Date.now()
+      bookId: 'thebaid',
+      chapterId,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     }
-    setBookmarks([...bookmarks, newBookmark])
+    const updatedBookmarks = [...bookmarks, newBookmark]
+    setBookmarks(updatedBookmarks)
+    saveBookmarksToStorage(updatedBookmarks)
   }
 
   const removeBookmark = (id: string) => {
-    setBookmarks(bookmarks.filter(b => b.id !== id))
+    const updatedBookmarks = bookmarks.filter(b => b.id !== id)
+    setBookmarks(updatedBookmarks)
+    saveBookmarksToStorage(updatedBookmarks)
   }
 
   const navigateToBookmark = (label: string) => {

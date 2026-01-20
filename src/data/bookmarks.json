@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "users": [
+    {
+      "userId": "user-default",
+      "username": "guest",
+      "email": "guest@example.com",
+      "createdAt": "2026-01-20T00:00:00Z",
+      "updatedAt": "2026-01-20T00:00:00Z",
+      "bookmarks": [
+        {
+          "id": "bookmark-1",
+          "label": "§ 1.01",
+          "bookId": "thebaid",
+          "chapterId": 1,
+          "createdAt": "2026-01-20T12:30:00Z",
+          "updatedAt": "2026-01-20T12:30:00Z"
+        },
+        {
+          "id": "bookmark-2",
+          "label": "§ 1.05",
+          "bookId": "thebaid",
+          "chapterId": 1,
+          "createdAt": "2026-01-20T12:35:00Z",
+          "updatedAt": "2026-01-20T12:35:00Z"
+        },
+        {
+          "id": "bookmark-3",
+          "label": "§ 2.03",
+          "bookId": "thebaid",
+          "chapterId": 2,
+          "createdAt": "2026-01-20T12:40:00Z",
+          "updatedAt": "2026-01-20T12:40:00Z"
+        }
+      ]
+    }
+  ],
+  "books": [
+    {
+      "bookId": "thebaid",
+      "title": "The Thebaid",
+      "author": "Statius",
+      "totalChapters": 12
+    }
+  ]
+}
