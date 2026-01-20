@@ -7,6 +7,7 @@ export interface Bookmark {
   label: string
   bookId?: string
   chapterId?: number
+  reminder?: string
   createdAt?: string
   updatedAt?: string
 }
@@ -20,21 +21,6 @@ interface BookmarkContextType {
 
 const BookmarkContext = createContext<BookmarkContextType | undefined>(undefined)
 
-// Get default bookmarks from JSON file
-const getDefaultBookmarks = (): Bookmark[] => {
-  try {
-    console.log('bookmarksData:', bookmarksData)
-    const bookmarks = (bookmarksData as any).users?.[0]?.bookmarks || []
-    console.log('Extracted bookmarks:', bookmarks)
-    return bookmarks
-  } catch (error) {
-    console.error('Failed to load default bookmarks from JSON:', error)
-    return []
-  }
-}
-
-const DEFAULT_BOOKMARKS = getDefaultBookmarks()
-
 // Helper function to extract chapter number from anchor label
 // Examples: "§ 1.01" -> 1, "§ 2.05" -> 2, "§ 10.03" -> 10
 const getChapterFromAnchor = (label: string): number => {
@@ -46,21 +32,37 @@ const getChapterFromAnchor = (label: string): number => {
 const loadBookmarksFromStorage = (): Bookmark[] => {
   try {
     const stored = localStorage.getItem('bookmarks')
+    const storedVersion = localStorage.getItem('bookmarks-version')
+    const currentVersion = (bookmarksData as any).version
+    
+    // If version changed or localStorage is empty, reload from JSON
+    if (storedVersion !== currentVersion) {
+      const jsonBookmarks = (bookmarksData as any).users?.[0]?.bookmarks || []
+      if (jsonBookmarks.length > 0) {
+        localStorage.setItem('bookmarks', JSON.stringify(jsonBookmarks))
+        localStorage.setItem('bookmarks-version', currentVersion)
+      }
+      return jsonBookmarks
+    }
+    
+    // If version matches and data exists, use localStorage
     if (stored) {
       const parsed = JSON.parse(stored)
-      // If array is empty, use defaults instead
       if (Array.isArray(parsed) && parsed.length > 0) {
         return parsed
       }
     }
+    
     // Fallback to default mock cloud data from JSON
-    if (DEFAULT_BOOKMARKS.length > 0) {
-      localStorage.setItem('bookmarks', JSON.stringify(DEFAULT_BOOKMARKS))
+    const jsonBookmarks = (bookmarksData as any).users?.[0]?.bookmarks || []
+    if (jsonBookmarks.length > 0) {
+      localStorage.setItem('bookmarks', JSON.stringify(jsonBookmarks))
+      localStorage.setItem('bookmarks-version', currentVersion)
     }
-    return DEFAULT_BOOKMARKS
+    return jsonBookmarks
   } catch (error) {
     console.error('Failed to load bookmarks:', error)
-    return DEFAULT_BOOKMARKS
+    return (bookmarksData as any).users?.[0]?.bookmarks || []
   }
 }
 
