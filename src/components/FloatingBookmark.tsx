@@ -6,6 +6,16 @@ const FloatingBookmark = () => {
   const [currentAnchor, setCurrentAnchor] = useState<string | null>(null)
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detect if device is mobile (touch-enabled)
+  useEffect(() => {
+    const isTouchDevice = () => {
+      return (('ontouchstart' in window) ||
+              (navigator.maxTouchPoints > 0))
+    }
+    setIsMobile(isTouchDevice())
+  }, [])
 
   useEffect(() => {
     const detectCurrentAnchor = () => {
@@ -58,8 +68,12 @@ const FloatingBookmark = () => {
         clipPath: 'polygon(0 0, 100% 0, 100% 15%, 85% 50%, 100% 85%, 100% 100%, 0 100%)',
         // Transition for fill/border
         backgroundColor: isBookmarked ? 'var(--theme-text)' : 'var(--theme-bg)',
-        // Dynamic translation based on bookmark state and hover
-        transform: isHovered ? 'translateX(0)' : (isBookmarked ? 'translateX(-24px)' : 'translateX(-80px)'),
+        // Dynamic translation based on device type and bookmark state
+        // On mobile: always show more (no hover effect possible)
+        // On desktop: use hover-based animation
+        transform: isMobile 
+          ? (isBookmarked ? 'translateX(-24px)' : 'translateX(-56px)')
+          : (isHovered ? 'translateX(0)' : (isBookmarked ? 'translateX(-24px)' : 'translateX(-80px)')),
         transition: 'all 0.3s ease',
       }}
     >
