@@ -7,6 +7,7 @@ import Processing from "../components/Processing"
 import Para188 from "../Paragraphs/Para188"
 import Para1114 from "../Paragraphs/Para1114"
 import Para1164 from "../Paragraphs/Para1164"
+import Para1123 from "../Paragraphs/Para1123"
 
 const Chapter1 = () => {
   return (
@@ -21,6 +22,8 @@ const Chapter1 = () => {
         <Para1114 />
 
 <Processing />
+
+        <Para1123 />
 
         <Para1164 />
         
