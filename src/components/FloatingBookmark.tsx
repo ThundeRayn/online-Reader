@@ -7,6 +7,8 @@ const FloatingBookmark = () => {
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
 
   // Detect if device is mobile (touch-enabled or narrow viewport)
   useEffect(() => {
@@ -54,6 +56,33 @@ const FloatingBookmark = () => {
     return () => window.removeEventListener('scroll', detectCurrentAnchor)
   }, [bookmarks])
 
+  // Handle scroll visibility (show on scroll up, hide on scroll down)
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+
+      // Show when reaching the top of the page
+      if (currentScrollY < 50) {
+        setIsVisible(true)
+        setLastScrollY(currentScrollY)
+        return
+      }
+
+      // Hide when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
+
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
+
   const handleBookmarkClick = () => {
     if (currentAnchor) {
       addBookmark(currentAnchor)
@@ -75,12 +104,14 @@ const FloatingBookmark = () => {
         clipPath: 'polygon(0 0, 100% 0, 100% 15%, 85% 50%, 100% 85%, 100% 100%, 0 100%)',
         // Transition for fill/border
         backgroundColor: isBookmarked ? 'var(--theme-text)' : 'var(--theme-bg)',
-        // Dynamic translation based on device type and bookmark state
-        // On mobile: always show more (no hover effect possible)
-        // On desktop: use hover-based animation
-        transform: isMobile 
-          ? (isBookmarked ? 'translateX(-24px)' : 'translateX(-75px)')
-          : (isHovered ? 'translateX(0)' : (isBookmarked ? 'translateX(-24px)' : 'translateX(-90px)')),
+        // Dynamic translation based on scroll visibility, device type and bookmark state
+        // Scroll down: moveX(-120px) to hide left
+        // Scroll up: normal behavior
+        transform: !isVisible 
+          ? 'translateX(-120px)'
+          : (isMobile 
+            ? (isBookmarked ? 'translateX(-24px)' : 'translateX(-75px)')
+            : (isHovered ? 'translateX(0)' : (isBookmarked ? 'translateX(-24px)' : 'translateX(-90px)'))),
         transition: 'all 0.3s ease',
       }}
     >

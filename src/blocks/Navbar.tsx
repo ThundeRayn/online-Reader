@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MenuOverlay from './MenuOverlay'
 //import ToolBar from '../components/ToolBar'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
 
   const handleMenuToggle = () => {
     const newState = !isOpen
@@ -13,12 +15,45 @@ const Navbar = () => {
     }
   }
 
+  // Handle scroll visibility (show on scroll up, hide on scroll down)
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+
+      // Show when reaching the top of the page
+      if (currentScrollY < 50) {
+        setIsVisible(true)
+        setLastScrollY(currentScrollY)
+        return
+      }
+
+      // Hide when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
+
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
+
   return (
     <>
       {/* Floating Menu Button */}
       <button
         onClick={handleMenuToggle}
-        style={{ backgroundColor: 'var(--theme-bg)', color: 'var(--theme-text)', border: '1px solid var(--theme-border)' }}
+        style={{ 
+          backgroundColor: 'var(--theme-bg)', 
+          color: 'var(--theme-text)', 
+          border: '1px solid var(--theme-border)',
+          transform: isVisible ? 'translateX(0)' : 'translateX(120px)',
+          transition: 'transform 300ms ease-in-out'
+        }}
         className="sticky top-4 float-right mr-4 z-[10000] w-12 h-12 rounded-full hover:opacity-80 active:opacity-60 transition-opacity flex items-center justify-center"
       >
         {isOpen ? (
