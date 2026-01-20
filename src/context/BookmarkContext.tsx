@@ -1,6 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import bookmarksData from '../data/bookmarks.json'
+
+interface BookmarksDataType {
+  version: string
+  users: Array<{ bookmarks: Bookmark[] }>
+}
 
 export interface Bookmark {
   id: string
@@ -33,11 +38,11 @@ const loadBookmarksFromStorage = (): Bookmark[] => {
   try {
     const stored = localStorage.getItem('bookmarks')
     const storedVersion = localStorage.getItem('bookmarks-version')
-    const currentVersion = (bookmarksData as any).version
+    const currentVersion = (bookmarksData as BookmarksDataType).version
     
     // If version changed or localStorage is empty, reload from JSON
     if (storedVersion !== currentVersion) {
-      const jsonBookmarks = (bookmarksData as any).users?.[0]?.bookmarks || []
+      const jsonBookmarks = (bookmarksData as BookmarksDataType).users?.[0]?.bookmarks || []
       if (jsonBookmarks.length > 0) {
         localStorage.setItem('bookmarks', JSON.stringify(jsonBookmarks))
         localStorage.setItem('bookmarks-version', currentVersion)
@@ -54,7 +59,7 @@ const loadBookmarksFromStorage = (): Bookmark[] => {
     }
     
     // Fallback to default mock cloud data from JSON
-    const jsonBookmarks = (bookmarksData as any).users?.[0]?.bookmarks || []
+    const jsonBookmarks = (bookmarksData as BookmarksDataType).users?.[0]?.bookmarks || []
     if (jsonBookmarks.length > 0) {
       localStorage.setItem('bookmarks', JSON.stringify(jsonBookmarks))
       localStorage.setItem('bookmarks-version', currentVersion)
@@ -62,7 +67,7 @@ const loadBookmarksFromStorage = (): Bookmark[] => {
     return jsonBookmarks
   } catch (error) {
     console.error('Failed to load bookmarks:', error)
-    return (bookmarksData as any).users?.[0]?.bookmarks || []
+    return (bookmarksData as BookmarksDataType).users?.[0]?.bookmarks || []
   }
 }
 
@@ -87,13 +92,14 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
 
     const chapterId = getChapterFromAnchor(label)
+    const timestamp = new Date().toISOString()
     const newBookmark: Bookmark = {
-      id: `bookmark-${Date.now()}`,
+      id: `bookmark-${crypto.getRandomValues(new Uint32Array(1))[0]}`,
       label,
       bookId: 'thebaid',
       chapterId,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      createdAt: timestamp,
+      updatedAt: timestamp
     }
     const updatedBookmarks = [...bookmarks, newBookmark]
     setBookmarks(updatedBookmarks)

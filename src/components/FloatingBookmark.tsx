@@ -20,6 +20,7 @@ const FloatingBookmark = () => {
     }
     
     // Consider it mobile if either touch-enabled OR narrow viewport
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobile(isTouchDevice() || isNarrowViewport())
   }, [])
 
