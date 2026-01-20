@@ -1,10 +1,20 @@
 import React, { createContext, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import bookmarksData from '../data/bookmarks.json'
+
+interface BookmarksDataType {
+  version: string
+  users: Array<{ bookmarks: Bookmark[] }>
+}
 
 export interface Bookmark {
   id: string
   label: string
-  timestamp: number
+  bookId?: string
+  chapterId?: number
+  reminder?: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 interface BookmarkContextType {
@@ -23,8 +33,54 @@ const getChapterFromAnchor = (label: string): number => {
   return match ? parseInt(match[1]) : 1
 }
 
+// Utility functions for bookmark storage - easy to migrate to backend API later
+const loadBookmarksFromStorage = (): Bookmark[] => {
+  try {
+    const stored = localStorage.getItem('bookmarks')
+    const storedVersion = localStorage.getItem('bookmarks-version')
+    const currentVersion = (bookmarksData as BookmarksDataType).version
+    
+    // If version changed or localStorage is empty, reload from JSON
+    if (storedVersion !== currentVersion) {
+      const jsonBookmarks = (bookmarksData as BookmarksDataType).users?.[0]?.bookmarks || []
+      if (jsonBookmarks.length > 0) {
+        localStorage.setItem('bookmarks', JSON.stringify(jsonBookmarks))
+        localStorage.setItem('bookmarks-version', currentVersion)
+      }
+      return jsonBookmarks
+    }
+    
+    // If version matches and data exists, use localStorage
+    if (stored) {
+      const parsed = JSON.parse(stored)
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed
+      }
+    }
+    
+    // Fallback to default mock cloud data from JSON
+    const jsonBookmarks = (bookmarksData as BookmarksDataType).users?.[0]?.bookmarks || []
+    if (jsonBookmarks.length > 0) {
+      localStorage.setItem('bookmarks', JSON.stringify(jsonBookmarks))
+      localStorage.setItem('bookmarks-version', currentVersion)
+    }
+    return jsonBookmarks
+  } catch (error) {
+    console.error('Failed to load bookmarks:', error)
+    return (bookmarksData as BookmarksDataType).users?.[0]?.bookmarks || []
+  }
+}
+
+const saveBookmarksToStorage = (bookmarks: Bookmark[]): void => {
+  try {
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+  } catch (error) {
+    console.error('Failed to save bookmarks:', error)
+  }
+}
+
 export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([])
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => loadBookmarksFromStorage())
   const navigate = useNavigate()
 
   const addBookmark = (label: string) => {
@@ -35,16 +91,25 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return
     }
 
+    const chapterId = getChapterFromAnchor(label)
+    const timestamp = new Date().toISOString()
     const newBookmark: Bookmark = {
-      id: `${label}-${Date.now()}`,
+      id: `bookmark-${crypto.getRandomValues(new Uint32Array(1))[0]}`,
       label,
-      timestamp: Date.now()
+      bookId: 'thebaid',
+      chapterId,
+      createdAt: timestamp,
+      updatedAt: timestamp
     }
-    setBookmarks([...bookmarks, newBookmark])
+    const updatedBookmarks = [...bookmarks, newBookmark]
+    setBookmarks(updatedBookmarks)
+    saveBookmarksToStorage(updatedBookmarks)
   }
 
   const removeBookmark = (id: string) => {
-    setBookmarks(bookmarks.filter(b => b.id !== id))
+    const updatedBookmarks = bookmarks.filter(b => b.id !== id)
+    setBookmarks(updatedBookmarks)
+    saveBookmarksToStorage(updatedBookmarks)
   }
 
   const navigateToBookmark = (label: string) => {
@@ -57,7 +122,17 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const scrollToElement = () => {
       const element = document.querySelector(`[data-anchor="${label}"]`)
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        // Get element position
+        const rect = element.getBoundingClientRect()
+        const elementTop = window.scrollY + rect.top
+        
+        // Calculate scroll position to place element at 25% from top (or nearest valid position)
+        const targetScrollTop = Math.max(0, elementTop - window.innerHeight * 0.25)
+        
+        window.scrollTo({
+          top: targetScrollTop,
+          behavior: 'smooth'
+        })
       }
     }
 

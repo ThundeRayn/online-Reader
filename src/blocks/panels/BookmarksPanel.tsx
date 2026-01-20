@@ -1,6 +1,7 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { useBookmarks } from '../../context/BookmarkContext'
 import { MdDeleteOutline } from 'react-icons/md'
+import Processing from '../../components/Processing'
 
 interface BookmarksPanelProps {
   isOpen: boolean
@@ -33,11 +34,24 @@ const BookmarksPanel = ({ isOpen, onClose, buttonRef }: BookmarksPanelProps) => 
     onClose()
   }
 
-  // Sort bookmarks by paragraph reading order
+  // Sort bookmarks by chapter ID (1-12), then by paragraph number within chapter
   const sortedBookmarks = [...bookmarks].sort((a, b) => {
-    const aNum = parseInt(a.label.replace(/\D/g, '')) || 0
-    const bNum = parseInt(b.label.replace(/\D/g, '')) || 0
-    return aNum - bNum
+    // Extract chapter and paragraph: "§ 1.01" -> chapter=1, paragraph=01
+    const aMatch = a.label.match(/§\s*(\d+)\.(\d+)/)
+    const bMatch = b.label.match(/§\s*(\d+)\.(\d+)/)
+    
+    const aChapter = aMatch ? parseInt(aMatch[1]) : 0
+    const bChapter = bMatch ? parseInt(bMatch[1]) : 0
+    
+    // First sort by chapter (1-12)
+    if (aChapter !== bChapter) {
+      return aChapter - bChapter
+    }
+    
+    // Within the same chapter, sort by paragraph number (ascending: 01, 05, 15, 114, etc.)
+    const aParagraph = aMatch ? parseInt(aMatch[2]) : 0
+    const bParagraph = bMatch ? parseInt(bMatch[2]) : 0
+    return aParagraph - bParagraph
   })
 
   return (
@@ -49,14 +63,17 @@ const BookmarksPanel = ({ isOpen, onClose, buttonRef }: BookmarksPanelProps) => 
     >
       <div className="px-6 py-6" style={{ borderBottom: '1px solid var(--theme-border)' }}>
         <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--theme-text)' }}>书签</h3>
-        
-        <div className="space-y-2 max-w-md mx-auto max-h-80 overflow-y-auto">
+        <Processing text='游客状态的书签工具只是暂时的哦，不会被保存'/>
+
+        <div className="mt-2 space-y-2 max-w-md mx-auto max-h-80 overflow-y-auto">
           {bookmarks.length === 0 ? (
             <p className="text-center py-8" style={{ color: 'var(--theme-text)', opacity: 0.6 }}>
               暂无书签
             </p>
           ) : (
             sortedBookmarks.map((bookmark) => (
+              
+              
               <div
                 key={bookmark.id}
                 className="flex items-center justify-between p-3 rounded"
@@ -65,12 +82,18 @@ const BookmarksPanel = ({ isOpen, onClose, buttonRef }: BookmarksPanelProps) => 
                   borderLeft: '3px solid var(--theme-text)'
                 }}
               >
+               
                 <button
                   onClick={() => handleNavigate(bookmark.label)}
                   className="flex-1 text-left hover:opacity-70 transition-opacity"
                   style={{ color: 'var(--theme-text)' }}
                 >
                   <span className="font-semibold">{bookmark.label}</span>
+                  {bookmark.reminder && (
+                    <p className="text-sm" style={{ color: 'var(--theme-text)', opacity: 0.7 }}>
+                      {bookmark.reminder}
+                    </p>
+                  )}
                 </button>
                 <button
                   onClick={() => removeBookmark(bookmark.id)}
