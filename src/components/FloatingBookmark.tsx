@@ -43,6 +43,14 @@ const FloatingBookmark = () => {
         }
       }
 
+      // If no anchor found (at very top), use the first visible anchor
+      if (!nextAnchor && anchors.length > 0) {
+        const firstRect = anchors[0].getBoundingClientRect()
+        if (firstRect.top < window.innerHeight) {
+          nextAnchor = anchors[0].getAttribute('data-anchor')
+        }
+      }
+
       // Only update if we found a valid anchor
       if (nextAnchor) {
         setCurrentAnchor(nextAnchor)
@@ -111,7 +119,7 @@ const FloatingBookmark = () => {
           ? 'translateX(-120px)'
           : (isMobile 
             ? (isBookmarked ? 'translateX(-24px)' : 'translateX(-75px)')
-            : (isHovered ? 'translateX(0)' : (isBookmarked ? 'translateX(-24px)' : 'translateX(-90px)'))),
+            : (isHovered ? 'translateX(0)' : (isBookmarked ? 'translateX(-12px)' : 'translateX(-55px)'))),
         transition: 'all 0.3s ease',
       }}
     >
