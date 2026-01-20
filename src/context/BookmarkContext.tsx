@@ -121,20 +121,60 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     
     const scrollToElement = () => {
       const element = document.querySelector(`[data-anchor="${label}"]`)
-      if (element) {
-        // Get element position relative to viewport
-        const rect = element.getBoundingClientRect()
-        // Calculate absolute position in document
-        const elementTop = window.scrollY + rect.top
+      if (!element) return
+
+      // Get element position relative to viewport
+      const rect = element.getBoundingClientRect()
+      // Calculate absolute position in document
+      const elementTop = window.scrollY + rect.top
+      
+      // Calculate scroll position to place element at 25% from top
+      const targetScrollTop = elementTop - window.innerHeight * 0.25
+      
+      // Smooth scroll animation
+      const smoothScroll = (target: number, duration: number = 600) => {
+        const start = window.scrollY
+        const distance = target - start
+        const startTime = Date.now()
         
-        // Calculate scroll position to place element at 25% from top
-        // We want the element to appear at 25% of the viewport height
-        const targetScrollTop = elementTop - window.innerHeight * 0.25
+        const animateScroll = () => {
+          const elapsed = Date.now() - startTime
+          const progress = Math.min(elapsed / duration, 1)
+          
+          // Easing function (easeInOutCubic)
+          const easeProgress = progress < 0.5 
+            ? 4 * progress * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2
+          
+          window.scrollTo(0, start + distance * easeProgress)
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateScroll)
+          }
+        }
         
-        window.scrollTo({
-          top: Math.max(0, targetScrollTop),
-          behavior: 'smooth'
-        })
+        requestAnimationFrame(animateScroll)
+      }
+      
+      // Add a scroll effect for same-chapter navigation
+      const startScrollTop = window.scrollY
+      const scrollOffset = Math.abs(targetScrollTop - startScrollTop)
+      
+      // If scroll distance is small (same chapter), add a bounce effect
+      if (scrollOffset < window.innerHeight * 1.5) {
+        // First, scroll up a bit
+        const upAmount = Math.min(300, window.innerHeight * 0.3)
+        const preScrollTop = Math.max(0, startScrollTop - upAmount)
+        
+        smoothScroll(preScrollTop, 400)
+        
+        // Then scroll to target after the up scroll completes
+        setTimeout(() => {
+          smoothScroll(Math.max(0, targetScrollTop), 500)
+        }, 450)
+      } else {
+        // For larger scrolls (cross-chapter), just go directly
+        smoothScroll(Math.max(0, targetScrollTop), 600)
       }
     }
 
