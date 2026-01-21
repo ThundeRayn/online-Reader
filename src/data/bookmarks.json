@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.1.1",
   "users": [
     {
       "userId": "user-default",
@@ -13,26 +13,26 @@
           "label": "§ 1.123",
           "bookId": "thebaid",
           "chapterId": 1,
-          "reminder": "阅读到这里",
+          "reminder": "我的喜欢",
           "createdAt": "2026-01-20T12:30:00Z",
           "updatedAt": "2026-01-20T12:30:00Z"
           
         },
         {
           "id": "bookmark-2",
-          "label": "§ 1.01",
+          "label": "§ 1.164",
           "bookId": "thebaid",
           "chapterId": 1,
-          "reminder": "开头",
+          "reminder": "阅读到这里",
           "createdAt": "2026-01-20T12:35:00Z",
           "updatedAt": "2026-01-20T12:35:00Z"
         },
         {
           "id": "bookmark-3",
-          "label": "§ 2.03",
+          "label": "§ 7.xxx",
           "bookId": "thebaid",
-          "chapterId": 2,
-          "reminder": "",
+          "chapterId": 7,
+          "reminder": "先行版书签",
           "createdAt": "2026-01-20T12:40:00Z",
           "updatedAt": "2026-01-20T12:40:00Z"
         }

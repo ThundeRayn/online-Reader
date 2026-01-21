@@ -21,13 +21,13 @@ const Chapter1 = () => {
 
         <Para1114 />
 
-<Processing />
+
 
         <Para1123 />
 
         <Para1164 />
         
-
+<Processing />
         <ChapterNavigation currentChapter={1} />
     </div>
   )
