@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import ThemeCard from '../../components/ThemeCard';
+import Notification from '../../components/Notification';
 import { AiOutlineLike } from 'react-icons/ai';
 import { BiMessageRounded } from 'react-icons/bi';
+import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 
 interface CommentData {
   id: string;
@@ -37,6 +40,25 @@ const formatTimestamp = (timestamp: string) => {
 };
 
 const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
+  
+  const handleLikeClick = () => {
+    setNotificationMessage('功能暂未开放~');
+    setShowNotification(true);
+  };
+  
+  const checkTruncation = (ref: HTMLDivElement | null) => {
+    if (ref) {
+      const lineHeight = parseFloat(window.getComputedStyle(ref).lineHeight);
+      const height = ref.scrollHeight;
+      const maxHeight = lineHeight * 6.5;
+      setIsTruncated(height > maxHeight);
+    }
+  };
+
   return (
     <ThemeCard
       className="w-full p-4"
@@ -50,11 +72,46 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           <span>{comment.author}</span>
           <span>{formatTimestamp(comment.timestamp)}</span>
         </div>
-        <div className="mb-2 leading-relaxed" style={{ fontSize: 'var(--reading-text-size)' }}>
+        <div 
+          ref={checkTruncation}
+          className="mb-2 leading-relaxed overflow-hidden transition-all duration-500 ease-in-out" 
+          style={{ 
+            fontSize: 'var(--reading-text-size)', 
+            whiteSpace: 'pre-wrap', 
+            wordWrap: 'break-word',
+            maxHeight: isExpanded ? 'none' : 'calc(var(--reading-text-size) * var(--reading-line-height) * 5.5)',
+          }}
+        >
           {comment.comment}
         </div>
+        
+        {/* Expand/Collapse button */}
+        {isTruncated && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center gap-1 mb-2 hover:opacity-70 transition-opacity"
+            style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+          >
+            {isExpanded ? (
+              <>
+                <MdExpandLess size={16} /> 收起
+              </>
+            ) : (
+              <>
+                <MdExpandMore size={16} /> 展开
+              </>
+            )}
+          </button>
+        )}
+        
         <div className="flex items-center gap-2 mt-1" style={{ color: 'var(--theme-border)', fontSize: 'calc(var(--reading-text-size) * 0.85)' }}>
-          <span className="flex items-center gap-1"><AiOutlineLike /> {comment.likes}</span>
+          <button 
+            onClick={handleLikeClick}
+            className="flex items-center gap-1 hover:opacity-70 transition-opacity"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'var(--theme-border)' }}
+          >
+            <AiOutlineLike /> {comment.likes}
+          </button>
           {Array.isArray(comment.replies) && comment.replies.length > 0 && (
             <span className="flex items-center gap-1"><BiMessageRounded /> {comment.replies.length} 回复</span>
           )}
@@ -80,6 +137,15 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
             );
           })}
         </div>
+      )}
+      
+      {showNotification && createPortal(
+        <Notification 
+          message={notificationMessage}
+          duration={1500}
+          onClose={() => setShowNotification(false)} 
+        />,
+        document.body
       )}
     </ThemeCard>
   );
