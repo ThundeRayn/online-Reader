@@ -36,21 +36,20 @@ const BookmarksPanel = ({ isOpen, onClose, buttonRef }: BookmarksPanelProps) => 
 
   // Sort bookmarks by chapter ID (1-12), then by paragraph number within chapter
   const sortedBookmarks = [...bookmarks].sort((a, b) => {
-    // Extract chapter and paragraph: "§ 1.01" -> chapter=1, paragraph=01
-    const aMatch = a.label.match(/§\s*(\d+)\.(\d+)/)
-    const bMatch = b.label.match(/§\s*(\d+)\.(\d+)/)
+    // First sort by chapter ID
+    const aChapter = a.chapterId || 0
+    const bChapter = b.chapterId || 0
     
-    const aChapter = aMatch ? parseInt(aMatch[1]) : 0
-    const bChapter = bMatch ? parseInt(bMatch[1]) : 0
-    
-    // First sort by chapter (1-12)
     if (aChapter !== bChapter) {
       return aChapter - bChapter
     }
     
     // Within the same chapter, sort by paragraph number (ascending: 01, 05, 15, 114, etc.)
-    const aParagraph = aMatch ? parseInt(aMatch[2]) : 0
-    const bParagraph = bMatch ? parseInt(bMatch[2]) : 0
+    const aMatch = a.label.match(/§\s*(\d+)\.(\d+)/)
+    const bMatch = b.label.match(/§\s*(\d+)\.(\d+)/)
+    
+    const aParagraph = aMatch ? parseInt(aMatch[2]) : Infinity
+    const bParagraph = bMatch ? parseInt(bMatch[2]) : Infinity
     return aParagraph - bParagraph
   })
 
