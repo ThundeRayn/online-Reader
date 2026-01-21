@@ -116,21 +116,11 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     // Extract chapter number from anchor label (e.g., "§ 1.01" -> chapter 1)
     const chapterId = getChapterFromAnchor(label)
     const currentPath = window.location.pathname
-    const isCurrentChapter = currentPath.includes(`/chapter/${chapterId}`) || 
+    // Check if we're already on the target chapter (exact match)
+    const isCurrentChapter = currentPath === `/chapter/${chapterId}` || 
                              (chapterId === 1 && currentPath === '/')
     
     const scrollToElement = () => {
-      const element = document.querySelector(`[data-anchor="${label}"]`)
-      if (!element) return
-
-      // Get element position relative to viewport
-      const rect = element.getBoundingClientRect()
-      // Calculate absolute position in document
-      const elementTop = window.scrollY + rect.top
-      
-      // Calculate scroll position to place element at 25% from top
-      const targetScrollTop = elementTop - window.innerHeight * 0.25
-      
       // Smooth scroll animation
       const smoothScroll = (target: number, duration: number = 600) => {
         const start = window.scrollY
@@ -155,34 +145,56 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         
         requestAnimationFrame(animateScroll)
       }
-      
-      // Add a scroll effect for same-chapter navigation
-      const startScrollTop = window.scrollY
-      const scrollOffset = Math.abs(targetScrollTop - startScrollTop)
-      
-      // If scroll distance is small (same chapter), add a bounce effect
-      if (scrollOffset < window.innerHeight * 1.5) {
-        // First, scroll up a bit
-        const upAmount = Math.min(300, window.innerHeight * 0.3)
-        const preScrollTop = Math.max(0, startScrollTop - upAmount)
+
+      const tryScroll = (attempt = 0) => {
+        const element = document.querySelector(`[data-anchor="${label}"]`)
         
-        smoothScroll(preScrollTop, 400)
+        if (!element) {
+          // Keep retrying until element is found (max 10 attempts with 10ms intervals)
+          if (attempt < 10) {
+            setTimeout(() => tryScroll(attempt + 1), 10)
+          }
+          return
+        }
+
+        // Get element position relative to viewport
+        const rect = element.getBoundingClientRect()
+        // Calculate absolute position in document
+        const elementTop = window.scrollY + rect.top
         
-        // Then scroll to target after the up scroll completes
-        setTimeout(() => {
-          smoothScroll(Math.max(0, targetScrollTop), 500)
-        }, 450)
-      } else {
-        // For larger scrolls (cross-chapter), just go directly
-        smoothScroll(Math.max(0, targetScrollTop), 600)
+        // Calculate scroll position to place element at 25% from top
+        const targetScrollTop = elementTop - window.innerHeight * 0.25
+        
+        // Add a scroll effect for same-chapter navigation
+        const startScrollTop = window.scrollY
+        const scrollOffset = Math.abs(targetScrollTop - startScrollTop)
+        
+        // If scroll distance is small (same chapter), add a bounce effect
+        if (scrollOffset < window.innerHeight * 1.5) {
+          // First, scroll up a bit
+          const upAmount = Math.min(300, window.innerHeight * 0.3)
+          const preScrollTop = Math.max(0, startScrollTop - upAmount)
+          
+          smoothScroll(preScrollTop, 400)
+          
+          // Then scroll to target after the up scroll completes
+          setTimeout(() => {
+            smoothScroll(Math.max(0, targetScrollTop), 500)
+          }, 450)
+        } else {
+          // For larger scrolls (cross-chapter), just go directly
+          smoothScroll(Math.max(0, targetScrollTop), 600)
+        }
       }
+
+      tryScroll()
     }
 
     if (!isCurrentChapter) {
       // Navigate to the correct chapter first
       navigate(`/chapter/${chapterId}`)
-      // Use a small timeout to ensure the chapter loads before scrolling
-      setTimeout(scrollToElement, 100)
+      // Start polling for the element immediately after navigation
+      scrollToElement()
     } else {
       // Already on the correct chapter, just scroll
       scrollToElement()
