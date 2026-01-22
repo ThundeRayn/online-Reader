@@ -257,7 +257,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ open, onClose, comments = [
         <div
           ref={containerRef}
           id="container-container"
-          className="flex flex-col"
+          className="flex flex-col hide-scrollbar"
           style={{
             color: "var(--theme-text, #222)",
             border: "0px solid var(--theme-border, #e0e0e0)",
