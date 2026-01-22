@@ -36,6 +36,51 @@ body {
   display: none; /* Chrome, Safari and Opera */
 }
 
+/* Apple-style thin scrollbar for ReadingPage */
+.apple-scrollbar {
+  scrollbar-width: thin; /* Firefox - thin scrollbar */
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent; /* Firefox - track color transparent */
+}
+
+/* Chrome, Safari and Opera - Apple-style thin scrollbar */
+.apple-scrollbar::-webkit-scrollbar {
+  width: 6px; /* Very thin width */
+}
+
+.apple-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Transparent track */
+}
+
+.apple-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3); /* Thin dark thumb */
+  border-radius: 3px; /* Rounded corners */
+}
+
+.apple-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5); /* Slightly darker on hover */
+}
+
+/* Mobile and iPad - even thinner scrollbar */
+@media (hover: none) and (pointer: coarse) {
+  .apple-scrollbar {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* More transparent on mobile */
+  }
+
+  .apple-scrollbar::-webkit-scrollbar {
+    width: 4px; /* Even thinner for mobile/iPad - 4px instead of 6px */
+  }
+
+  .apple-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2); /* Even more transparent on mobile */
+    border-radius: 2px; /* Smaller border radius */
+  }
+
+  .apple-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.35); /* Slightly darker on interaction */
+  }
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 
