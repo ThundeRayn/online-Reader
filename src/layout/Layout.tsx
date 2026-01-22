@@ -5,10 +5,10 @@ import FloatingBookmark from "../components/FloatingBookmark";
 
 const Layout = () => {
   return (
-    <div>   
+    <div className="w-screen h-screen overflow-hidden flex flex-col">   
         <Navbar />
         <FloatingBookmark />
-        <main>
+        <main className="flex-1 overflow-hidden">
             <Outlet />
         </main>
         <ToolBar isMenuOpen={false} />
