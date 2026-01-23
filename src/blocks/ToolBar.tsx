@@ -29,7 +29,6 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
 
   useEffect(() => {
     let scrollContainer: Element | Window | null = null
-    let isScrollContainerFound = false
 
     const handleScroll = () => {
       let currentScrollY = 0
@@ -65,8 +64,7 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
     const tryFindScrollContainer = () => {
       const readingPageDiv = document.querySelector('[class*="overflow-y-auto"][class*="apple-scrollbar"]')
       if (readingPageDiv && (readingPageDiv as HTMLElement).scrollHeight > (readingPageDiv as HTMLElement).clientHeight) {
-        scrollContainer = readingPageDiv
-        isScrollContainerFound = true
+        scrollContainer = readingPageDiv as Element
         return true
       }
       return false
@@ -77,8 +75,8 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
       scrollContainer = window
     }
 
-    if (scrollContainer !== window) {
-      (scrollContainer as Element).addEventListener('scroll', handleScroll)
+    if (scrollContainer && scrollContainer !== window) {
+      (scrollContainer as unknown as Element).addEventListener('scroll', handleScroll)
     } else {
       window.addEventListener('scroll', handleScroll)
     }
@@ -87,7 +85,7 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
 
     return () => {
       if (scrollContainer && scrollContainer !== window) {
-        (scrollContainer as Element).removeEventListener('scroll', handleScroll)
+        (scrollContainer as unknown as Element).removeEventListener('scroll', handleScroll)
       } else {
         window.removeEventListener('scroll', handleScroll)
       }
