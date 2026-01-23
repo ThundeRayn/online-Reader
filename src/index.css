@@ -5,6 +5,16 @@
   --color-default-text: #4F4432;
 }
 
+/* Disable zoom/pinch gestures */
+html {
+  touch-action: manipulation; /* Disable double-tap zoom */
+}
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 /* Hide scrollbar for all scrollable elements by default */
 .hide-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
