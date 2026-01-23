@@ -99,7 +99,7 @@ const FloatingBookmark = () => {
     }
 
     // Find the actual scrollable container
-    const readingPageDiv = document.querySelector('[class*="overflow-y-auto"][class*="apple-scrollbar"]')
+    const readingPageDiv = document.querySelector('div.overflow-y-auto[style*="padding"]')
     if (readingPageDiv && (readingPageDiv as HTMLElement).scrollHeight > (readingPageDiv as HTMLElement).clientHeight) {
       scrollContainer = readingPageDiv as Element
       (scrollContainer as Element).addEventListener('scroll', handleScroll)

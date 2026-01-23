@@ -52,9 +52,9 @@ const ReadingPage = () => {
   }
 
   return (
-    <div className='w-full h-full overflow-y-auto overflow-x-hidden apple-scrollbar' style={{ padding: 'var(--reading-margin)' }}>
+    <div className='w-full h-full overflow-y-auto overflow-x-hidden' style={{ padding: 'var(--reading-margin)', wordBreak: 'break-word', overflowWrap: 'break-word', scrollbarGutter: 'stable' }}>
       <Title />
-      <div className="flex flex-col gap-14 overflow-x-hidden">
+      <div className="flex flex-col gap-14 overflow-x-hidden w-full">
         {renderChapter()}
       </div>
     </div>

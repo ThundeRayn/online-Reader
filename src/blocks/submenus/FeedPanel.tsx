@@ -100,8 +100,8 @@ const FeedPanel = () => {
                   src="https://res.cloudinary.com/dqj2gwlpf/image/upload/c_fill,g_north,w_300,h_300,z_1.5,y_-20/v1768251208/wei_laydown_dsm1ko.jpg" 
                   alt="尾尾"
                   style={{
-                    width: '140%',
-                    height: '140%',
+                    width: '100%',
+                    height: '100%',
                     objectFit: 'cover'
                   }}
                 />
