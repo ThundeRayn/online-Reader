@@ -65,7 +65,6 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     
     if (!chapterNumber) {
       console.warn(`No chapter mapping found for paragraph: ${paragraphId}`)
-      setComments([])
       return
     }
 
@@ -74,8 +73,6 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     
     if (!chapterData) {
       console.warn(`No chapter data found for chapter: ${chapterNumber}`)
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setComments([])
       return
     }
 

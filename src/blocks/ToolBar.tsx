@@ -28,8 +28,16 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
   }
 
   useEffect(() => {
+    let scrollContainer: Element | Window | null = null
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY
+      let currentScrollY = 0
+      
+      if (scrollContainer && scrollContainer !== window) {
+        currentScrollY = (scrollContainer as HTMLElement).scrollTop
+      } else {
+        currentScrollY = window.scrollY
+      }
       
       // Show toolbar when reaching the top of the page
       if (currentScrollY < 50) {
@@ -52,11 +60,35 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
       setIsVisible(true)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    // Try to find the actual scrollable container
+    const tryFindScrollContainer = () => {
+      const readingPageDiv = document.querySelector('[class*="overflow-y-auto"][class*="apple-scrollbar"]')
+      if (readingPageDiv && (readingPageDiv as HTMLElement).scrollHeight > (readingPageDiv as HTMLElement).clientHeight) {
+        scrollContainer = readingPageDiv as Element
+        return true
+      }
+      return false
+    }
+
+    // If direct find fails, fall back to window scroll
+    if (!tryFindScrollContainer()) {
+      scrollContainer = window
+    }
+
+    if (scrollContainer && scrollContainer !== window) {
+      (scrollContainer as unknown as Element).addEventListener('scroll', handleScroll)
+    } else {
+      window.addEventListener('scroll', handleScroll)
+    }
+    
     window.addEventListener('click', handleClick)
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      if (scrollContainer && scrollContainer !== window) {
+        (scrollContainer as unknown as Element).removeEventListener('scroll', handleScroll)
+      } else {
+        window.removeEventListener('scroll', handleScroll)
+      }
       window.removeEventListener('click', handleClick)
     }
   }, [lastScrollY])

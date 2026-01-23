@@ -66,8 +66,16 @@ const FloatingBookmark = () => {
 
   // Handle scroll visibility (show on scroll up, hide on scroll down)
   useEffect(() => {
+    let scrollContainer: Element | Window | null = null
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY
+      let currentScrollY = 0
+      
+      if (scrollContainer && scrollContainer !== window) {
+        currentScrollY = (scrollContainer as HTMLElement).scrollTop
+      } else {
+        currentScrollY = window.scrollY
+      }
 
       // Show when reaching the top of the page
       if (currentScrollY < 50) {
@@ -86,9 +94,30 @@ const FloatingBookmark = () => {
       setLastScrollY(currentScrollY)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    const handleClick = () => {
+      setIsVisible(true)
+    }
 
-    return () => window.removeEventListener('scroll', handleScroll)
+    // Find the actual scrollable container
+    const readingPageDiv = document.querySelector('[class*="overflow-y-auto"][class*="apple-scrollbar"]')
+    if (readingPageDiv && (readingPageDiv as HTMLElement).scrollHeight > (readingPageDiv as HTMLElement).clientHeight) {
+      scrollContainer = readingPageDiv as Element
+      (scrollContainer as Element).addEventListener('scroll', handleScroll)
+    } else {
+      scrollContainer = window
+      window.addEventListener('scroll', handleScroll)
+    }
+
+    window.addEventListener('click', handleClick)
+
+    return () => {
+      if (scrollContainer && scrollContainer !== window) {
+        (scrollContainer as Element).removeEventListener('scroll', handleScroll)
+      } else {
+        window.removeEventListener('scroll', handleScroll)
+      }
+      window.removeEventListener('click', handleClick)
+    }
   }, [lastScrollY])
 
   const handleBookmarkClick = () => {

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import bookmarksData from '../data/bookmarks.json'
 
+// eslint-disable-next-line react-refresh/only-export-components
 interface BookmarksDataType {
   version: string
   users: Array<{ bookmarks: Bookmark[] }>
