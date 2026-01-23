@@ -15,6 +15,18 @@
   display: none; /* Chrome, Safari and Opera */
 }
 
+/* Hide default scrollbars for desktop - on all overflow-y-auto elements */
+@media (hover: hover) and (pointer: fine) {
+  *::-webkit-scrollbar {
+    display: none; /* Hide webkit scrollbars on desktop */
+  }
+  
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+}
+
 /* Apple-style thin scrollbar for ReadingPage */
 .apple-scrollbar {
   scrollbar-width: thin; /* Firefox - thin scrollbar */
