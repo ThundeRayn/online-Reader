@@ -50,7 +50,7 @@ const Navbar = () => {
     }
 
     // Find the actual scrollable container
-    const readingPageDiv = document.querySelector('[class*="overflow-y-auto"][class*="apple-scrollbar"]')
+    const readingPageDiv = document.querySelector('div.overflow-y-auto[style*="padding"]')
     if (readingPageDiv && (readingPageDiv as HTMLElement).scrollHeight > (readingPageDiv as HTMLElement).clientHeight) {
       scrollContainer = readingPageDiv as Element
       (scrollContainer as Element).addEventListener('scroll', handleScroll)
@@ -81,9 +81,13 @@ const Navbar = () => {
           color: 'var(--theme-text)', 
           border: '1px solid var(--theme-border)',
           transform: isVisible ? 'translateX(0)' : 'translateX(120px)',
-          transition: 'transform 300ms ease-in-out'
+          transition: 'transform 300ms ease-in-out',
+          position: 'fixed',
+          top: '1rem',
+          right: '1rem',
+          zIndex: 10000
         }}
-        className="sticky top-4 float-right mr-4 z-10000 w-12 h-12 rounded-full hover:opacity-80 active:opacity-60 transition-opacity flex items-center justify-center"
+        className="w-12 h-12 rounded-full hover:opacity-80 active:opacity-60 transition-opacity flex items-center justify-center"
       >
         {isOpen ? (
           <svg

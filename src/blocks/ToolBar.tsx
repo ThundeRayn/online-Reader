@@ -62,7 +62,7 @@ const ToolBar = ({ isMenuOpen }: ToolBarProps) => {
 
     // Try to find the actual scrollable container
     const tryFindScrollContainer = () => {
-      const readingPageDiv = document.querySelector('[class*="overflow-y-auto"][class*="apple-scrollbar"]')
+      const readingPageDiv = document.querySelector('div.overflow-y-auto[style*="padding"]')
       if (readingPageDiv && (readingPageDiv as HTMLElement).scrollHeight > (readingPageDiv as HTMLElement).clientHeight) {
         scrollContainer = readingPageDiv as Element
         return true
