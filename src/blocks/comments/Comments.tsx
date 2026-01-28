@@ -5,6 +5,7 @@ import Citation from '../../components/Citation'
 import Elaboration from '../../components/Elaboration'
 import chapter1Data from '../../data/comments/chapter1.json'
 import chapter2Data from '../../data/comments/chapter2.json'
+
 interface CommentData {
   id: string
   textSelection: string
@@ -43,6 +44,7 @@ const paragraphToChapter: { [key: string]: number } = {
   para1114: 1,
   para1123: 1,
   para1164: 1,
+  para1197: 1,
   // Add more mappings as you create more paragraphs
 }
 

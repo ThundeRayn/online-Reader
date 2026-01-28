@@ -52,6 +52,10 @@
     "title": "Proserpina",
     "content": "珀尔塞福涅，冥后，宙斯与得墨忒耳之女。她被冥王哈迪斯掳走，成为冥界的女王。"
 },
+"法厄同": {
+    "title": "Phaethon",
+    "content": "法厄同，太阳神赫利俄斯之子，为了证明血缘，他试图驾驭父亲的太阳战车，但因无法控制而导致灾难性的后果。"
+},
 
 
 
@@ -85,6 +89,10 @@
     "title": "Eteocles",
     "content": "俄狄浦斯之子，波吕涅刻斯的兄弟。他拒绝放弃忒拜的王位，导致了兄弟间的战争。"
 },
+"阿德拉斯图斯": {
+    "title": "Adrastus",
+    "content": "阿德拉斯图斯，阿尔戈斯国王，忒拜七英雄的领导者。他是唯一幸存的英雄，成功返回家乡。"
+},
 "忒拜": {
     "title": "Thebes",
     "content": "Ancient Greek city-state in Boeotia, famous for its seven gates and the tragic stories of Oedipus and his descendants."
@@ -97,6 +105,10 @@
 "奥吉吉亚": {
     "title": "Ogygian land",
     "content": "奥吉吉亚之地，忒拜的古老诗性称呼。"
+},
+"坦塔罗斯": {
+    "title": "Tantalus",
+    "content": "坦塔洛斯，希腊神话中的国王，以其对众神的冒犯而闻名，被惩罚永远处于饥渴和饥饿之中。"
 },
 
 
