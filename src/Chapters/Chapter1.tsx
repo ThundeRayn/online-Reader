@@ -15,21 +15,15 @@ const Chapter1 = () => {
     <div className="space-y-16">
         <ChapterTitle title="第一卷"/>
         <Para101 />
-        
         <Para146 />
-        
         <Para188 />
-
         <Para1114 />
-
-
-
         <Para1123 />
-
         <Para1164 />
-        
-<Processing />
         <Para1197 />
+
+<Processing />
+        
         <ChapterNavigation currentChapter={1} />
     </div>
   )
