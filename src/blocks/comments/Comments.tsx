@@ -82,6 +82,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     // Get comments for this specific paragraph
     const paragraphComments = chapterData.paragraphs[paragraphId] || []
     console.log(`Loading comments for ${paragraphId}:`, paragraphComments)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setComments(paragraphComments)
   }, [paragraphId]);
 

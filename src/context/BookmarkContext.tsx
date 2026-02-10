@@ -1,22 +1,8 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import bookmarksData from '../data/bookmarks.json'
-
-// eslint-disable-next-line react-refresh/only-export-components
-interface BookmarksDataType {
-  version: string
-  users: Array<{ bookmarks: Bookmark[] }>
-}
-
-export interface Bookmark {
-  id: string
-  label: string
-  bookId?: string
-  chapterId?: number
-  reminder?: string
-  createdAt?: string
-  updatedAt?: string
-}
+import type { Bookmark, BookmarksDataType } from '../types/bookmark'
 
 interface BookmarkContextType {
   bookmarks: Bookmark[]
