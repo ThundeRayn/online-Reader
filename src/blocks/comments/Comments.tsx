@@ -45,6 +45,7 @@ const paragraphToChapter: { [key: string]: number } = {
   para1123: 1,
   para1164: 1,
   para1197: 1,
+  para1246: 1,
   // Add more mappings as you create more paragraphs
 }
 
@@ -81,6 +82,7 @@ const Comments = ({ paragraphId, children }: CommentsProps) => {
     // Get comments for this specific paragraph
     const paragraphComments = chapterData.paragraphs[paragraphId] || []
     console.log(`Loading comments for ${paragraphId}:`, paragraphComments)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setComments(paragraphComments)
   }, [paragraphId]);
 
