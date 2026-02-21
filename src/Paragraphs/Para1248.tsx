@@ -3,12 +3,12 @@ import Citation from "../components/Citation"
 import Elaboration from "../components/Elaboration"
 import Comments from "../blocks/comments/Comments"
 
-const Para1246 = () => {
+const Para1248 = () => {
   return (
-    <Comments paragraphId="para1246">
+    <Comments paragraphId="para1248">
       <div>
         <div className="leading-relaxed" style={{ fontSize: 'var(--reading-text-size)', lineHeight: 'var(--reading-line-height)' }}>
-        <Anchor series="§ 1.246"/>
+        <Anchor series="§ 1.248"/>
 
         {/*waiting to be done*/}
         {/* <Elaboration note="note" text="text"/> */}
@@ -25,4 +25,4 @@ const Para1246 = () => {
   )
 }
 
-export default Para1246
+export default Para1248
