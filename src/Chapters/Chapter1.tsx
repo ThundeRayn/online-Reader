@@ -11,6 +11,7 @@ import Para1123 from "../Paragraphs/Para1123"
 import Para1197 from "../Paragraphs/Para1197"
 import Para1248 from "../Paragraphs/Para1248"
 import Para1283 from "../Paragraphs/Para1283"
+import Para1303 from "../Paragraphs/Para1303"
 
 
 const Chapter1 = () => {
@@ -25,9 +26,10 @@ const Chapter1 = () => {
         <Para1164 />
         <Para1197 />
         <Para1248 />
-<Processing />
-        <Para1283/>
-        
+        <Para1283 />
+
+    <Processing />    
+        <Para1303/>
         
         <ChapterNavigation currentChapter={1} />
     </div>
