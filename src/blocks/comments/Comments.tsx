@@ -48,6 +48,7 @@ const paragraphToChapter: { [key: string]: number } = {
   para1248: 1,
   para1283: 1,
   para1303: 1,
+  para1312: 1,
   // Add more mappings as you create more paragraphs
 }
 
