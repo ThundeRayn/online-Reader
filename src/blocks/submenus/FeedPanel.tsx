@@ -5,6 +5,7 @@ const FeedPanel = () => {
   const [showPaymentNotification, setShowPaymentNotification] = useState(false)
   const [showCueNotification, setShowCueNotification] = useState(false)
   const [notificationMessage, setNotificationMessage] = useState('')
+  const [cueCount, setCueCount] = useState(0)
 
   const handlePaymentClick = () => {
     setNotificationMessage('尚未开放支付哦~')
@@ -13,7 +14,18 @@ const FeedPanel = () => {
   }
 
   const handleCueClick = () => {
-    setNotificationMessage('已催更')
+    // Fire-and-forget: send request to backend without awaiting response
+    // Backend batches clicks and sends one summary email per minute
+    fetch('http://localhost:3001/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    }).catch(() => {})
+
+    // Optimistic UI: show click count immediately
+    const newCount = cueCount + 1
+    setCueCount(newCount)
+    setNotificationMessage(`已催更 ${newCount} 次`)
     setShowCueNotification(true)
     setTimeout(() => setShowCueNotification(false), 3000)
   }
