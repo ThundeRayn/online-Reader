@@ -13,10 +13,12 @@ const FeedPanel = () => {
     setTimeout(() => setShowPaymentNotification(false), 3000)
   }
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+
   const handleCueClick = () => {
     // Fire-and-forget: send request to backend without awaiting response
     // Backend batches clicks and sends one summary email per minute
-    fetch('http://localhost:3001/api/send-email', {
+    fetch(`${API_URL}/api/send-email`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({}),
