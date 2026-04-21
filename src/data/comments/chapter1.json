@@ -370,6 +370,42 @@
           "likes": 0
         }]
       }
+    ],
+    "para1336":[
+
+    ],
+    "para1364":[
+      {
+        "id":"comment_para1364_001",
+        "textSelection": "有关兄弟的念头也从四面八方冲击着他的心",
+        "comment": "怎么想怎么不得劲",
+        "author": "神秘译者",
+        "timestamp": "2026-04-20T14:30:00Z",
+        "likes": 0,
+        "replies": []
+      },
+      {
+        "id":"comment_para1364_002",
+        "textSelection": "他就这样失去理智地站在翻腾的天海之间",
+        "comment": "失去了理智.jpg 原文就是这样写的！",
+        "author": "神秘译者",
+        "timestamp": "2026-04-20T14:35:00Z",
+        "likes": 0,
+        "replies": []
+      },
+      {
+        "id":"comment_para1364_003",
+        "textSelection": "勇敢地闯入可怕野兽的巢穴，使它们受惊溃散；又以强力穿过灌木丛，用前倾的胸膛折断灌木",
+        "comment": "害怕，但是强有力的波吕涅刻斯",
+        "author": "神秘译者",
+        "timestamp": "2026-04-20T14:35:00Z",
+        "likes": 0,
+        "replies": []
+      }
+    ],
+    "para1390":[
+
     ]
+
   }
 }
